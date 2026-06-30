@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEBRA — Lagos → Everywhere</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0A0A0A;
+    --off:#F5F5F0;
+    --lime:#C6FF00;
+    --muted:#5a5a55;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--black);
+    color:var(--off);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  ::selection{background:var(--lime);color:var(--black)}
+
+  /* scanline texture overlay */
+  .scanlines::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:999;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.015) 0px,
+      rgba(255,255,255,0.015) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    mix-blend-mode:overlay;
+  }
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:28px 48px;
+    z-index:100;
+    mix-blend-mode:difference;
+  }
+  nav .logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    letter-spacing:.3em;
+    font-size:15px;
+  }
+  nav .links{display:flex;gap:36px}
+  nav a{
+    color:var(--off);
+    text-decoration:none;
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    transition:color .2s;
+  }
+  nav a:hover{color:var(--lime)}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:0 48px;
+    position:relative;
+  }
+  .hero .zebra-wrap{position:relative;}
+  .hero h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(5rem,22vw,20rem);
+    line-height:.85;
+    letter-spacing:-.03em;
+    position:relative;
+    z-index:2;
+    animation:glitchIn 1.2s steps(2) 1;
+  }
+  /* glitch frame */
+  .glitch-frame{
+    position:absolute;
+    top:50%;left:0;
+    width:100%;
+    transform:translateY(-50%);
+    z-index:1;
+  }
+  .glitch-frame .layer{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(5rem,22vw,20rem);
+    line-height:.85;
+    letter-spacing:-.03em;
+    position:absolute;
+    top:0;left:0;
+    color:var(--lime);
+    opacity:0;
+    animation:glitchFlick 5s infinite;
+  }
+  @keyframes glitchIn{
+    0%{clip-path:inset(0 0 100% 0)}
+    50%{clip-path:inset(40% 0 20% 0)}
+    100%{clip-path:inset(0 0 0 0)}
+  }
+  @keyframes glitchFlick{
+    0%,95%,100%{opacity:0;transform:translate(0,0)}
+    96%{opacity:.85;transform:translate(-6px,2px)}
+    97%{opacity:0}
+    98%{opacity:.6;transform:translate(5px,-3px)}
+    99%{opacity:0}
+  }
+  .hero .tagline{
+    margin-top:48px;
+    max-width:420px;
+    color:var(--muted);
+    font-size:15px;
+    letter-spacing:.02em;
+  }
+  .hero .tagline strong{color:var(--off);font-weight:500}
+  .cta{
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    margin-top:40px;
+    background:var(--lime);
+    color:var(--black);
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    text-decoration:none;
+    padding:16px 30px;
+    font-size:13px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    width:fit-content;
+    transition:transform .15s, box-shadow .2s;
+  }
+  .cta:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #3a4a00}
+  .cta .dot{width:7px;height:7px;background:var(--black);border-radius:50%}
+
+  .hero .coords{
+    position:absolute;
+    bottom:40px;right:48px;
+    font-size:11px;
+    letter-spacing:.25em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+
+  /* SECTION SHELL */
+  section{padding:160px 48px}
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:.35em;
+    text-transform:uppercase;
+    color:var(--lime);
+    margin-bottom:60px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .eyebrow::before{content:"";width:40px;height:1px;background:var(--lime)}
+
+  /* LATEST DROP */
+  .drop{text-align:center}
+  .drop .eyebrow{justify-content:center}
+  .cover{
+    width:min(420px,80vw);
+    aspect-ratio:1;
+    margin:0 auto;
+    background:linear-gradient(135deg,#141414,#1f1f1f);
+    border:1px solid #222;
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .cover::after{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(90deg,transparent 0 18px, rgba(198,255,0,.04) 18px 19px);
+  }
+  .cover .zlogo{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:8rem;
+    color:#2a2a2a;
+    letter-spacing:-.05em;
+  }
+  .play{
+    position:absolute;
+    z-index:3;
+    width:84px;height:84px;
+    background:var(--lime);
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .2s;
+  }
+  .play:hover{transform:scale(1.08)}
+  .play svg{margin-left:4px}
+  .drop h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(2rem,5vw,3.5rem);
+    margin-top:48px;
+    letter-spacing:-.02em;
+  }
+  .drop .meta{color:var(--muted);font-size:13px;letter-spacing:.2em;text-transform:uppercase;margin-top:10px}
+  .streams{
+    display:flex;gap:30px;justify-content:center;
+    margin-top:44px;flex-wrap:wrap;
+  }
+  .streams a{
+    color:var(--muted);
+    text-decoration:none;
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    transition:color .2s;
+    padding-bottom:4px;
+    border-bottom:1px solid transparent;
+  }
+  .streams a:hover{color:var(--lime);border-color:var(--lime)}
+
+  /* GALLERY */
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:1.3fr .7fr;
+    gap:24px;
+  }
+  .tile{
+    position:relative;
+    overflow:hidden;
+    background:#121212;
+    border:1px solid #1c1c1c;
+    aspect-ratio:4/5;
+    transition:border-color .2s;
+  }
+  .tile.wide{aspect-ratio:auto;grid-column:span 1}
+  .tile .label{
+    position:absolute;bottom:0;left:0;
+    padding:18px 22px;
+    font-size:11px;letter-spacing:.25em;text-transform:uppercase;
+    color:var(--off);
+    z-index:3;
+  }
+  .tile .num{
+    position:absolute;top:16px;right:20px;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:13px;color:var(--muted);z-index:3;
+  }
+  .tile .fill{
+    position:absolute;inset:0;
+    background:
+      linear-gradient(135deg,#181818,#0e0e0e),
+      repeating-linear-gradient(45deg,transparent 0 8px,rgba(255,255,255,.02) 8px 9px);
+    background-blend-mode:overlay;
+    transition:filter .2s;
+  }
+  .tile .fill span{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk',sans-serif;font-size:4rem;color:#222;font-weight:700;
+  }
+  .tile:hover{border-color:var(--lime)}
+  .tile:hover .fill{
+    filter:contrast(1.4) hue-rotate(60deg);
+    animation:glitchTile .3s steps(2) infinite;
+  }
+  @keyframes glitchTile{
+    0%{transform:translate(0)}
+    33%{transform:translate(-3px,1px)}
+    66%{transform:translate(2px,-2px)}
+    100%{transform:translate(0)}
+  }
+  .gal-col{display:flex;flex-direction:column;gap:24px}
+
+  /* CONNECT */
+  .connect{border-top:1px solid #1a1a1a}
+  .connect-inner{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+  }
+  .connect h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(2.5rem,6vw,4.5rem);
+    letter-spacing:-.03em;
+    line-height:.95;
+  }
+  .connect h2 em{color:var(--lime);font-style:normal}
+  .socials{display:flex;gap:28px;margin-top:36px}
+  .socials a{
+    color:var(--off);text-decoration:none;font-size:12px;
+    letter-spacing:.18em;text-transform:uppercase;transition:color .2s;
+  }
+  .socials a:hover{color:var(--lime)}
+  .booking{margin-top:48px}
+  .booking p{color:var(--muted);font-size:11px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:8px}
+  .booking a{color:var(--off);text-decoration:none;font-size:18px;border-bottom:1px solid #2a2a2a;padding-bottom:3px;transition:border-color .2s}
+  .booking a:hover{border-color:var(--lime)}
+  .mail label{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:18px}
+  .mail-row{display:flex;border:1px solid #222}
+  .mail-row input{
+    flex:1;background:transparent;border:none;outline:none;
+    color:var(--off);font-family:'Inter',sans-serif;
+    padding:18px 20px;font-size:14px;
+  }
+  .mail-row input::placeholder{color:#3a3a35}
+  .mail-row button{
+    background:var(--lime);color:var(--black);border:none;cursor:pointer;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    padding:0 28px;letter-spacing:.15em;font-size:12px;text-transform:uppercase;
+    transition:background .2s;
+  }
+  .mail-row button:hover{background:#fff}
+  .signoff{
+    margin-top:120px;
+    display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;
+  }
+  .signoff .big{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:clamp(1.5rem,4vw,2.5rem);letter-spacing:-.02em;
+  }
+  .signoff .big span{color:var(--lime)}
+  .signoff small{color:var(--muted);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+
+  @media(max-width:760px){
+    nav{padding:20px 24px}
+    nav .links{display:none}
+    section{padding:110px 24px}
+    .hero{padding:0 24px}
+    .hero .coords{right:24px}
+    .gallery-grid{grid-template-columns:1fr}
+    .connect-inner{grid-template-columns:1fr;gap:60px}
+  }
+</style>
+</head>
+<body class="scanlines">
+
+<nav>
+  <div class="logo">ZBR—99</div>
+  <div class="links">
+    <a href="#drop">Drop</a>
+    <a href="#visuals">Visuals</a>
+    <a href="#connect">Connect</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="zebra-wrap">
+    <div class="glitch-frame" aria-hidden="true">
+      <div class="layer">ZEBRA</div>
+    </div>
+    <h1>ZEBRA</h1>
+  </div>
+  <p class="tagline">
+    <strong>Afro-cyberpunk transmissions from midnight Lagos.</strong><br>
+    Sound built for the year 2099 — sharp, electric, unbothered.
+  </p>
+  <a href="#drop" class="cta"><span class="dot"></span> Listen Now</a>
+  <div class="coords">06.5244° N · 03.3792° E</div>
+</header>
+
+<!-- LATEST DROP -->
+<section id="drop" class="drop">
+  <div class="eyebrow">Latest Drop</div>
+  <div class="cover">
+    <span class="zlogo">Z</span>
+    <button class="play" aria-label="Play">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="#0A0A0A"><path d="M6 4l14 8-14 8z"/></svg>
+    </button>
+  </div>
+  <h2>NEON CURFEW</h2>
+  <div class="meta">Single · 2099 · 3:47</div>
+  <div class="streams">
+    <a href="#">Spotify</a>
+    <a href="#">Apple Music</a>
+    <a href="#">SoundCloud</a>
+    <a href="#">Audiomack</a>
+    <a href="#">YouTube</a>
+  </div>
+</section>
+
+<!-- VISUALS -->
+<section id="visuals">
+  <div class="eyebrow">Visuals / Gallery</div>
+  <div class="gallery-grid">
+    <div class="tile wide" style="aspect-ratio:auto;min-height:520px">
+      <div class="fill"><span>01</span></div>
+      <div class="num">01 / 04</div>
+      <div class="label">Curfew — Studio Session</div>
+    </div>
+    <div class="gal-col">
+      <div class="tile">
+        <div class="fill"><span>02</span></div>
+        <div class="num">02 / 04</div>
+        <div class="label">Lagos Nightscape</div>
+      </div>
+      <div class="tile">
+        <div class="fill"><span>03</span></div>
+        <div class="num">03 / 04</div>
+        <div class="label">Visualizer — Loop</div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:24px">
+    <div class="tile wide" style="aspect-ratio:auto;min-height:300px">
+      <div class="fill"><span>04</span></div>
+      <div class="num">04 / 04</div>
+      <div class="label">Stage / Live — Mainland</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<footer id="connect" class="connect">
+  <section style="padding-bottom:0">
+    <div class="connect-inner">
+      <div>
+        <div class="eyebrow">Connect</div>
+        <h2>Stay on<br>the <em>signal.</em></h2>
+        <div class="socials">
+          <a href="#">Instagram</a>
+          <a href="#">X</a>
+          <a href="#">TikTok</a>
+        </div>
+        <div class="booking">
+          <p>Booking / Management</p>
+          <a href="mailto:booking@zebra99.com">booking@zebra99.com</a>
+        </div>
+      </div>
+      <div class="mail">
+        <label for="email">Join the mailing list</label>
+        <div class="mail-row">
+          <input id="email" type="email" placeholder="you@frequency.io">
+          <button>Send</button>
+        </div>
+      </div>
+    </div>
+    <div class="signoff">
+      <div class="big">Lagos <span>→</span> Everywhere</div>
+      <small>© 2099 Zebra — All transmissions reserved</small>
+    </div>
+  </section>
+</footer>
+
+</body>
+</html>

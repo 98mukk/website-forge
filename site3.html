@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEBRA — Lagos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E0B14;
+    --ink2:#15101e;
+    --orange:#FF5A1F;
+    --paper:#f3ede3;
+    --mute:#9a93a6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Satoshi',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* film grain overlay */
+  body::after{
+    content:"";
+    position:fixed;inset:0;
+    pointer-events:none;z-index:9999;
+    opacity:.06;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  h1,h2,h3,.display{font-family:'Clash Display',sans-serif;letter-spacing:-.03em;line-height:.9}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 6vw}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:1.4rem 6vw;
+    mix-blend-mode:difference;
+  }
+  nav .logo{font-family:'Clash Display';font-weight:700;font-size:1.3rem;letter-spacing:.05em}
+  nav .links{display:flex;gap:2.2rem;font-size:.85rem;font-weight:500;text-transform:uppercase;letter-spacing:.12em}
+  @media(max-width:640px){nav .links{display:none}}
+
+  /* HERO */
+  .hero{
+    position:relative;min-height:100vh;
+    display:flex;align-items:flex-end;
+    overflow:hidden;
+  }
+  .hero-img{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(255,90,31,.35), transparent 55%),
+      linear-gradient(to top, var(--ink) 4%, rgba(14,11,20,.2) 50%),
+      url("https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop") center 25%/cover;
+    filter:contrast(1.05) saturate(1.1);
+  }
+  .hero-img::after{
+    content:"";position:absolute;inset:0;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+    opacity:.08;mix-blend-mode:overlay;
+  }
+  .hero-name{
+    position:relative;z-index:2;
+    width:100%;padding:0 6vw 8vh;
+  }
+  .hero-name .tag{
+    display:flex;gap:1rem;align-items:center;
+    font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;color:var(--orange);
+    margin-bottom:1.4rem;font-weight:700;
+  }
+  .hero-name .tag span:first-child::before{content:"●";margin-right:.5rem;font-size:.6rem;vertical-align:middle}
+  .hero-name h1{
+    font-size:clamp(5rem,22vw,18rem);
+    font-weight:700;
+    text-shadow:0 0 60px rgba(255,90,31,.4);
+  }
+
+  /* TICKER */
+  .ticker{
+    background:var(--orange);color:var(--ink);
+    overflow:hidden;white-space:nowrap;
+    padding:.7rem 0;font-weight:700;
+    letter-spacing:.08em;text-transform:uppercase;font-size:.85rem;
+    position:relative;z-index:3;
+  }
+  .ticker-inner{display:inline-block;animation:scroll 22s linear infinite}
+  .ticker-inner span{padding:0 1.5rem}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* SECTION HEADERS */
+  .eyebrow{
+    font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--orange);font-weight:700;margin-bottom:1.5rem;
+    display:flex;align-items:center;gap:1rem;
+  }
+  .eyebrow::before{content:"";width:42px;height:1px;background:var(--orange)}
+
+  /* LATEST DROP */
+  .drop{padding:14vh 0}
+  .drop-grid{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:center}
+  @media(max-width:860px){.drop-grid{grid-template-columns:1fr;gap:3rem}}
+  .cover{
+    position:relative;aspect-ratio:1;border-radius:4px;overflow:hidden;
+    box-shadow:0 0 90px rgba(255,90,31,.25);
+  }
+  .cover img{width:100%;height:100%;object-fit:cover;filter:contrast(1.1)}
+  .cover .badge{
+    position:absolute;top:1rem;left:1rem;
+    background:var(--ink);color:var(--orange);
+    font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+    padding:.4rem .8rem;font-weight:700;
+  }
+  .drop h2{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;margin-bottom:1.5rem}
+  .pull{
+    font-size:1.15rem;line-height:1.5;color:var(--mute);
+    border-left:2px solid var(--orange);padding-left:1.2rem;margin:2rem 0;
+    font-style:italic;
+  }
+  /* waveform */
+  .wave{display:flex;align-items:flex-end;gap:3px;height:54px;margin:2rem 0}
+  .wave span{flex:1;background:var(--orange);border-radius:2px;animation:bar 1.2s ease-in-out infinite;opacity:.85}
+  @keyframes bar{0%,100%{height:18%}50%{height:100%}}
+  .pills{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .pill{
+    border:1px solid rgba(255,90,31,.45);color:var(--paper);
+    padding:.7rem 1.4rem;border-radius:40px;font-size:.85rem;font-weight:500;
+    transition:.25s;
+  }
+  .pill:hover{background:var(--orange);color:var(--ink);box-shadow:0 0 25px rgba(255,90,31,.5)}
+
+  /* STORY */
+  .story{padding:14vh 0;background:var(--ink2);position:relative}
+  .story-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:6vw;margin-top:3rem}
+  @media(max-width:860px){.story-grid{grid-template-columns:1fr}}
+  .story h2{font-size:clamp(3rem,8vw,6rem);font-weight:700;line-height:.85}
+  .story-body{column-count:2;column-gap:2.5rem;font-size:1rem;line-height:1.65;color:#cfc8d8}
+  @media(max-width:600px){.story-body{column-count:1}}
+  .story-body p{margin-bottom:1.2rem}
+  .story-body p:first-child::first-letter{
+    font-family:'Clash Display';font-weight:700;
+    float:left;font-size:4.2rem;line-height:.8;
+    padding:.1em .12em 0 0;color:var(--orange);
+  }
+  .photos{display:flex;flex-direction:column;gap:1.5rem}
+  .photo{position:relative}
+  .photo img{width:100%;border-radius:4px;filter:contrast(1.05) saturate(1.1);display:block}
+  .photo small{
+    display:block;margin-top:.6rem;color:var(--mute);
+    font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
+  }
+
+  /* CONNECT */
+  .connect{padding:16vh 0 6vh;text-align:center}
+  .connect .cta{
+    font-family:'Clash Display';font-weight:700;
+    font-size:clamp(2.8rem,10vw,8rem);line-height:.9;
+    color:var(--orange);text-shadow:0 0 70px rgba(255,90,31,.35);
+    transition:.3s;display:inline-block;
+  }
+  .connect .cta:hover{letter-spacing:0;}
+  .capture{
+    max-width:440px;margin:5rem auto 0;
+    display:flex;border-bottom:1px solid rgba(243,237,227,.25);
+  }
+  .capture input{
+    flex:1;background:none;border:none;color:var(--paper);
+    padding:1rem .2rem;font-family:inherit;font-size:1rem;outline:none;
+  }
+  .capture input::placeholder{color:var(--mute)}
+  .capture button{
+    background:none;border:none;color:var(--orange);
+    font-weight:700;cursor:pointer;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;
+  }
+  .socials{display:flex;justify-content:center;gap:2.5rem;margin-top:4rem;flex-wrap:wrap}
+  .socials a{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);transition:.2s}
+  .socials a:hover{color:var(--orange)}
+  .mgmt{margin-top:4rem;color:var(--mute);font-size:.8rem;letter-spacing:.1em}
+  .mgmt a{color:var(--paper);border-bottom:1px solid var(--orange)}
+  footer .end{
+    margin-top:6rem;padding-top:2rem;border-top:1px solid rgba(243,237,227,.08);
+    display:flex;justify-content:space-between;font-size:.7rem;color:var(--mute);
+    letter-spacing:.1em;text-transform:uppercase;flex-wrap:wrap;gap:1rem;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">ZEBRA</div>
+  <div class="links">
+    <a href="#drop">Latest</a>
+    <a href="#story">Story</a>
+    <a href="#connect">Connect</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-name">
+    <div class="tag"><span>LIVE FROM</span><span>LAGOS, NG · 6.5244° N</span></div>
+    <h1>ZEBRA</h1>
+  </div>
+</header>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>★ NEW SINGLE — "NEON FUNERAL" OUT NOW</span><span>LAGOS, NG</span><span>★ FUTURE-AFRO</span><span>STREAMING EVERYWHERE</span>
+    <span>★ NEW SINGLE — "NEON FUNERAL" OUT NOW</span><span>LAGOS, NG</span><span>★ FUTURE-AFRO</span><span>STREAMING EVERYWHERE</span>
+  </div>
+</div>
+
+<!-- LATEST DROP -->
+<section class="drop wrap" id="drop">
+  <div class="eyebrow">Latest Drop</div>
+  <div class="drop-grid">
+    <div class="cover">
+      <span class="badge">New · 2024</span>
+      <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=900&auto=format&fit=crop" alt="cover art">
+    </div>
+    <div>
+      <h2>NEON<br>FUNERAL</h2>
+      <p class="pull">"A midnight drive through Surulere with the windows down — heat, static and heartbreak in equal measure."</p>
+      <div class="wave">
+        <!-- waveform bars -->
+        <span style="animation-delay:0s"></span><span style="animation-delay:.1s"></span><span style="animation-delay:.2s"></span>
+        <span style="animation-delay:.3s"></span><span style="animation-delay:.15s"></span><span style="animation-delay:.4s"></span>
+        <span style="animation-delay:.05s"></span><span style="animation-delay:.35s"></span><span style="animation-delay:.25s"></span>
+        <span style="animation-delay:.45s"></span><span style="animation-delay:.1s"></span><span style="animation-delay:.3s"></span>
+        <span style="animation-delay:.2s"></span><span style="animation-delay:.5s"></span><span style="animation-delay:.05s"></span>
+        <span style="animation-delay:.4s"></span><span style="animation-delay:.15s"></span><span style="animation-delay:.35s"></span>
+      </div>
+      <div class="pills">
+        <a class="pill" href="#">Spotify</a>
+        <a class="pill" href="#">Apple Music</a>
+        <a class="pill" href="#">Audiomack</a>
+        <a class="pill" href="#">YouTube</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="wrap">
+    <div class="eyebrow">The Story</div>
+    <h2>RAISED ON STATIC<br>& STREETLIGHT.</h2>
+    <div class="story-grid">
+      <div class="story-body">
+        <p>Zebra makes music like a city remembers itself after dark. Born between the generator hum and the church bells of Surulere, he learned to find melody in the noise — the danfo horns, the FM crackle, the rain on aluminum roofs.</p>
+        <p>His sound is warm and electric at once: humid Afro rhythms wrapped in cold synthetic glass. It's the feeling of riding through Third Mainland Bridge at 2AM, neon reflections bleeding across the lagoon.</p>
+        <p>What started as voice notes recorded into a cracked phone became a body of work that now travels far beyond Lagos — yet never loses its accent. Globally polished, locally rooted.</p>
+        <p>"I want people in Tokyo to feel the heat of Yaba," he says, half-smiling under studio light. "I'm not exporting Lagos. I'm letting it leak out."</p>
+      </div>
+      <div class="photos">
+        <div class="photo">
+          <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=700&auto=format&fit=crop" alt="studio">
+          <small>↳ The studio, 3:14 AM</small>
+        </div>
+        <div class="photo">
+          <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?q=80&w=700&auto=format&fit=crop" alt="portrait">
+          <small>↳ Between takes — Surulere</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<footer class="connect wrap" id="connect">
+  <div class="eyebrow" style="justify-content:center">Connect · Booking</div>
+  <a href="mailto:booking@zebra.ng" class="cta">WORK WITH<br>ZEBRA</a>
+
+  <form class="capture" onsubmit="return false">
+    <input type="email" placeholder="Your email — get the drops first">
+    <button type="submit">Join →</button>
+  </form>
+
+  <div class="socials">
+    <a href="#">Instagram</a>
+    <a href="#">TikTok</a>
+    <a href="#">X / Twitter</a>
+    <a href="#">YouTube</a>
+    <a href="#">Spotify</a>
+  </div>
+
+  <p class="mgmt">Management &amp; bookings — <a href="mailto:hello@zebra.ng">hello@zebra.ng</a></p>
+
+  <div class="end">
+    <span>© 2024 ZEBRA</span>
+    <span>Lagos, Nigeria — Future-Afro</span>
+  </div>
+</footer>
+
+</body>
+</html>

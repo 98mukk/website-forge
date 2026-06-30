@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONEJO MALO</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
+:root{
+  --base:#1A1410;
+  --coffee:#3D2B1F;
+  --lime:#C6FF00;
+  --cream:#F2E9DD;
+  --terra:#5a3522;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--base);
+  color:var(--cream);
+  font-family:'Lora',serif;
+  overflow-x:hidden;
+}
+.druk{
+  font-family:'Oswald',sans-serif;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:-0.01em;
+  transform:scaleX(1.18);
+  transform-origin:left;
+}
+::selection{background:var(--lime);color:var(--base);}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;width:100%;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.4rem 2.5rem;
+  mix-blend-mode:difference;
+}
+nav .logo{font-family:'Oswald';font-weight:700;font-size:1.1rem;letter-spacing:0.3em;color:#fff;}
+nav ul{display:flex;gap:2.2rem;list-style:none;}
+nav a{color:#fff;text-decoration:none;font-family:'Oswald';font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;}
+nav a:hover{color:var(--lime);}
+
+/* HERO */
+.hero{
+  min-height:100vh;position:relative;display:flex;
+  align-items:center;justify-content:center;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 60%, var(--coffee) 0%, var(--base) 70%);
+}
+.hero video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:.28;filter:saturate(1.3) contrast(1.1) hue-rotate(-10deg);
+  mix-blend-mode:luminosity;
+}
+.hero .grain{position:absolute;inset:0;opacity:.07;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)'/%3E%3C/svg%3E");}
+.hero-content{position:relative;z-index:5;text-align:center;width:100%;padding:0 1rem;}
+.hero h1{
+  font-family:'Oswald';font-weight:700;text-transform:uppercase;
+  font-size:clamp(4rem,18vw,16rem);line-height:.82;
+  transform:scaleX(1.15);letter-spacing:-0.02em;
+  color:var(--cream);
+}
+.hero .mask{
+  display:inline-block;position:relative;
+  color:var(--lime);text-shadow:0 0 30px rgba(198,255,0,.55);
+}
+.hero .mask::before,.hero .mask::after{
+  content:"DESPIERTA";position:absolute;left:0;top:0;
+  color:var(--lime);opacity:.5;
+}
+.hero .mask::before{animation:glitch1 2.6s infinite linear alternate;}
+.hero .mask::after{animation:glitch2 3.1s infinite linear alternate;}
+@keyframes glitch1{0%,90%{clip-path:inset(0 0 90% 0);transform:translate(0)}92%{transform:translate(-6px,3px)}100%{clip-path:inset(20% 0 40% 0);transform:translate(4px)}}
+@keyframes glitch2{0%,88%{clip-path:inset(80% 0 0 0);transform:translate(0)}90%{transform:translate(6px,-3px)}100%{clip-path:inset(60% 0 10% 0);transform:translate(-4px)}}
+.hero .sub{
+  font-style:italic;font-size:clamp(1rem,2vw,1.3rem);
+  max-width:480px;margin:2rem auto 2.5rem;color:rgba(242,233,221,.7);line-height:1.5;
+}
+.cta{
+  display:inline-block;background:var(--lime);color:var(--base);
+  font-family:'Oswald';font-weight:700;text-transform:uppercase;
+  letter-spacing:.25em;font-size:.9rem;
+  padding:1.1rem 3rem;text-decoration:none;
+  transition:.25s;border:1px solid var(--lime);
+}
+.cta:hover{background:transparent;color:var(--lime);box-shadow:0 0 40px rgba(198,255,0,.4);}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  font-family:'Oswald';font-size:.65rem;letter-spacing:.4em;color:rgba(242,233,221,.4);z-index:5;}
+
+/* SECTION SHELL */
+section{position:relative;}
+.tag{font-family:'Oswald';font-weight:700;text-transform:uppercase;font-size:.7rem;
+  letter-spacing:.4em;color:var(--lime);margin-bottom:1rem;}
+.sec-title{font-family:'Oswald';font-weight:700;text-transform:uppercase;
+  font-size:clamp(2.5rem,8vw,7rem);line-height:.9;transform:scaleX(1.12);transform-origin:left;}
+
+/* EL SONIDO */
+.sonido{padding:8rem 2.5rem;background:linear-gradient(var(--base),var(--coffee));}
+.sonido-head{margin-bottom:5rem;}
+.tracks{display:grid;grid-template-columns:repeat(2,1fr);gap:3rem;}
+.track{
+  background:rgba(26,20,16,.6);border:1px solid rgba(242,233,221,.1);
+  padding:2.5rem;position:relative;overflow:hidden;transition:.3s;
+}
+.track:hover{border-color:var(--lime);transform:translateY(-4px);}
+.track .num{font-family:'Oswald';font-size:.7rem;letter-spacing:.3em;color:var(--lime);}
+.track h3{font-family:'Oswald';font-weight:700;text-transform:uppercase;
+  font-size:clamp(1.8rem,3.5vw,3rem);line-height:.95;margin:.6rem 0 1.2rem;transform:scaleX(1.1);transform-origin:left;}
+.track .notes{font-style:italic;color:rgba(242,233,221,.65);line-height:1.65;font-size:1.02rem;}
+.track .notes .credit{display:block;margin-top:1rem;font-size:.8rem;color:rgba(242,233,221,.4);font-style:normal;font-family:'Oswald';letter-spacing:.15em;text-transform:uppercase;}
+.wave{display:flex;align-items:flex-end;gap:3px;height:0;overflow:hidden;margin-top:0;transition:height .4s;}
+.track:hover .wave{height:46px;margin-top:1.8rem;}
+.wave span{flex:1;background:var(--lime);animation:pulse 1s infinite ease-in-out;}
+@keyframes pulse{0%,100%{height:20%}50%{height:100%}}
+
+/* LA LOCURA */
+.locura{padding:9rem 2.5rem;background:var(--coffee);position:relative;}
+.scrap{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem;margin-top:5rem;}
+.scrap .item{position:relative;}
+.scrap img{width:100%;display:block;filter:saturate(1.2) contrast(1.1);}
+.s1{grid-column:1/6;grid-row:1;transform:rotate(-2deg);}
+.s2{grid-column:7/13;grid-row:1/3;margin-top:6rem;transform:rotate(1.5deg);}
+.s3{grid-column:2/6;grid-row:2;margin-top:3rem;transform:rotate(2deg);}
+.glitch-overlay{position:relative;}
+.glitch-overlay::after{content:"";position:absolute;inset:0;
+  background:var(--lime);mix-blend-mode:multiply;opacity:0;transition:.3s;}
+.glitch-overlay:hover::after{opacity:.35;}
+.quote{
+  font-style:italic;font-size:clamp(1.6rem,4vw,3rem);line-height:1.2;
+  color:var(--cream);max-width:600px;
+}
+.quote.q1{grid-column:1/7;grid-row:2;align-self:center;}
+.quote.q2{grid-column:5/12;grid-row:3;margin-top:5rem;}
+.quote .hl{color:var(--lime);}
+.quote .sig{display:block;font-family:'Oswald';font-size:.7rem;letter-spacing:.3em;
+  font-style:normal;text-transform:uppercase;color:rgba(242,233,221,.5);margin-top:1.5rem;}
+
+/* FECHAS */
+.fechas{padding:8rem 2.5rem;background:linear-gradient(var(--coffee),var(--base));}
+.date-row{
+  display:grid;grid-template-columns:1fr 2fr auto;align-items:center;gap:2rem;
+  padding:2rem 0;border-top:1px solid rgba(242,233,221,.13);
+  transition:.25s;
+}
+.date-row:last-of-type{border-bottom:1px solid rgba(242,233,221,.13);}
+.date-row:hover{background:rgba(198,255,0,.04);padding-left:1rem;}
+.date-row .date{font-family:'Oswald';font-weight:700;font-size:clamp(1.5rem,3vw,2.6rem);
+  transform:scaleX(1.1);transform-origin:left;text-transform:uppercase;}
+.date-row:hover .date{color:var(--lime);}
+.date-row .venue{font-style:italic;font-size:1.1rem;color:rgba(242,233,221,.7);}
+.date-row .venue small{display:block;font-style:normal;font-family:'Oswald';
+  font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(242,233,221,.4);margin-top:.3rem;}
+.btk{background:var(--lime);color:var(--base);font-family:'Oswald';font-weight:700;
+  text-transform:uppercase;letter-spacing:.2em;font-size:.7rem;padding:.8rem 1.8rem;
+  text-decoration:none;border:1px solid var(--lime);transition:.25s;white-space:nowrap;}
+.btk:hover{background:transparent;color:var(--lime);}
+
+/* NEWSLETTER */
+.madriguera{margin-top:8rem;text-align:center;padding:5rem 2rem;
+  border:1px solid rgba(198,255,0,.25);position:relative;overflow:hidden;}
+.madriguera::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 120%,rgba(198,255,0,.12),transparent 60%);}
+.madriguera h2{position:relative;font-family:'Oswald';font-weight:700;text-transform:uppercase;
+  font-size:clamp(2rem,6vw,5rem);transform:scaleX(1.12);line-height:.9;}
+.madriguera p{position:relative;font-style:italic;color:rgba(242,233,221,.6);margin:1.5rem auto 2.5rem;max-width:420px;}
+.nlform{position:relative;display:flex;max-width:460px;margin:0 auto;gap:0;}
+.nlform input{flex:1;background:transparent;border:1px solid rgba(242,233,221,.3);
+  border-right:none;color:var(--cream);padding:1rem 1.2rem;font-family:'Lora';font-style:italic;font-size:1rem;}
+.nlform input:focus{outline:none;border-color:var(--lime);}
+.nlform button{background:var(--lime);color:var(--base);border:none;
+  font-family:'Oswald';font-weight:700;text-transform:uppercase;letter-spacing:.15em;
+  padding:0 2rem;cursor:pointer;transition:.25s;}
+.nlform button:hover{background:var(--cream);}
+
+footer{padding:3rem 2.5rem;display:flex;justify-content:space-between;font-family:'Oswald';
+  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(242,233,221,.4);flex-wrap:wrap;gap:1rem;}
+
+@media(max-width:760px){
+  nav ul{display:none;}
+  .tracks{grid-template-columns:1fr;}
+  .scrap{display:flex;flex-direction:column;gap:3rem;}
+  .scrap .item,.quote{transform:none!important;margin:0!important;grid-column:auto!important;}
+  .date-row{grid-template-columns:1fr;gap:.8rem;}
+  .date-row .btk{justify-self:start;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">CM</div>
+  <ul>
+    <li><a href="#sonido">El Sonido</a></li>
+    <li><a href="#locura">La Locura</a></li>
+    <li><a href="#fechas">Fechas</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <video autoplay muted loop playsinline poster="">
+    <source src="https://cdn.coverr.co/videos/coverr-neon-lights-in-the-city-5244/1080p.mp4" type="video/mp4">
+  </video>
+  <div class="grain"></div>
+  <div class="hero-content">
+    <h1>DES<span class="mask" data-text="DESPIERTA">PIER</span>TA</h1>
+    <p class="sub">El conejo no duerme. Una perreo al borde de la pesadilla — calor latino con filo de sierra.</p>
+    <a href="#sonido" class="cta">Escúchalo</a>
+  </div>
+  <div class="scroll-hint">↓ BAJA A LA MADRIGUERA</div>
+</section>
+
+<!-- EL SONIDO -->
+<section class="sonido" id="sonido">
+  <div class="sonido-head">
+    <div class="tag">01 — El Sonido</div>
+    <h2 class="sec-title">Música<br>Cruda</h2>
+  </div>
+  <div class="tracks">
+    <div class="track">
+      <div class="num">DROP / 001</div>
+      <h3>Veneno<br>Tropical</h3>
+      <p class="notes">Un bajo que late como corazón infectado. Las cuerdas se enredan en humedad de San Juan mientras la voz raspa el cielo. Bello y enfermo a partes iguales.
+      <span class="credit">Prod. en La Madriguera · 3:42</span></p>
+      <div class="wave"><span style="animation-delay:0s"></span><span style="animation-delay:.1s"></span><span style="animation-delay:.2s"></span><span style="animation-delay:.3s"></span><span style="animation-delay:.15s"></span><span style="animation-delay:.25s"></span><span style="animation-delay:.05s"></span><span style="animation-delay:.35s"></span><span style="animation-delay:.18s"></span><span style="animation-delay:.28s"></span><span style="animation-delay:.08s"></span><span style="animation-delay:.32s"></span></div>
+    </div>
+    <div class="track">
+      <div class="num">DROP / 002</div>
+      <h3>Ojos<br>Muy Abiertos</h3>
+      <p class="notes">El perreo se desliza hacia lo feral. Sintetizadores ácidos cortan la noche en lonchas de lima eléctrica. Bailas, pero algo te observa desde la esquina.
+      <span class="credit">Feat. La Bestia · 4:01</span></p>
+      <div class="wave"><span style="animation-delay:0s"></span><span style="animation-delay:.12s"></span><span style="animation-delay:.22s"></span><span style="animation-delay:.31s"></span><span style="animation-delay:.16s"></span><span style="animation-delay:.27s"></span><span style="animation-delay:.06s"></span><span style="animation-delay:.36s"></span><span style="animation-delay:.19s"></span><span style="animation-delay:.29s"></span><span style="animation-delay:.09s"></span><span style="animation-delay:.33s"></span></div>
+    </div>
+    <div class="track">
+      <div class="num">DROP / 003</div>
+      <h3>Terracota<br>en Llamas</h3>
+      <p class="notes">Coffee y barro derritiéndose en glitch. La percusión tiembla como tierra antes del temblor. Pura amenaza tropical envuelta en seda editorial.
+      <span class="credit">Prod. Nocturno · 2:58</span></p>
+      <div class="wave"><span style="animation-delay:0s"></span><span style="animation-delay:.14s"></span><span style="animation-delay:.24s"></span><span style="animation-delay:.33s"></span><span style="animation-delay:.18s"></span><span style="animation-delay:.28s"></span><span style="animation-delay:.07s"></span><span style="animation-delay:.37s"></span><span style="animation-delay:.21s"></span><span style="animation-delay:.31s"></span><span style="animation-delay:.11s"></span><span style="animation-delay:.34s"></span></div>
+    </div>
+    <div class="track">
+      <div class="num">DROP / 004</div>
+      <h3>Rave a<br>las 4AM</h3>
+      <p class="notes">El amanecer que nunca llega. Voces fantasma flotan sobre un beat que se niega a morir. La nota de rescate convertida en himno de pista.
+      <span class="credit">Live en La Madriguera · 5:17</span></p>
+      <div class="wave"><span style="animation-delay:0s"></span><span style="animation-delay:.13s"></span><span style="animation-delay:.23s"></span><span style="animation-delay:.32s"></span><span style="animation-delay:.17s"></span><span style="animation-delay:.26s"></span><span style="animation-delay:.05s"></span><span style="animation-delay:.38s"></span><span style="animation-delay:.2s"></span><span style="animation-delay:.3s"></span><span style="animation-delay:.1s"></span><span style="animation-delay:.35s"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- LA LOCURA -->
+<section class="locura" id="locura">
+  <div class="tag">02 — La Locura</div>
+  <h2 class="sec-title">Manifiesto<br>Visual</h2>
+  <div class="scrap">
+    <div class="item s1 glitch-overlay"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80" alt="crowd"></div>
+    <div class="quote q1">No soy cute. Soy <span class="hl">feral</span> con buena iluminación.
+      <span class="sig">— de los cuadernos del conejo</span></div>
+    <div class="item s2 glitch-overlay"><img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80" alt="neon"></div>
+    <div class="item s3 glitch-overlay"><img src="https://images.unsplash.com/photo-1571266028243-d220c9c3b31e?w=800&q=80" alt="rabbit"></div>
+    <div class="quote q2">Cada canción es una <span class="hl">nota de rescate</span> escrita con lima sobre terracota.
+      <span class="sig">— San Juan, 4:17 AM</span></div>
+  </div>
+</section>
+
+<!-- FECHAS -->
+<section class="fechas" id="fechas">
+  <div class="tag">03 — Fechas</div>
+  <h2 class="sec-title" style="margin-bottom:4rem;">Gira &<br>Drops</h2>
+
+  <div class="date-row">
+    <div class="date">14 MAR</div>
+    <div class="venue">Coliseo de Puerto Rico<span><small>San Juan, PR</small></span></div>
+    <a href="#" class="btk">Boletos</a>
+  </div>
+  <div class="date-row">
+    <div class="date">22 MAR</div>
+    <div class="venue">Foro Sol<span><small>Ciudad de México, MX</small></span></div>
+    <a href="#" class="btk">Boletos</a>
+  </div>
+  <div class="date-row">
+    <div class="date">05 ABR</div>
+    <div class="venue">Movistar Arena<span><small>Bogotá, CO</small></span></div>
+    <a href="#" class="btk">Boletos</a>
+  </div>
+  <div class="date-row">
+    <div class="date">19 ABR</div>
+    <div class="venue">Kaseya Center<span><small>Miami, USA</small></span></div>
+    <a href="#" class="btk">Boletos</a>
+  </div>
+  <div class="date-row">
+    <div class="date">02 MAY</div>
+    <div class="venue">WiZink Center<span><small>Madrid, ES</small></span></div>
+    <a href="#" class="btk">Boletos</a>
+  </div>
+
+  <div class="madriguera">
+    <h2>Entra a la<br>Madriguera</h2>
+    <p>Drops secretos, fechas antes que nadie y transmisiones desde el otro lado del sueño.</p>
+    <form class="nlform" onsubmit="this.querySelector('button').textContent='ADENTRO ✓';return false;">
+      <input type="email" placeholder="tu@correo.com" required>
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <span>© CONEJO MALO 2025</span>
+  <span>SAN JUAN · CDMX · MADRID</span>
+  <span>NO DUERMAS</span>
+</footer>
+
+</body>
+</html>

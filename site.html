@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maximo Alanis — Paid-Media & Digital Marketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #1a3df5;
+    --accent-soft: #e8ecff;
+    --ink: #0e0f13;
+    --ink-soft: #4a4d57;
+    --paper: #f7f6f3;
+    --line: #e2e0d9;
+    --max-w: 1180px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Archivo', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent); color: #fff; }
+
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 32px; }
+
+  h1, h2, h3 { font-family: 'Fraunces', serif; font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; }
+
+  .eyebrow {
+    font-size: 0.74rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(247,246,243,0.78);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  nav.scrolled { border-color: var(--line); }
+  .nav-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 38px; align-items: center; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 0.86rem;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.2s;
+  }
+  .nav-links a.cta {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 9px 18px;
+    border-radius: 100px;
+    transition: background 0.25s;
+  }
+  .nav-links a.cta::after { display: none; }
+  .nav-links a.cta:hover { background: var(--accent); }
+  .nav-links a:not(.cta)::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -4px;
+    width: 0; height: 1.5px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:not(.cta):hover { color: var(--ink); }
+  .nav-links a:not(.cta):hover::after { width: 100%; }
+
+  @media (max-width: 760px) { .nav-links a:not(.cta) { display: none; } }
+
+  /* Hero */
+  .hero {
+    padding: 200px 0 120px;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: clamp(3.2rem, 9vw, 7.5rem);
+    margin: 28px 0 0;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-pitch {
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    max-width: 580px;
+    color: var(--ink-soft);
+    margin-top: 36px;
+    font-weight: 400;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 48px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+  }
+  .hero-meta div span {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    color: var(--ink);
+  }
+  .hero-meta div small {
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(.2,.6,.2,1), transform 0.8s cubic-bezier(.2,.6,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 0.08s; }
+  .reveal.d2 { transition-delay: 0.16s; }
+  .reveal.d3 { transition-delay: 0.24s; }
+
+  section { padding: 120px 0; }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 40px;
+    margin-bottom: 80px;
+    align-items: end;
+  }
+  .section-head h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); }
+  .section-head h2 em { font-style: italic; color: var(--accent); }
+  .section-head p { color: var(--ink-soft); max-width: 460px; }
+  @media (max-width: 760px) { .section-head { grid-template-columns: 1fr; } }
+
+  /* Services */
+  .services {
+    border-top: 1px solid var(--line);
+  }
+  .svc-list { display: grid; }
+  .svc {
+    display: grid;
+    grid-template-columns: 60px 1fr 1.3fr;
+    gap: 32px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+    transition: padding 0.3s;
+  }
+  .svc:hover { padding-left: 16px; }
+  .svc-num {
+    font-family: 'Fraunces', serif;
+    color: var(--accent);
+    font-size: 1.1rem;
+  }
+  .svc h3 { font-size: 1.7rem; }
+  .svc p { color: var(--ink-soft); font-size: 0.95rem; }
+  @media (max-width: 760px) {
+    .svc { grid-template-columns: 1fr; gap: 12px; }
+  }
+
+  /* Work */
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  @media (max-width: 760px) { .work-grid { grid-template-columns: 1fr; } }
+  .case {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 38px;
+    transition: transform 0.4s cubic-bezier(.2,.6,.2,1), box-shadow 0.4s;
+  }
+  .case:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 50px -24px rgba(14,15,19,0.18);
+  }
+  .case .tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .case h3 { font-size: 1.85rem; margin: 18px 0 14px; }
+  .case p { color: var(--ink-soft); font-size: 0.95rem; }
+  .case .result {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 36px;
+  }
+  .case .result div span {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    color: var(--accent);
+  }
+  .case .result div small {
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+
+  /* About */
+  .about {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 6px;
+    margin: 0 32px;
+  }
+  .about .wrap { padding: 100px 32px; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+  }
+  @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .about .eyebrow { color: #8fa0ff; }
+  .about .eyebrow::before { background: #8fa0ff; }
+  .about h2 { font-size: clamp(2rem, 4vw, 3rem); margin: 24px 0; }
+  .about h2 em { font-style: italic; color: #8fa0ff; }
+  .about p { color: #b6b8c2; margin-bottom: 20px; }
+  .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+  }
+  .tools span {
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 7px 15px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: #d4d5dd;
+  }
+
+  /* Contact */
+  .contact { text-align: center; }
+  .contact h2 {
+    font-size: clamp(2.6rem, 7vw, 5.5rem);
+    margin: 24px 0 36px;
+  }
+  .contact h2 em { font-style: italic; color: var(--accent); }
+  .btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    padding: 18px 42px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: transform 0.25s, background 0.25s;
+  }
+  .btn:hover { transform: translateY(-3px); background: var(--ink); }
+  .contact-alt {
+    margin-top: 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .contact-alt a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 50px 0;
+  }
+  .foot-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .foot-inner small { color: var(--ink-soft); font-size: 0.82rem; }
+  .foot-links { display: flex; gap: 24px; }
+  .foot-links a { color: var(--ink-soft); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+  .foot-links a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">Maximo<span>.</span></a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="cta">Let's talk</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow reveal">Paid Media · Digital Marketing</span>
+    <h1 class="reveal d1">Growth that<br>compounds, not<br><em>guesswork.</em></h1>
+    <p class="hero-pitch reveal d2">I'm Maximo Alanis — a performance marketer building paid-media systems that turn ad spend into predictable, profitable revenue.</p>
+    <div class="hero-meta reveal d3">
+      <div><span>$48M+</span><small>Ad spend managed</small></div>
+      <div><span>4.2x</span><small>Avg. blended ROAS</small></div>
+      <div><span>60+</span><small>Brands scaled</small></div>
+    </div>
+  </div>
+</header>
+
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">What I do</span>
+      <h2>Full-funnel paid media, built to <em>scale</em>.</h2>
+    </div>
+    <div class="svc-list">
+      <div class="svc reveal">
+        <div class="svc-num">01</div>
+        <h3>Paid Search</h3>
+        <p>Google &amp; Bing campaigns engineered around intent, margin, and lifetime value — not vanity clicks.</p>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-num">02</div>
+        <h3>Paid Social</h3>
+        <p>Meta, TikTok &amp; LinkedIn creative testing frameworks that find winners faster and scale without fatigue.</p>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-num">03</div>
+        <h3>Analytics &amp; CRO</h3>
+        <p>Clean tracking, server-side events, and landing-page experiments that lift conversion across the board.</p>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-num">04</div>
+        <h3>Growth Strategy</h3>
+        <p>Channel mix, budget allocation, and forecasting that ties every dollar to a measurable business outcome.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Selected work</span>
+      <p>A few engagements where disciplined media buying turned flat spend into durable, compounding growth.</p>
+    </div>
+    <div class="work-grid">
+      <div class="case reveal">
+        <span class="tag">DTC · Skincare</span>
+        <h3>Lumen Beauty</h3>
+        <p>Rebuilt the Meta account structure and creative pipeline, cutting CAC while tripling monthly spend efficiency.</p>
+        <div class="result">
+          <div><span>3.1x</span><small>ROAS in 90 days</small></div>
+          <div><span>-41%</span><small>Cost per acquisition</small></div>
+        </div>
+      </div>
+      <div class="case reveal d1">
+        <span class="tag">B2B · SaaS</span>
+        <h3>Northwind Cloud</h3>
+        <p>Launched intent-led search and LinkedIn ABM funnels feeding a sales team with qualified demo requests.</p>
+        <div class="result">
+          <div><span>+212%</span><small>Demo pipeline</small></div>
+          <div><span>$1.9M</span><small>Influenced ARR</small></div>
+        </div>
+      </div>
+      <div class="case reveal">
+        <span class="tag">eCommerce · Apparel</span>
+        <h3>Field &amp; Forge</h3>
+        <p>Full-funnel relaunch across Google, Meta and TikTok with server-side tracking and creative iteration.</p>
+        <div class="result">
+          <div><span>5.4x</span><small>Peak season ROAS</small></div>
+          <div><span>$7.2M</span><small>Revenue driven</small></div>
+        </div>
+      </div>
+      <div class="case reveal d1">
+        <span class="tag">Marketplace · Fintech</span>
+        <h3>Tally App</h3>
+        <p>Designed an incrementality-tested acquisition model to scale installs without inflating blended CAC.</p>
+        <div class="result">
+          <div><span>-33%</span><small>Blended CAC</small></div>
+          <div><span>180K</span><small>New installs</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="reveal">
+        <span class="eyebrow">About</span>
+        <h2>A decade of turning <em>spend</em> into signal.</h2>
+        <p>I've spent the last ten years inside ad accounts of every size — from scrappy startups to nine-figure brands. The thread that ties it all together: a relentless focus on profit, not impressions.</p>
+        <p>I work as an embedded partner, not a vendor. That means transparent reporting, honest forecasts, and a system you actually understand.</p>
+      </div>
+      <div class="reveal d1">
+        <p style="color:#e8e9ef;font-family:'Fraunces',serif;font-size:1.2rem;line-height:1.5;">"The best marketing isn't louder — it's clearer. Find the people who already want what you sell, and make the math undeniable."</p>
+        <div class="tools">
+          <span>Google Ads</span>
+          <span>Meta Ads</span>
+          <span>TikTok</span>
+          <span>GA4</span>
+          <span>Triple Whale</span>
+          <span>Looker</span>
+          <span>HubSpot</span>
+          <span>Server-side GTM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <span class="eyebrow reveal" style="justify-content:center;">Get in touch</span>
+    <h2 class="reveal d1">Let's make the<br>math <em>undeniable.</em></h2>
+    <a href="mailto:hello@maximoalanis.com" class="btn reveal d2">Book a strategy call</a>
+    <p class="contact-alt reveal d2">Or email directly — <a href="mailto:hello@maximoalanis.com">hello@maximoalanis.com</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <small>© 2024 Maximo Alanis. Performance marketing, done right.</small>
+    <div class="foot-links">
+      <a href="#">LinkedIn</a>
+      <a href="#">Twitter</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
