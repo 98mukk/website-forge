@@ -1,7 +1,10 @@
-
 import anthropic
 from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse
+
+
+from dotenv import load_dotenv
+load_dotenv()
 
 client = anthropic.Anthropic()
 app = FastAPI()
