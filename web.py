@@ -5,11 +5,15 @@ load_dotenv()
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from memory import recall
+from memory import recall, rules, ingest
 
 client = anthropic.Anthropic()
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+
+# On a fresh server (like Render) the deck starts empty: seal it on boot.
+if rules.count() == 0:
+    ingest()
 
 SYSTEM = """You are an elite web designer with ruthless taste. You build single-file HTML sites that look human-crafted, never AI-generated.
 
