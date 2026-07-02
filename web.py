@@ -5,6 +5,7 @@ load_dotenv()
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from memory import recall
 
 client = anthropic.Anthropic()
 app = FastAPI()
@@ -27,7 +28,7 @@ HARD RULES (violating any = failure):
 - Mobile: everything collapses to clean single column under 768px.
 
 Output ONLY the complete HTML document, no explanations.""",
-        messages=[{"role": "user", "content": f"Build a complete single-file HTML website. Brief: {brief}"}],
+        messages=[{"role": "user", "content": f"Build a complete single-file HTML website. Brief: {brief}\n\nSTYLE INTEL from our design memory (apply these rules):\n{recall(brief)}"}],
     )
     return r.content[0].text
 
