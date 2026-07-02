@@ -1,4 +1,5 @@
-.env 
+.env
 __pycache__/
-*.html
-
+memory/
+site*.html
+winner.html

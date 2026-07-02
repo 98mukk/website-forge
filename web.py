@@ -66,4 +66,7 @@ def home(request: Request):
 
 @app.post("/build", response_class=HTMLResponse)
 def build(brief: str = Form(...), style: str = Form("clean and minimal")):
-    return summon(f"{brief}. Style direction: {style}")
+    html = summon(f"{brief}. Style direction: {style}")
+    with open("site.html", "w") as f:
+        f.write(html)
+    return html
