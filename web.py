@@ -1,32 +1,40 @@
 import anthropic
-from fastapi import FastAPI, Form
-from fastapi.responses import HTMLResponse
-
-
 from dotenv import load_dotenv
 load_dotenv()
 
+from fastapi import FastAPI, Form, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+
 client = anthropic.Anthropic()
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
 
 def summon(brief):
     r = client.messages.create(
         model="claude-opus-4-8", max_tokens=16000,
-        system="You are a world-class web designer. ONE accent color used sparingly, a real font pairing from Google Fonts, generous whitespace, subtle animations. No generic AI-slop.",
+        system="""You are an elite web designer with ruthless taste. You build single-file HTML sites that look human-crafted, never AI-generated.
+
+HARD RULES (violating any = failure):
+- ONE accent color, used sparingly. Neutral base (off-white or off-black, never pure #fff/#000 backgrounds with pure black text). NO purple/violet gradients ever.
+- Real font pairing loaded from Google Fonts: a characterful display font for headlines + a clean sans for body. NEVER Inter, Roboto, Arial, or system fonts.
+- Hero: headline max 2 lines, subtext max 20 words, CTA visible without scrolling. NOT centered-by-default: prefer split or asymmetric layouts.
+- NO three-equal-cards feature rows. Each section uses a DIFFERENT layout family (split, bento, full-width, alternating, marquee). Never repeat a layout twice in a row.
+- Real images: use https://picsum.photos/seed/{descriptive-word}/{width}/{height} with a different seed per image. Every site needs at least 3 images. No gray placeholder divs.
+- Generous whitespace (large section padding), a clear type scale, subtle hover states and scroll animations (respect prefers-reduced-motion).
+- Copy: concrete and specific, no filler verbs (Elevate, Seamless, Unleash, Revolutionize). Realistic names and organic numbers (47.2%, not 50%). No em-dashes anywhere.
+- Small uppercase section labels (eyebrows): maximum 1 per 3 sections.
+- Mobile: everything collapses to clean single column under 768px.
+
+Output ONLY the complete HTML document, no explanations.""",
         messages=[{"role": "user", "content": f"Build a complete single-file HTML website. Brief: {brief}"}],
     )
     return r.content[0].text
 
 @app.get("/", response_class=HTMLResponse)
-def home():
-    return """
-    <h1>Website Forge</h1>
-    <form method="post" action="/build">
-      <input name="brief" placeholder="Describe the site" style="width:320px;padding:8px">
-      <button>Summon</button>
-    </form>
-    """
+def home(request: Request):
+    return templates.TemplateResponse(request, "index.html")
 
 @app.post("/build", response_class=HTMLResponse)
-def build(brief: str = Form(...)):
-    return summon(brief)
+def build(brief: str = Form(...), style: str = Form("clean and minimal")):
+    return summon(f"{brief}. Style direction: {style}")
