@@ -72,6 +72,29 @@ def summon(brief, image_blocks=None):
         messages.append({"role": "user", "content": results})
     return "".join(b.text for b in r.content if b.type == "text")
 
+POLISH_SYSTEM = """You are a senior front-end polish specialist. You receive a finished draft site and upgrade its LIVELINESS and CLEANLINESS without changing its content, copy, brand, or section order.
+
+Apply the MOTION AND POLISH INTEL provided, plus this checklist:
+- Scroll reveals: one fadeInUp keyframe (opacity 0 + translateY(40px) to 0, .6s ease-out) driven by IntersectionObserver at threshold 0.2, staggered ~100ms per sibling.
+- Hover states on EVERY card, button, and link: 200ms color transitions, at most one subtle transform.
+- Spacing discipline: one consistent max-width wrapper, one section padding rhythm, aligned edges everywhere.
+- Detail polish: branded ::selection color, hairline borders tinted toward the accent, visible focus-visible rings.
+- Ambient background motion stays SLOW (20s+); everything collapses under prefers-reduced-motion.
+- Remove every em-dash. Fix any spacing or alignment sloppiness you see.
+
+Output ONLY the complete upgraded HTML document, no explanations."""
+
+def polish(brief, html):
+    intel = recall("scroll reveal stagger hover states motion easing durations", k=4)
+    intel += "\n\n" + recall("section spacing rhythm container width detail polish selection hairline borders", k=4)
+    r = client.messages.create(
+        model="claude-opus-4-8", max_tokens=16000,
+        system=POLISH_SYSTEM,
+        messages=[{"role": "user", "content":
+            f"Brief: {brief}\n\nMOTION AND POLISH INTEL:\n{intel}\n\nDRAFT SITE:\n{html}"}],
+    )
+    return "".join(b.text for b in r.content if b.type == "text")
+
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse(request, "index.html")
@@ -99,6 +122,8 @@ async def build(brief: str = Form(...), style: str = Form("clean and minimal"),
         print(f"🔴 Eyes engaged: {len(image_blocks)} reference image(s)")
 
     html = summon(order, image_blocks)
+    print("✨ Polish pass: upgrading motion and spacing")
+    html = polish(order, html)
     score = None
 
     if JUDGE_GATE:
