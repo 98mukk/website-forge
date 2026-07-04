@@ -3,95 +3,190 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Website Forge</title>
+<title>Website Forge · Lake Shore Digital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0C1830; --surface:#12274A; --line:rgba(226,232,244,.12);
-    --text:#EDF1F8; --muted:#93A1BC; --accent:#C9A227; --accent-ink:#0C1830;
+    --bg:#0B1526; --panel:#101E36; --panel-2:#15263F; --line:rgba(214,226,244,.08); --line-strong:rgba(214,226,244,.16);
+    --text:#EDF2FA; --text-2:#9FAEC7; --muted:#66758F;
+    --gold:#C9A227; --gold-hot:#E0B93B; --gold-soft:rgba(201,162,39,.12); --ink:#100C02;
     --font-h:"Space Grotesk",sans-serif; --font-b:"IBM Plex Sans",sans-serif; --font-m:"IBM Plex Mono",monospace;
+    --ease-settle:cubic-bezier(.2,0,0,1); --ease-out:cubic-bezier(.25,.1,.3,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--text);font-family:var(--font-b);min-height:100dvh}
-  .wrap{max-width:1200px;margin:0 auto;padding:48px 24px 80px}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--font-b);min-height:100dvh;
+    background-image:radial-gradient(52% 44% at 78% 8%, rgba(201,162,39,.09) 0%, rgba(201,162,39,.025) 45%, transparent 72%);
+    background-repeat:no-repeat;
+  }
+  .wrap{max-width:1280px;margin:0 auto;padding:0 32px 88px}
 
-  header{display:flex;align-items:baseline;gap:14px;margin-bottom:56px}
-  .mark{font-family:var(--font-h);font-weight:700;font-size:20px;letter-spacing:-.01em}
-  .mark span{color:var(--accent)}
-  .by{font-family:var(--font-m);font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+  /* ---------- header ---------- */
+  header{display:flex;align-items:center;justify-content:space-between;padding:26px 0 0}
+  .mark{display:inline-flex;align-items:center;gap:12px;font-family:var(--font-h);font-weight:700;font-size:17px;letter-spacing:.02em;text-transform:uppercase}
+  .mark .tick{width:3px;height:15px;background:var(--gold);flex:0 0 auto}
+  .mark small{font-family:var(--font-m);font-weight:500;font-size:10.5px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+  .live-dot{font-family:var(--font-m);font-size:11px;letter-spacing:.14em;color:var(--text-2);text-transform:uppercase}
 
-  .grid{display:grid;grid-template-columns:5fr 7fr;gap:48px}
-  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  /* ---------- hero ---------- */
+  .hero{padding:76px 0 54px;max-width:760px}
+  h1{font-family:var(--font-h);font-weight:700;font-size:clamp(38px,5.2vw,64px);line-height:1.02;letter-spacing:-.022em}
+  h1 em{font-style:normal;color:var(--gold)}
+  .hero p{margin-top:18px;font-size:16.5px;line-height:1.6;color:var(--text-2);max-width:52ch}
 
-  h1{font-family:var(--font-h);font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:10px}
-  .sub{color:var(--muted);font-size:15px;margin-bottom:36px;max-width:44ch}
+  /* ---------- layout ---------- */
+  .grid{display:grid;grid-template-columns:minmax(340px,5fr) 7fr;gap:56px;align-items:start}
+  @media(max-width:960px){.grid{grid-template-columns:1fr;gap:40px}.hero{padding:56px 0 40px}}
 
-  label{display:block;font-family:var(--font-m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-  textarea,select{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;
-    color:var(--text);font-family:var(--font-b);font-size:15px;padding:14px 16px;outline:none;transition:border-color .2s}
-  textarea{min-height:120px;resize:vertical}
-  textarea:focus,select:focus{border-color:var(--accent)}
-  .field{margin-bottom:22px}
+  /* ---------- form panel ---------- */
+  .panel{
+    background:linear-gradient(135deg, rgba(214,226,244,.045) 0%, rgba(214,226,244,0) 38%, rgba(0,0,0,.12) 100%), var(--panel);
+    border:1px solid var(--line);border-radius:16px;padding:30px 28px 26px;
+  }
+  label{display:block;font-family:var(--font-m);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-2);margin-bottom:10px}
+  textarea{
+    width:100%;min-height:138px;resize:vertical;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;
+    color:var(--text);font-family:var(--font-b);font-size:15px;line-height:1.55;padding:14px 16px;outline:none;
+    transition:border-color .2s var(--ease-settle);
+  }
+  textarea::placeholder{color:var(--muted)}
+  textarea:focus{border-color:var(--line-strong);outline:2px solid var(--text-2);outline-offset:2px}
+  .field{margin-bottom:24px}
 
-  button{font-family:var(--font-h);font-weight:700;font-size:15px;border:none;border-radius:999px;cursor:pointer;
-    transition:transform .15s,opacity .2s}
-  button:active{transform:translateY(1px) scale(.98)}
-  .primary{background:var(--accent);color:var(--accent-ink);padding:14px 34px}
-  .primary:disabled{opacity:.55;cursor:wait}
-  .ghost{background:transparent;color:var(--text);border:1px solid var(--line);padding:13px 26px;margin-left:12px}
+  input[type="file"]{width:100%;color:var(--text-2);font-size:13px;font-family:var(--font-b);
+    padding:12px;background:var(--panel-2);border:1px dashed var(--line-strong);border-radius:10px;cursor:pointer}
+  input[type="file"]::file-selector-button{font-family:var(--font-h);font-weight:700;font-size:12.5px;
+    background:transparent;color:var(--text);border:1px solid var(--line-strong);border-radius:9999px;
+    padding:7px 14px;margin-right:12px;cursor:pointer}
+  .thumbs{display:flex;gap:8px;margin-top:10px}
+  .thumbs img{width:64px;height:48px;object-fit:cover;border-radius:6px;border:1px solid var(--line-strong)}
+
+  .styles{display:flex;gap:8px;flex-wrap:wrap}
+  .styles input{position:absolute;opacity:0;pointer-events:none}
+  .styles span{
+    display:inline-block;padding:9px 16px;border-radius:9999px;border:1px solid var(--line);color:var(--text-2);
+    font-size:13.5px;cursor:pointer;transition:color .12s var(--ease-settle),border-color .12s var(--ease-settle),background .12s var(--ease-settle);
+    user-select:none;
+  }
+  .styles span:hover{border-color:var(--line-strong);color:var(--text)}
+  .styles input:checked + span{background:var(--gold-soft);border-color:var(--gold);color:var(--text)}
+  .styles input:focus-visible + span{outline:2px solid var(--text-2);outline-offset:2px}
+
+  .actions{display:flex;align-items:center;gap:12px;margin-top:4px}
+  button{font-family:var(--font-h);font-weight:700;font-size:15px;border:none;border-radius:12px;cursor:pointer}
+  .primary{
+    position:relative;background:var(--gold);color:var(--ink);padding:15px 32px;
+    transition:transform .12s var(--ease-settle),background .12s var(--ease-settle);
+    box-shadow:0 0 44px rgba(201,162,39,.22);
+  }
+  .primary:hover{background:var(--gold-hot);transform:translateY(-1px)}
+  .primary:active{transform:translateY(0) scale(.985)}
+  .primary:disabled{opacity:.6;cursor:wait;transform:none}
+  .primary:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+  .ghost{background:transparent;color:var(--text-2);border:1px solid var(--line);padding:14px 22px;font-weight:500;font-family:var(--font-b);
+    transition:color .12s var(--ease-settle),border-color .12s var(--ease-settle)}
+  .ghost:hover:not(:disabled){color:var(--text);border-color:var(--line-strong)}
   .ghost:disabled{opacity:.35;cursor:not-allowed}
+  .ghost:focus-visible{outline:2px solid var(--text-2);outline-offset:2px}
 
-  .status{font-family:var(--font-m);font-size:12.5px;color:var(--muted);margin-top:16px;min-height:18px}
+  .statusbar{margin-top:20px;min-height:34px}
+  .status{font-family:var(--font-m);font-size:12px;letter-spacing:.04em;color:var(--text-2)}
   .status.err{color:#E86A5E}
+  .progress{height:2px;background:var(--panel-2);border-radius:2px;overflow:hidden;margin-top:10px;opacity:0;transition:opacity .2s var(--ease-settle)}
+  .progress.on{opacity:1}
+  .progress i{display:block;height:100%;width:36%;background:var(--gold);border-radius:2px;animation:sweep 1.4s var(--ease-out) infinite}
+  @keyframes sweep{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
+  @media(prefers-reduced-motion:reduce){.progress i{animation:none;width:100%}}
 
-  .preview label{margin-bottom:12px}
-  .frame{width:100%;aspect-ratio:4/3;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;
-    display:flex;align-items:center;justify-content:center}
-  .frame p{color:var(--muted);font-size:14px;padding:0 24px;text-align:center}
+  /* ---------- preview ---------- */
+  .browser{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}
+  .chrome{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel-2)}
+  .dots{display:flex;gap:6px}
+  .dots i{width:10px;height:10px;border-radius:50%;background:var(--line-strong)}
+  .addr{flex:1;text-align:center;font-family:var(--font-m);font-size:11px;letter-spacing:.06em;color:var(--muted);
+    background:var(--bg);border:1px solid var(--line);border-radius:9999px;padding:5px 14px;max-width:340px;margin:0 auto}
+  .viewport{position:relative;aspect-ratio:16/10;background:var(--bg)}
+  .empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:0 32px}
+  .empty .glyph{width:44px;height:44px;border:1px solid var(--line-strong);border-radius:12px;position:relative}
+  .empty .glyph::after{content:"";position:absolute;inset:9px;border-radius:6px;background:var(--gold-soft);border:1px solid rgba(201,162,39,.35)}
+  .empty p{color:var(--muted);font-size:14px;max-width:34ch;line-height:1.55}
   iframe{width:100%;height:100%;border:none;background:#fff;display:none}
+
+  footer{margin-top:64px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-family:var(--font-m);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
 </style>
 </head>
 <body>
 <div class="wrap">
+
   <header>
-    <div class="mark">Website<span>Forge</span></div>
-    <div class="by">Lake Shore Digital</div>
+    <div class="mark"><span class="tick"></span>Website Forge <small>Lake Shore Digital</small></div>
+    <div class="live-dot">Forge v2 · Online</div>
   </header>
 
-  <div class="grid">
-    <section>
-      <h1>Describe it. We build it.</h1>
-      <p class="sub">Tell the Forge what the site is for. It designs and writes the whole page in about a minute.</p>
+  <section class="hero">
+    <h1>Describe the site.<br>We forge <em>the real thing.</em></h1>
+    <p>One brief in, a complete crafted website out. The Forge consults a design memory built from the best sites on the web, then builds yours to the same laws.</p>
+  </section>
 
+  <div class="grid">
+    <section class="panel">
       <form id="forge-form">
         <div class="field">
           <label for="brief">The brief</label>
           <textarea id="brief" name="brief" required
             placeholder="A portfolio for Maximo Alanis, a paid-media marketer in Chicago. Sections: hero, about, services, results, contact."></textarea>
         </div>
+
         <div class="field">
-          <label for="style">Style direction</label>
-          <select id="style" name="style">
-            <option value="clean and minimal">Clean and minimal</option>
-            <option value="bold and dark">Bold and dark</option>
-            <option value="warm and editorial">Warm and editorial</option>
-          </select>
+          <label>Style direction</label>
+          <div class="styles">
+            <label><input type="radio" name="style" value="clean and minimal" checked><span>Clean &amp; minimal</span></label>
+            <label><input type="radio" name="style" value="bold and dark"><span>Bold &amp; dark</span></label>
+            <label><input type="radio" name="style" value="warm and editorial"><span>Warm &amp; editorial</span></label>
+          </div>
         </div>
-        <button class="primary" id="summon-btn" type="submit">Summon site</button>
-        <button class="ghost" id="download-btn" type="button" disabled>Download HTML</button>
-        <p class="status" id="status"></p>
+
+        <div class="field">
+          <label for="refs">Reference images <span style="text-transform:none;letter-spacing:0">(optional, up to 3 — "make it feel like this")</span></label>
+          <input type="file" id="refs" name="refs" accept="image/*" multiple>
+          <div class="thumbs" id="thumbs"></div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="summon-btn" type="submit">Forge the site</button>
+          <button class="ghost" id="download-btn" type="button" disabled>Download HTML</button>
+        </div>
+
+        <div class="statusbar">
+          <p class="status" id="status"></p>
+          <div class="progress" id="progress"><i></i></div>
+        </div>
       </form>
     </section>
 
-    <section class="preview">
-      <label>Live preview</label>
-      <div class="frame">
-        <p id="empty-msg">Your summoned site appears here.</p>
-        <iframe id="preview-frame" title="Generated site preview"></iframe>
+    <section>
+      <div class="browser">
+        <div class="chrome">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="addr" id="addr">your-site.forged</div>
+          <div style="width:46px"></div>
+        </div>
+        <div class="viewport">
+          <div class="empty" id="empty-msg">
+            <div class="glyph"></div>
+            <p>Your forged site renders here, live, exactly as a visitor would see it.</p>
+          </div>
+          <iframe id="preview-frame" title="Generated site preview"></iframe>
+        </div>
       </div>
     </section>
   </div>
+
+  <footer>
+    <span>Forged by Lake Shore Digital</span>
+    <span>Chicago</span>
+  </footer>
 </div>
 
 <script>
@@ -99,31 +194,65 @@
   const btn = document.getElementById("summon-btn");
   const dl = document.getElementById("download-btn");
   const status = document.getElementById("status");
+  const progress = document.getElementById("progress");
   const frame = document.getElementById("preview-frame");
   const empty = document.getElementById("empty-msg");
+  const addr = document.getElementById("addr");
   let lastHtml = "";
+
+  // The Eyes: preview thumbnails for reference images
+  const refsInput = document.getElementById("refs");
+  const thumbs = document.getElementById("thumbs");
+  refsInput.addEventListener("change", () => {
+    thumbs.innerHTML = "";
+    [...refsInput.files].slice(0, 3).forEach((f) => {
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(f);
+      thumbs.appendChild(img);
+    });
+  });
+
+  const stages = [
+    "Reading the brief...",
+    "Consulting the design memory...",
+    "Choosing fonts and one accent...",
+    "Forging sections...",
+    "Final pass: hunting slop..."
+  ];
+  let stageTimer = null;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     btn.disabled = true; dl.disabled = true;
-    btn.textContent = "Summoning...";
+    btn.textContent = "Forging...";
     status.classList.remove("err");
-    status.textContent = "Forging your site. This takes about a minute.";
+    progress.classList.add("on");
+    let i = 0;
+    status.textContent = stages[0];
+    stageTimer = setInterval(() => {
+      i = Math.min(i + 1, stages.length - 1);
+      status.textContent = stages[i];
+    }, 9000);
+
     try {
       const res = await fetch("/build", { method: "POST", body: new FormData(form) });
-      if (!res.ok) throw new Error("Server error " + res.status);
+      if (!res.ok) throw new Error("server " + res.status);
       lastHtml = await res.text();
       frame.srcdoc = lastHtml;
       frame.style.display = "block";
       empty.style.display = "none";
       dl.disabled = false;
-      status.textContent = "Done. Preview on the right.";
+      const score = res.headers.get("X-Judge-Score");
+      status.textContent = score ? `Forged. Judge: ${score}/10.` : "Forged. Rendered at right.";
+      addr.textContent = "forged just now";
     } catch (err) {
       status.classList.add("err");
-      status.textContent = "The summon failed. Try again. (" + err.message + ")";
+      status.textContent = "The forge misfired. Try again. (" + err.message + ")";
     }
+    clearInterval(stageTimer);
+    progress.classList.remove("on");
     btn.disabled = false;
-    btn.textContent = "Summon site";
+    btn.textContent = "Forge the site";
   });
 
   dl.addEventListener("click", () => {
