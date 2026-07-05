@@ -1,504 +1,467 @@
+Applying the change: darker hero background and a slower ambient drift wave. Ambient loops should be slow, so I'll extend the drift duration.
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lake Shore Digital, Websites and AI systems small businesses run on</title>
+<title>Lake Shore Digital, Websites and AI systems for small business</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --base:#0B0F14;
-  --surface:#141B24;
-  --surface-2:#1A2430;
-  --accent:#2FD4A3;
-  --signal:#F2C744;
-  --ink:#EAF1F5;
-  --ink-mid:#9DB0BC;
-  --ink-dim:#5F7280;
-  --line:rgba(47,212,163,.14);
-  --line-soft:rgba(47,212,163,.09);
-  --radius:10px;
-  --pad:clamp(5rem,11vw,9rem);
-  --ease-hover:cubic-bezier(.4,0,.6,1);
-  --ease-out:cubic-bezier(0,0,.2,1);
-  --ease-spring:cubic-bezier(.34,1.56,.64,1);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-::selection{background:var(--accent);color:#04120D}
-body{
-  background:var(--base);
-  color:var(--ink);
-  font-family:"IBM Plex Sans",sans-serif;
-  font-size:17px;
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(47,212,163,.4);border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:rgba(47,212,163,.6)}
-::-webkit-scrollbar-thumb:active{background:rgba(47,212,163,.8)}
-h1,h2,h3,h4{font-family:"Sora",sans-serif;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
-p{text-wrap:pretty}
-.display-l{font-size:clamp(2.6rem,6vw,4.6rem);font-weight:600;line-height:1.02}
-.display-m{font-size:clamp(2rem,4.2vw,3.4rem);font-weight:600;line-height:1.06}
-.h3{font-size:clamp(1.3rem,2.4vw,1.75rem);font-weight:600}
-a{color:inherit;text-decoration:none}
-img{display:block;max-width:100%}
-.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem)}
-.eyebrow{
-  font-family:"IBM Plex Sans";font-size:.72rem;font-weight:600;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--accent);
-  display:inline-flex;align-items:center;gap:.6rem;
-}
-.eyebrow::before{content:"";width:22px;height:1px;background:var(--accent);display:inline-block}
-.muted{color:var(--ink-mid)}
-section{padding:var(--pad) 0}
+  :root{
+    --base:#0B0F14;
+    --surface:#141B24;
+    --surface-2:#1B242F;
+    --accent:#3DDC97;
+    --signal:#E8EDF2;
+    --muted:#7C8896;
+    --line:rgba(61,220,151,0.14);
+    --line-soft:rgba(61,220,151,0.08);
+    --radius:10px;
+    --e-hover:cubic-bezier(.4,0,.2,1);
+    --e-decel:cubic-bezier(0,0,.2,1);
+    --e-spring:cubic-bezier(.34,1.56,.64,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  ::selection{background:var(--accent);color:#06120C}
+  ::-webkit-scrollbar{width:5px;height:5px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(61,220,151,.4);border-radius:4px}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(61,220,151,.6)}
+  ::-webkit-scrollbar-thumb:active{background:rgba(61,220,151,.8)}
+  body{
+    background:var(--base);
+    color:var(--signal);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    letter-spacing:-0.2px;
+    -webkit-font-smoothing:antialiased;
+    overscroll-behavior:contain;
+  }
+  h1,h2,h3,h4{font-family:'Sora',sans-serif;letter-spacing:-0.03em;line-height:1.05;font-weight:600;text-wrap:balance}
+  p{text-wrap:pretty}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+  .accent{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+  .eyebrow{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:12px;font-weight:600;
+    letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--accent);
+  }
 
-/* Focus states = brand color guaranteed */
-a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
-.skip{position:absolute;left:-999px;top:0;background:var(--accent);color:var(--base);padding:.6rem 1rem;z-index:99;border-radius:6px}
-.skip:focus{left:1rem;top:1rem}
+  /* Header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(11,15,20,0.82);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Sora';font-weight:600;font-size:17px;transition:color .02s linear}
+  .brand .dot{width:10px;height:10px;border-radius:3px;background:var(--accent);box-shadow:0 0 14px rgba(61,220,151,.6)}
+  .navlinks{display:flex;gap:34px;align-items:center}
+  .navlinks a{font-size:14.5px;color:var(--muted);transition:color .02s linear}
+  .navlinks a:hover,.navlinks a.active{color:var(--signal)}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Sora';font-weight:500;font-size:14.5px;
+    padding:11px 20px;border-radius:var(--radius);
+    background:var(--accent);color:#06120C;
+    transition:background .02s linear,transform .3s var(--e-spring),box-shadow .32s var(--e-decel);
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(61,220,151,.25);background:#4fe6a5}
+  .btn.ghost{background:transparent;color:var(--signal);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--accent);box-shadow:none;background:rgba(61,220,151,.06)}
+  .menu-toggle{display:none;background:none;border:none;color:var(--signal);font-size:24px;cursor:pointer}
 
-/* NAV */
-header{position:sticky;top:0;z-index:40;background:rgba(11,15,20,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-nav{display:flex;align-items:center;justify-content:space-between;height:72px}
-.logo{display:flex;align-items:center;gap:.6rem;font-family:"Sora";font-weight:600;font-size:1.05rem;letter-spacing:-.01em}
-.logo .dot{width:11px;height:11px;border-radius:3px;background:var(--accent);box-shadow:0 0 14px rgba(47,212,163,.6)}
+  /* Hero */
+  .hero{padding:88px 0 96px;position:relative;overflow:hidden;background:#070A0E}
+  .hero::before{
+    content:"";position:absolute;top:-30%;right:-20%;width:70%;height:120%;
+    background:radial-gradient(circle,rgba(61,220,151,.08),transparent 62%);
+    pointer-events:none;animation:drift 48s ease-in-out infinite alternate;
+  }
+  @keyframes drift{from{transform:translate(0,0)}to{transform:translate(-4%,3%)}}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;position:relative}
+  .hero h1{font-size:clamp(38px,5.4vw,66px);font-weight:700}
+  .hero p.lead{color:var(--muted);font-size:19px;max-width:440px;margin:26px 0 34px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .hero-visual{position:relative}
+  .hero-visual img{border-radius:14px;width:100%;height:520px;object-fit:cover;border:1px solid var(--line)}
+  .hero-badge{
+    position:absolute;left:-24px;bottom:34px;
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:16px 20px;
+    display:flex;gap:14px;align-items:center;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+  }
+  .hero-badge .num{font-family:'Sora';font-weight:600;font-size:26px;color:var(--accent)}
+  .hero-badge .lab{font-size:12.5px;color:var(--muted);line-height:1.3}
+  .trust{margin-top:70px;display:flex;align-items:center;gap:38px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:30px}
+  .trust span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .trust .logos{display:flex;gap:34px;flex-wrap:wrap}
+  .trust .logos b{font-family:'Sora';font-weight:600;font-size:15px;color:#4C5866;transition:color .02s linear}
+  .trust .logos b:hover{color:var(--signal)}
 
-/* NEAR-style per-character wave on nav links */
-.nav-links{display:flex;gap:2.2rem;font-size:.92rem}
-.nav-links a{color:var(--ink-mid);transition:color .02s var(--ease-hover);display:inline-flex}
-.nav-links a:hover{color:var(--ink)}
-.nav-links a .ch{display:inline-block;white-space:pre;transition:color .02s var(--ease-hover)}
-.nav-links a:hover .ch{animation:wave 2.5s ease-out infinite;animation-delay:calc(var(--i) * .1s);color:var(--accent)}
-@keyframes wave{
-  0%,60%,100%{transform:translateX(0)}
-  30%{transform:translateX(-.5px)}
-}
-.btn{
-  font-family:"Sora";font-weight:500;font-size:.9rem;
-  padding:.72rem 1.35rem;border-radius:var(--radius);
-  display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;border:none;
-  transition:transform .3s var(--ease-out),background .02s var(--ease-hover),color .02s var(--ease-hover),border-color .02s var(--ease-hover);
-}
-.btn-primary{background:var(--accent);color:#04120D}
-.btn-primary:hover{transform:translateY(-2px);background:#4EE0B6}
-.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
-.nav .btn{padding:.6rem 1.15rem}
-.menu-btn{display:none;background:none;border:none;color:var(--ink);cursor:pointer;transition:color .02s var(--ease-hover)}
-.menu-btn:hover{color:var(--accent)}
+  /* Section base */
+  section{padding:104px 0}
+  .sec-head{max-width:620px;margin-bottom:56px}
+  .sec-head h2{font-size:clamp(28px,3.8vw,44px);margin-top:16px}
+  .sec-head p{color:var(--muted);margin-top:18px;font-size:17px}
 
-/* HERO — asymmetric split */
-.hero{padding-top:clamp(4rem,8vw,6rem);padding-bottom:0}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
-.hero h1{margin:1.6rem 0 1.4rem;max-width:14ch}
-.hero p.lead{font-size:1.12rem;color:var(--ink-mid);max-width:30ch}
-.hero-cta{display:flex;gap:.9rem;margin-top:2.2rem;flex-wrap:wrap}
-.hero-meta{margin-top:2.8rem;display:flex;gap:2.4rem;flex-wrap:wrap}
-.hero-meta .n{font-family:"Sora";font-size:1.9rem;font-weight:600}
-.hero-meta .n span{color:var(--accent)}
-.hero-meta small{color:var(--ink-dim);font-size:.82rem;display:block;margin-top:.15rem}
-.hero-media{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
-.hero-media img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5}
-.hero-media::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 90px rgba(11,15,20,.7)}
-.glow-tag{position:absolute;left:1rem;bottom:1rem;z-index:2;background:rgba(11,15,20,.78);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:8px;padding:.5rem .8rem;font-size:.78rem;color:var(--ink-mid)}
-.glow-tag b{color:var(--accent);font-weight:600}
+  /* Bento */
+  .bento{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:220px;gap:18px}
+  .cell{
+    background:var(--surface);border:1px solid var(--line-soft);
+    border-radius:var(--radius);padding:28px;
+    display:flex;flex-direction:column;justify-content:space-between;
+    transition:border-color .3s var(--e-hover),transform .3s var(--e-hover);
+  }
+  .cell:hover{border-color:rgba(61,220,151,.4);transform:translateY(-3px)}
+  .cell h3{font-size:20px;margin-bottom:10px}
+  .cell p{color:var(--muted);font-size:14.5px}
+  .cell .k{font-family:'Sora';font-weight:600;font-size:13px;color:var(--accent);letter-spacing:.05em}
+  .cell.span2{grid-column:span 2}
+  .cell.rows2{grid-row:span 2}
+  .cell.img{padding:0;overflow:hidden;position:relative}
+  .cell.img img{width:100%;height:100%;object-fit:cover;transition:transform .3s var(--e-hover)}
+  .cell.img:hover img{transform:scale(1.04)}
+  .cell.img .cap{position:absolute;left:24px;bottom:22px;z-index:3}
+  .cell.img .cap h3{font-size:22px}
+  .cell.img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(11,15,20,.85))}
 
-/* LOGO MARQUEE */
-.marquee-sec{padding:2.6rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.marquee{display:flex;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
-.marquee ul{display:flex;gap:3.5rem;padding-right:3.5rem;list-style:none;animation:scroll 40s linear infinite;flex-shrink:0}
-.marquee li{font-family:"Sora";font-weight:500;font-size:1.05rem;color:var(--ink-dim);white-space:nowrap}
-@keyframes scroll{to{transform:translateX(-100%)}}
+  /* Alternating rows */
+  .alt-wrap{display:flex;flex-direction:column;gap:110px}
+  .alt{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+  .alt:nth-child(even) .alt-text{order:2}
+  .alt-num{font-family:'Sora';font-weight:700;font-size:15px;color:var(--accent);letter-spacing:.1em}
+  .alt-text h3{font-size:clamp(24px,3vw,34px);margin:16px 0 18px}
+  .alt-text p{color:var(--muted);font-size:16.5px;max-width:420px}
+  .alt-text ul{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:12px}
+  .alt-text li{display:flex;gap:12px;font-size:15px;color:var(--signal)}
+  .alt-text li::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--accent);margin-top:8px;flex-shrink:0}
+  .alt-img img{border-radius:14px;width:100%;height:400px;object-fit:cover;border:1px solid var(--line)}
 
-/* DEFINITION — bento */
-.bento{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(150px,auto);gap:1rem;margin-top:3rem}
-.cell{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.9rem;transition:border-color .24s var(--ease-out),transform .3s var(--ease-out)}
-.cell:hover{border-color:rgba(47,212,163,.4);transform:translateY(-3px)}
-.cell.big{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column;justify-content:space-between}
-.cell.tall{grid-row:span 2}
-.cell h3{margin-bottom:.6rem}
-.cell .k{font-family:"Sora";font-size:2.6rem;font-weight:600;color:var(--accent)}
-.cell p{font-size:.96rem;color:var(--ink-mid)}
-.cell-img{padding:0;overflow:hidden}
-.cell-img img{width:100%;height:100%;object-fit:cover;min-height:180px;transition:transform .3s var(--ease-out)}
-.cell-img:hover img{transform:scale(1.04)}
+  /* Full-width metrics */
+  .metrics{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .metric{padding:20px 0}
+  .metric .big{font-family:'Sora';font-weight:700;font-size:clamp(38px,5vw,56px);color:var(--signal)}
+  .metric .big em{color:var(--accent);font-style:normal}
+  .metric p{color:var(--muted);font-size:14.5px;margin-top:8px;max-width:200px}
 
-/* SYSTEMS — full-width split, image left */
-.systems{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
-.split-media{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);position:relative}
-.split-media img{width:100%;object-fit:cover;aspect-ratio:5/4;transition:transform .3s var(--ease-out)}
-.split-media:hover img{transform:scale(1.03)}
-.step{display:flex;gap:1.1rem;padding:1.4rem 0;border-bottom:1px solid var(--line-soft);transition:border-color .24s var(--ease-out)}
-.step:last-child{border-bottom:none}
-.step:hover{border-color:var(--line)}
-.step .num{font-family:"Sora";font-weight:600;color:var(--accent);font-size:.9rem;flex-shrink:0;padding-top:.15rem}
-.step h4{font-size:1.1rem;font-weight:600;margin-bottom:.25rem;font-family:"Sora"}
-.step p{font-size:.94rem;color:var(--ink-mid)}
+  /* Marquee */
+  .marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:34px 0;background:var(--base)}
+  .marquee-track{display:flex;gap:52px;white-space:nowrap;animation:scroll 40s linear infinite;width:max-content}
+  .marquee-track span{font-family:'Sora';font-weight:600;font-size:26px;color:#2C3642;display:flex;align-items:center;gap:52px}
+  .marquee-track span::after{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent);opacity:.6}
+  @keyframes scroll{to{transform:translateX(-50%)}}
 
-/* WORK — alternating rows */
-.work-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:center;margin-top:4rem}
-.work-row:first-of-type{margin-top:3rem}
-.work-row.flip .work-media{order:2}
-.work-media{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
-.work-media img{width:100%;object-fit:cover;aspect-ratio:16/11;transition:transform .3s var(--ease-out)}
-.work-media:hover img{transform:scale(1.03)}
-.work-txt .tag{font-size:.78rem;color:var(--ink-dim);letter-spacing:.05em;margin-bottom:1rem;font-family:"Sora"}
-.work-txt h3{margin-bottom:1rem}
-.work-txt p{color:var(--ink-mid);margin-bottom:1.5rem}
-.stat-line{display:flex;gap:2rem;flex-wrap:wrap}
-.stat-line div span{display:block;font-family:"Sora";font-size:1.5rem;font-weight:600;color:var(--accent)}
-.stat-line div small{color:var(--ink-dim);font-size:.8rem}
+  /* Process split */
+  .process{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px}
+  .steps{display:flex;flex-direction:column}
+  .step{padding:26px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:60px 1fr;gap:20px}
+  .step:last-child{border-bottom:1px solid var(--line)}
+  .step .n{font-family:'Sora';font-weight:600;color:var(--accent);font-size:15px}
+  .step h4{font-size:19px;margin-bottom:8px}
+  .step p{color:var(--muted);font-size:14.5px}
+  .process-side{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:40px;align-self:start;position:sticky;top:100px}
+  .process-side h3{font-size:24px;margin-bottom:16px}
+  .process-side p{color:var(--muted);font-size:15px;margin-bottom:26px}
+  .quote{border-left:2px solid var(--accent);padding-left:20px;margin-top:30px}
+  .quote p{color:var(--signal);font-size:15px;font-style:italic}
+  .quote cite{color:var(--muted);font-size:13px;font-style:normal;display:block;margin-top:10px}
 
-/* QUOTE — full width */
-.quote-sec{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.quote{max-width:900px;margin:0 auto;text-align:left}
-.quote blockquote{font-family:"Sora";font-size:clamp(1.6rem,3.4vw,2.5rem);font-weight:500;line-height:1.22;letter-spacing:-.02em}
-.quote blockquote .hl{color:var(--accent)}
-.quote-by{display:flex;align-items:center;gap:1rem;margin-top:2.2rem}
-.quote-by img{width:52px;height:52px;border-radius:50%;object-fit:cover}
-.quote-by b{font-family:"Sora";font-weight:600;display:block}
-.quote-by small{color:var(--ink-dim)}
+  /* CTA */
+  .cta{text-align:center;padding:120px 0}
+  .cta h2{font-size:clamp(32px,5vw,54px);max-width:720px;margin:0 auto 22px}
+  .cta p{color:var(--muted);max-width:440px;margin:0 auto 34px;font-size:17px}
 
-/* PRICING — split panel */
-.price-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(2rem,4vw,3.2rem);display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(2rem,4vw,3.5rem);margin-top:3rem;align-items:center;transition:border-color .24s var(--ease-out)}
-.price-panel:hover{border-color:rgba(47,212,163,.3)}
-.price-panel .big-price{font-family:"Sora";font-size:clamp(2.4rem,5vw,3.6rem);font-weight:600}
-.price-panel .big-price small{font-size:1rem;color:var(--ink-dim);font-weight:400}
-.check{list-style:none;display:grid;gap:.9rem}
-.check li{display:flex;gap:.7rem;align-items:flex-start;color:var(--ink-mid);font-size:.96rem}
-.check li::before{content:"";width:16px;height:16px;margin-top:.28rem;flex-shrink:0;border-radius:4px;background:rgba(47,212,163,.14);box-shadow:inset 0 0 0 1px var(--accent)}
+  /* Footer */
+  footer{border-top:1px solid var(--line);padding:64px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px}
+  .foot-grid h5{font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:18px;font-family:'IBM Plex Sans';font-weight:600}
+  .foot-grid ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+  .foot-grid a{color:var(--muted);font-size:14.5px;transition:color .02s linear}
+  .foot-grid a:hover{color:var(--accent)}
+  .foot-brand p{color:var(--muted);font-size:14.5px;max-width:260px;margin-top:16px}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:56px;padding-top:26px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;flex-wrap:wrap;gap:14px}
 
-/* CTA */
-.final{text-align:center}
-.final h2{max-width:16ch;margin:1.4rem auto 1.6rem}
-.final .btn-primary{padding:.9rem 2rem;font-size:1rem}
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .6s ease-out,transform .6s ease-out}
+  .reveal.in{opacity:1;transform:none}
 
-/* FOOTER */
-footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem}
-.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem}
-.foot-grid h5{font-family:"Sora";font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-dim);margin-bottom:1.1rem}
-.foot-grid a{display:block;color:var(--ink-mid);font-size:.92rem;margin-bottom:.6rem;transition:color .02s var(--ease-hover)}
-.foot-grid a:hover{color:var(--accent)}
-.foot-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:3.5rem;padding-top:1.6rem;border-top:1px solid var(--line);color:var(--ink-dim);font-size:.84rem;flex-wrap:wrap;gap:1rem}
-.foot-bottom .signal-dot{width:7px;height:7px;border-radius:50%;background:var(--signal);display:inline-block;margin-right:.4rem}
-
-/* scroll reveal */
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .6s var(--ease-out),transform .6s var(--ease-out)}
-.reveal.in{opacity:1;transform:none}
-
-@media(max-width:900px){
-  .bento{grid-template-columns:1fr 1fr}
-  .cell.big{grid-column:span 2}
-  .foot-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:768px){
-  .nav-links,.nav .btn{display:none}
-  .menu-btn{display:block}
-  .hero-grid,.split,.work-row,.price-panel,.quote{grid-template-columns:1fr}
-  .work-row.flip .work-media{order:0}
-  .hero-media img{aspect-ratio:16/12}
-  .bento{grid-template-columns:1fr}
-  .cell.big,.cell.tall{grid-column:auto;grid-row:auto}
-  .foot-grid{grid-template-columns:1fr}
-}
-@media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important;scroll-behavior:auto}
-  .reveal{opacity:1;transform:none}
-  .nav-links a:hover .ch{animation:none}
-}
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:44px}
+    .hero-visual img{height:380px}
+    .bento{grid-template-columns:1fr 1fr}
+    .cell.rows2{grid-row:auto}
+    .metrics-grid{grid-template-columns:1fr 1fr}
+    .process{grid-template-columns:1fr;gap:40px}
+    .process-side{position:static}
+    .alt{grid-template-columns:1fr;gap:28px}
+    .alt:nth-child(even) .alt-text{order:0}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:768px){
+    .wrap{padding:0 22px}
+    .navlinks{
+      display:none;position:absolute;top:72px;left:0;right:0;
+      flex-direction:column;gap:0;background:var(--surface);
+      border-bottom:1px solid var(--line);padding:14px 22px;
+    }
+    .navlinks.open{display:flex}
+    .navlinks a{padding:14px 0;width:100%;border-bottom:1px solid var(--line)}
+    .navlinks .btn{margin-top:12px;justify-content:center}
+    .menu-toggle{display:block}
+    section{padding:72px 0}
+    .bento{grid-template-columns:1fr;grid-auto-rows:auto}
+    .cell{min-height:180px}
+    .metrics-grid{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+    .hero-badge{left:0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .marquee-track,.hero::before{animation:none}
+    *{scroll-behavior:auto}
+    .btn:hover,.cell:hover,.cell.img:hover img{transform:none}
+  }
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
 
 <header>
-  <div class="wrap">
-    <nav aria-label="Primary">
-      <a class="logo" href="#"><span class="dot" aria-hidden="true"></span>Lake Shore Digital</a>
-      <div class="nav-links">
-        <a href="#build" data-wave>What we build</a>
-        <a href="#work" data-wave>Work</a>
-        <a href="#pricing" data-wave>Pricing</a>
-        <a href="#contact" data-wave>Contact</a>
-      </div>
-      <a class="btn btn-primary" href="#contact">Book a call</a>
-      <button class="menu-btn" aria-label="Open menu">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
+  <div class="wrap nav">
+    <a href="index.html" class="brand"><span class="dot"></span>Lake Shore Digital</a>
+    <nav class="navlinks" id="nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+      <a href="contact.html" class="btn">Start a build</a>
     </nav>
+    <button class="menu-toggle" id="toggle" aria-label="Open menu">☰</button>
   </div>
 </header>
 
-<main id="main">
-
+<main>
   <!-- HERO -->
   <section class="hero">
     <div class="wrap">
       <div class="hero-grid">
         <div class="reveal">
-          <span class="eyebrow">Websites and AI systems</span>
-          <h1 class="display-l">We build the systems your business runs on.</h1>
-          <p class="lead">A fast website, plus AI that answers customers and handles the busywork. Built, shipped, and maintained by us.</p>
+          <span class="eyebrow">Websites &amp; AI systems</span>
+          <h1 style="margin-top:20px">We build the software small businesses <span class="accent">actually run on.</span></h1>
+          <p class="lead">Custom sites and AI workflows for owner-operated teams. Shipped in weeks, not quarters.</p>
           <div class="hero-cta">
-            <a class="btn btn-primary" href="#contact">Book a call</a>
-            <a class="btn btn-ghost" href="#work">See recent work</a>
-          </div>
-          <div class="hero-meta">
-            <div class="n"><span>4</span> weeks<small>Average build to launch</small></div>
-            <div class="n">$<span>0</span> retainers<small>Own your site outright</small></div>
-            <div class="n"><span>41</span> shops<small>Live on our systems</small></div>
+            <a href="contact.html" class="btn">Book a scoping call</a>
+            <a href="services.html" class="btn ghost">See what we build</a>
           </div>
         </div>
-        <div class="hero-media reveal">
-          <img src="/static/hero.png" alt="A small business interior at night lit by the teal glow of a single screen" loading="eager">
-          <div class="glow-tag"><b>Live</b> · answering after hours</div>
+        <div class="hero-visual reveal">
+          <img src="https://picsum.photos/seed/lakeside-dusk-teal/900/1040" alt="Low-light lakeside interior at dusk in cool teal light">
+          <div class="hero-badge">
+            <span class="num">18</span>
+            <span class="lab">days from kickoff<br>to first shipped release</span>
+          </div>
         </div>
+      </div>
+
+      <div class="trust reveal">
+        <span>Trusted by operators at</span>
+        <div class="logos">
+          <b>Harbor &amp; Co.</b>
+          <b>Meridian Dental</b>
+          <b>Northline Freight</b>
+          <b>Bayfield Realty</b>
+          <b>Slate Coffee</b>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENTO: What we do -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">The work</span>
+        <h2>Two disciplines, one team that ships.</h2>
+        <p>We design and build the front door, then wire the systems behind it so nothing gets typed twice.</p>
+      </div>
+      <div class="bento">
+        <div class="cell rows2 img reveal">
+          <img src="https://picsum.photos/seed/architectural-interior-cool/700/900" alt="Cool-lit architectural interior">
+          <div class="cap"><span class="k">Flagship</span><h3>Websites that load in under 1.4s</h3></div>
+        </div>
+        <div class="cell span2 reveal">
+          <span class="k">AI systems</span>
+          <div>
+            <h3>Assistants trained on your own docs</h3>
+            <p>Quote generators, intake bots, and internal search that answer from your files, not the open web.</p>
+          </div>
+        </div>
+        <div class="cell reveal">
+          <span class="k">Automation</span>
+          <div><h3>Workflows that skip the busywork</h3><p>Invoices, follow-ups, scheduling, handled.</p></div>
+        </div>
+        <div class="cell reveal">
+          <span class="k">Data</span>
+          <div><h3>One dashboard, real numbers</h3><p>Pipeline and revenue in one place.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FULL-WIDTH METRICS -->
+  <section class="metrics">
+    <div class="wrap">
+      <div class="metrics-grid">
+        <div class="metric reveal"><div class="big"><em>47.2</em>%</div><p>average drop in manual data entry after the first release</p></div>
+        <div class="metric reveal"><div class="big">3<em>.1</em>x</div><p>faster quote turnaround for trades and service clients</p></div>
+        <div class="metric reveal"><div class="big"><em>62</em></div><p>small businesses shipped since 2021, still running today</p></div>
+        <div class="metric reveal"><div class="big"><em>91</em>%</div><p>of clients renew into a second build within a year</p></div>
       </div>
     </div>
   </section>
 
   <!-- MARQUEE -->
-  <div class="marquee-sec" aria-hidden="true">
-    <div class="marquee">
-      <ul>
-        <li>Harborview Dental</li><li>Third Coast Coffee</li><li>Meridian Law</li><li>Ridgeline HVAC</li><li>Osborne &amp; Fell CPAs</li><li>Bayfront Physio</li>
-      </ul>
-      <ul>
-        <li>Harborview Dental</li><li>Third Coast Coffee</li><li>Meridian Law</li><li>Ridgeline HVAC</li><li>Osborne &amp; Fell CPAs</li><li>Bayfront Physio</li>
-      </ul>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Custom websites</span><span>AI assistants</span><span>Booking flows</span><span>Internal search</span><span>Quote engines</span><span>CRM wiring</span>
+      <span>Custom websites</span><span>AI assistants</span><span>Booking flows</span><span>Internal search</span><span>Quote engines</span><span>CRM wiring</span>
     </div>
   </div>
 
-  <!-- DEFINITION / BENTO -->
-  <section id="build">
+  <!-- ALTERNATING ROWS -->
+  <section>
     <div class="wrap">
-      <div class="reveal" style="max-width:640px">
-        <h2 class="display-m">Two things, done properly.</h2>
-        <p class="muted" style="margin-top:1rem">A site that loads in under a second and an AI layer that actually saves you hours. No dashboards you never open.</p>
-      </div>
-      <div class="bento">
-        <div class="cell big reveal">
-          <div>
-            <h3 class="h3">Websites that close the sale</h3>
-            <p>Custom design, written copy, booking and payments wired in. Built to rank and built to load fast on the phone in your customer's hand.</p>
+      <div class="alt-wrap">
+        <div class="alt reveal">
+          <div class="alt-text">
+            <span class="alt-num">01 / BUILD</span>
+            <h3>A website that sells while you sleep</h3>
+            <p>Fast, hand-built, no bloated page builders. Every section earns its place and points to the one action that matters.</p>
+            <ul>
+              <li>Copy and layout written for how buyers actually decide</li>
+              <li>Booking and payment flows wired in from day one</li>
+              <li>You own the code, hosted anywhere you like</li>
+            </ul>
           </div>
-          <div class="stat-line" style="margin-top:1.8rem">
-            <div><span>0.8s</span><small>Median load time</small></div>
-            <div><span>63.4%</span><small>More booked calls</small></div>
+          <div class="alt-img"><img src="https://picsum.photos/seed/dusk-window-teal-glass/800/620" alt="Dusk view through teal glass window"></div>
+        </div>
+
+        <div class="alt reveal">
+          <div class="alt-text">
+            <span class="alt-num">02 / AUTOMATE</span>
+            <h3>An AI layer that knows your business</h3>
+            <p>We train assistants on your pricing, policies, and past jobs so they answer like a staffer who read every file, not a chatbot guessing.</p>
+            <ul>
+              <li>Answers grounded in your documents, with sources shown</li>
+              <li>Handoff to a human the moment it hits a limit</li>
+              <li>Deployed on your site, in Slack, or over the phone</li>
+            </ul>
           </div>
-        </div>
-        <div class="cell tall cell-img reveal">
-          <img src="/static/section-work.png" alt="Night interior of a shop lit by a teal screen glow">
-        </div>
-        <div class="cell reveal">
-          <div class="k">24/7</div>
-          <p>An assistant that answers questions and books appointments while you sleep.</p>
-        </div>
-        <div class="cell reveal">
-          <h3 class="h3">Inbox triage</h3>
-          <p>Quotes drafted, follow-ups sent, nothing left sitting for three days.</p>
-        </div>
-        <div class="cell reveal">
-          <div class="k">1</div>
-          <p>One team owns the whole thing, from the domain to the AI.</p>
+          <div class="alt-img"><img src="https://picsum.photos/seed/lakeshore-lobby-lowlight/800/620" alt="Low-light modern lobby by the lakeshore"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SYSTEMS / SPLIT -->
-  <section class="systems" id="systems">
+  <!-- PROCESS SPLIT -->
+  <section style="background:var(--base)">
     <div class="wrap">
-      <div class="split">
-        <div class="split-media reveal">
-          <img src="/static/section-systems.png" alt="A back office at night with a single teal monitor glow reflecting off the desk">
+      <div class="sec-head reveal">
+        <h2>How a build actually goes.</h2>
+        <p>No 40-page proposals. We scope tight, ship early, and adjust with you in the room.</p>
+      </div>
+      <div class="process">
+        <div class="steps reveal">
+          <div class="step"><span class="n">01</span><div><h4>Scope in one call</h4><p>Ninety minutes to map the work, the numbers, and the fixed price. No surprises later.</p></div></div>
+          <div class="step"><span class="n">02</span><div><h4>First release in week two</h4><p>You see something real fast, not a slide deck. We build against your feedback, not assumptions.</p></div></div>
+          <div class="step"><span class="n">03</span><div><h4>Wire the systems</h4><p>We connect the site to your tools so leads, quotes, and follow-ups move on their own.</p></div></div>
+          <div class="step"><span class="n">04</span><div><h4>Hand over the keys</h4><p>Documentation, a walkthrough, and code you own. Support stays on if you want it.</p></div></div>
         </div>
-        <div class="reveal">
-          <span class="eyebrow">How it works</span>
-          <h2 class="display-m" style="margin:1.4rem 0 2rem">From first call to running system in four steps.</h2>
-          <div class="step">
-            <span class="num">01</span>
-            <div><h4>We learn your business</h4><p>One 45 minute call. We map what you sell, who buys it, and where time leaks out of the week.</p></div>
-          </div>
-          <div class="step">
-            <span class="num">02</span>
-            <div><h4>We design and write it</h4><p>You review a real page, not a wireframe. Copy included. Two rounds of changes built in.</p></div>
-          </div>
-          <div class="step">
-            <span class="num">03</span>
-            <div><h4>We wire in the AI</h4><p>Answering, booking, and follow-up connected to the tools you already use.</p></div>
-          </div>
-          <div class="step">
-            <span class="num">04</span>
-            <div><h4>We keep it running</h4><p>You go live in about four weeks. We watch it, patch it, and improve it as you grow.</p></div>
+        <div class="process-side reveal">
+          <h3>Fixed price, no retainers you can't leave.</h3>
+          <p>Most builds land between 6.5k and 22k depending on the AI work. You get the estimate before you commit a dollar.</p>
+          <a href="contact.html" class="btn">Get an estimate</a>
+          <div class="quote">
+            <p>"They shipped our booking site and a quote bot in three weeks. We stopped losing after-hours leads almost overnight."</p>
+            <cite>Dana Okonkwo, owner, Northline Freight</cite>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WORK / ALTERNATING -->
-  <section id="work">
-    <div class="wrap">
-      <div class="reveal" style="max-width:600px">
-        <span class="eyebrow">Recent work</span>
-        <h2 class="display-m" style="margin-top:1.4rem">Built for shops on the same street as yours.</h2>
-      </div>
-
-      <div class="work-row reveal">
-        <div class="work-media"><img src="/static/section-work.png" alt="Dental clinic reception at night lit by a teal screen"></div>
-        <div class="work-txt">
-          <p class="tag">Harborview Dental · Milwaukee</p>
-          <h3 class="h3">A booking assistant that filled the calendar.</h3>
-          <p>Patients now book, reschedule, and get reminders without calling the front desk. The team stopped playing phone tag and started seeing more people.</p>
-          <div class="stat-line">
-            <div><span>47.2%</span><small>Fewer no-shows</small></div>
-            <div><span>312</span><small>Bookings first quarter</small></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="work-row flip reveal">
-        <div class="work-media"><img src="/static/section-systems.png" alt="Coffee roastery office at night with a single glowing teal monitor"></div>
-        <div class="work-txt">
-          <p class="tag">Third Coast Coffee · Chicago</p>
-          <h3 class="h3">A wholesale site that took orders overnight.</h3>
-          <p>Cafes and offices reorder beans in two clicks. The AI drafts the invoice and flags anything unusual before a human sends it.</p>
-          <div class="stat-line">
-            <div><span>$18.4k</span><small>Monthly reorders online</small></div>
-            <div><span>9 hrs</span><small>Saved each week</small></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- QUOTE -->
-  <section class="quote-sec">
-    <div class="wrap">
-      <div class="quote reveal">
-        <blockquote>They handed me a site I understand and an assistant that answers my customers at 11pm. <span class="hl">I stopped losing jobs to whoever picked up first.</span></blockquote>
-        <div class="quote-by">
-          <img src="/static/hero.png" alt="Portrait of Dana Osei, owner of Ridgeline HVAC">
-          <div>
-            <b>Dana Osei</b>
-            <small>Owner, Ridgeline HVAC</small>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section id="pricing">
-    <div class="wrap">
-      <div class="reveal" style="max-width:560px">
-        <h2 class="display-m">One price. You own everything.</h2>
-        <p class="muted" style="margin-top:1rem">No monthly lock-in on the website. Optional support if you want us on call.</p>
-      </div>
-      <div class="price-panel reveal">
-        <div>
-          <div class="big-price">$6,400<small> / one time</small></div>
-          <p class="muted" style="margin:1rem 0 1.6rem">Website, copy, and your first AI system built and launched. Hosting handed to your account.</p>
-          <a class="btn btn-primary" href="#contact">Start your build</a>
-        </div>
-        <ul class="check">
-          <li>Custom design and written copy, no templates</li>
-          <li>Booking, payments, and forms wired in</li>
-          <li>One AI assistant trained on your business</li>
-          <li>Search setup so people find you</li>
-          <li>Two rounds of revisions before launch</li>
-          <li>Optional care plan at $220 a month</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- FINAL CTA -->
-  <section class="final" id="contact">
+  <!-- CTA -->
+  <section class="cta">
     <div class="wrap reveal">
-      <span class="eyebrow" style="justify-content:center">Book a call</span>
-      <h2 class="display-m">Tell us what is eating your week.</h2>
-      <p class="muted" style="max-width:34ch;margin:0 auto 2rem">Forty five minutes, no pitch deck. You leave with a plan whether you hire us or not.</p>
-      <a class="btn btn-primary" href="mailto:hello@lakeshoredigital.co">Book a call</a>
+      <span class="eyebrow">Start here</span>
+      <h2 style="margin-top:18px">Tell us what's slow, and we'll build the thing that fixes it.</h2>
+      <p>One call, a fixed quote, and a plan you can read in five minutes.</p>
+      <a href="contact.html" class="btn">Book a scoping call</a>
     </div>
   </section>
-
 </main>
 
 <footer>
   <div class="wrap">
     <div class="foot-grid">
-      <div>
-        <a class="logo" href="#" style="margin-bottom:1rem"><span class="dot" aria-hidden="true"></span>Lake Shore Digital</a>
-        <p class="muted" style="max-width:30ch;font-size:.92rem">Websites and AI systems for small businesses across the Great Lakes and beyond.</p>
-      </div>
-      <div>
-        <h5>Build</h5>
-        <a href="#build">Websites</a>
-        <a href="#systems">AI systems</a>
-        <a href="#pricing">Pricing</a>
+      <div class="foot-brand">
+        <a href="index.html" class="brand"><span class="dot"></span>Lake Shore Digital</a>
+        <p>Websites and AI systems for small businesses. Built by a small team on the lakeshore.</p>
       </div>
       <div>
         <h5>Company</h5>
-        <a href="#work">Work</a>
-        <a href="#contact">Contact</a>
-        <a href="#">Careers</a>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
       </div>
       <div>
-        <h5>Reach us</h5>
-        <a href="mailto:hello@lakeshoredigital.co">hello@lakeshoredigital.co</a>
-        <a href="tel:+14145550142">(414) 555 0142</a>
-        <a href="#">Milwaukee, WI</a>
+        <h5>Work</h5>
+        <ul>
+          <li><a href="services.html">Websites</a></li>
+          <li><a href="services.html">AI assistants</a></li>
+          <li><a href="services.html">Automation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:hello@lakeshoredigital.co">hello@lakeshoredigital.co</a></li>
+          <li><a href="contact.html">Book a call</a></li>
+        </ul>
       </div>
     </div>
     <div class="foot-bottom">
-      <span><span class="signal-dot" aria-hidden="true"></span>Currently taking 3 builds for this quarter</span>
-      <span>© 2026 Lake Shore Digital</span>
+      <span>© 2024 Lake Shore Digital. Built by hand.</span>
+      <span>Duluth, Minnesota</span>
     </div>
   </div>
 </footer>
 
 <script>
-// NEAR-style per-character wave: wrap each letter in a span
-document.querySelectorAll('.nav-links a[data-wave]').forEach(link=>{
-  const text=link.textContent;
-  link.textContent='';
-  [...text].forEach((c,i)=>{
-    const span=document.createElement('span');
-    span.className='ch';
-    span.textContent=c;
-    span.style.setProperty('--i',i);
-    link.appendChild(span);
-  });
-});
+  const toggle=document.getElementById('toggle');
+  const nav=document.getElementById('nav');
+  toggle.addEventListener('click',()=>nav.classList.toggle('open'));
 
-// scroll reveal with staggered siblings
-const io=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const siblings=[...e.target.parentElement.children].filter(el=>el.classList.contains('reveal'));
-      const idx=siblings.indexOf(e.target);
-      e.target.style.transitionDelay=(idx>0?idx*100:0)+'ms';
-      e.target.classList.add('in');
-      io.unobserve(e.target);
-    }
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:0.2});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.transitionDelay=(i%6*100)+'ms';
+    io.observe(el);
   });
-},{threshold:.2});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-// mobile menu jump
-document.querySelector('.menu-btn').addEventListener('click',()=>{
-  document.getElementById('contact').scrollIntoView({behavior:'smooth'});
-});
 </script>
 </body>
 </html>

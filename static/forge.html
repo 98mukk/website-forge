@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Forge · Lake Shore Digital</title>
+<meta name="description" content="An operated service from Lake Shore Digital: one brief in, a complete brand kit, four page site, and original painted imagery out. Judged before it ships.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1526; --panel:#101E36; --panel-2:#15263F;
+    --line:rgba(214,226,244,.08); --line-strong:rgba(214,226,244,.16);
+    --text:#EDF2FA; --text-2:#9FAEC7; --muted:#8493AD;
+    --gold:#C9A227; --gold-hot:#E0B93B; --gold-soft:rgba(201,162,39,.12); --ink:#100C02;
+    --font-h:"Space Grotesk",sans-serif; --font-b:"IBM Plex Sans",sans-serif; --font-m:"IBM Plex Mono",monospace;
+    --ease:cubic-bezier(.2,0,0,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--font-b);
+    background-image:radial-gradient(56% 42% at 82% 0%, rgba(201,162,39,.10) 0%, rgba(201,162,39,.02) 48%, transparent 74%);
+    background-repeat:no-repeat;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1220px;margin:0 auto;padding:0 32px}
+  section{padding:104px 0}
+  a{color:inherit}
+
+  /* reveal-on-scroll (JS gated by prefers-reduced-motion) */
+  .reveal{opacity:1;transform:none}
+  .js-motion .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .js-motion .reveal.in{opacity:1;transform:none}
+
+  /* ---------- nav ---------- */
+  .nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    background:rgba(11,21,38,.82);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .mark{display:inline-flex;align-items:center;gap:12px;font-family:var(--font-h);font-weight:700;font-size:16px;
+    letter-spacing:.02em;text-transform:uppercase;text-decoration:none}
+  .mark .tick{width:3px;height:15px;background:var(--gold);flex:0 0 auto}
+  .mark small{font-family:var(--font-m);font-weight:500;font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+  .nav-links{display:flex;align-items:center;gap:28px}
+  .nav-links a{font-size:13.5px;color:var(--text-2);text-decoration:none;transition:color .15s var(--ease)}
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a:focus-visible{outline:2px solid var(--text-2);outline-offset:3px}
+  .btn{display:inline-block;font-family:var(--font-h);font-weight:700;text-decoration:none;border-radius:12px;
+    cursor:pointer;border:none;text-align:center;transition:transform .12s var(--ease),background .12s var(--ease),color .12s var(--ease),border-color .12s var(--ease)}
+  .btn-gold{background:var(--gold);color:var(--ink);font-size:14px;padding:11px 22px;box-shadow:0 0 36px rgba(201,162,39,.18)}
+  .btn-gold:hover{background:var(--gold-hot);transform:translateY(-1px)}
+  .btn-gold:active{transform:translateY(0) scale(.985)}
+  .btn-gold:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+  .btn-ghost{background:transparent;color:var(--text-2);border:1px solid var(--line-strong);font-family:var(--font-b);
+    font-weight:500;font-size:14.5px;padding:14px 24px}
+  .btn-ghost:hover{color:var(--text);border-color:var(--text-2)}
+  .btn-ghost:focus-visible{outline:2px solid var(--text-2);outline-offset:2px}
+
+  /* ---------- hero ---------- */
+  .hero{padding:88px 0 96px}
+  .hero-grid{display:grid;grid-template-columns:7fr 5fr;gap:64px;align-items:center}
+  .kicker{font-family:var(--font-m);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-2);
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:22px}
+  .kicker::before{content:"";width:22px;height:1px;background:var(--gold)}
+  h1{font-family:var(--font-h);font-weight:700;font-size:clamp(38px,4.8vw,60px);line-height:1.04;letter-spacing:-.022em}
+  h1 em{font-style:normal;color:var(--gold)}
+  .hero p{margin-top:20px;font-size:17px;line-height:1.6;color:var(--text-2);max-width:46ch}
+  .hero-cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+  .hero-cta .btn-gold{font-size:15px;padding:15px 30px}
+
+  /* hero artifact: real Forge output, framed */
+  .artifact{position:relative;min-height:420px}
+  .seam{position:absolute;left:52%;top:-6%;bottom:-6%;width:1px;
+    background:linear-gradient(180deg,transparent 0%,rgba(201,162,39,.65) 30%,rgba(201,162,39,.65) 70%,transparent 100%)}
+  .plate{position:absolute;border:1px solid var(--line-strong);border-radius:14px;overflow:hidden;
+    background:var(--panel);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+  .plate img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}
+  .plate-kit{top:4%;left:0;width:62%;aspect-ratio:11/7.8;z-index:2}
+  .plate-paint{top:38%;right:0;width:58%;height:46%;z-index:1}
+  .seal{position:absolute;bottom:2%;left:26%;width:96px;height:96px;border-radius:50%;z-index:3;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+    background:var(--bg);border:1px solid rgba(201,162,39,.55);box-shadow:0 0 0 5px var(--bg),0 0 0 6px var(--line-strong)}
+  .seal b{font-family:var(--font-m);font-weight:500;font-size:10px;letter-spacing:.24em;color:var(--gold)}
+  .seal span{font-family:var(--font-m);font-size:9px;letter-spacing:.1em;color:var(--muted)}
+
+  /* ---------- shared headings ---------- */
+  h2{font-family:var(--font-h);font-weight:700;font-size:clamp(28px,3.4vw,42px);letter-spacing:-.018em;line-height:1.1}
+  .lede{margin-top:14px;font-size:16px;line-height:1.6;color:var(--text-2);max-width:56ch}
+
+  /* ---------- pipeline ---------- */
+  .pipeline{border-top:1px solid var(--line)}
+  .pipeline-art{display:block;width:100%;height:auto;margin-top:44px;border:1px solid var(--line-strong);
+    border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+  .rail{margin-top:56px;position:relative;padding-left:36px}
+  .rail::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1px;
+    background:linear-gradient(180deg, rgba(201,162,39,.55) 0%, rgba(201,162,39,.55) 82%, transparent 100%)}
+  .stage{position:relative;padding:0 0 46px}
+  .stage:last-child{padding-bottom:0}
+  .stage::before{content:"";position:absolute;left:-36px;top:7px;width:11px;height:11px;background:var(--gold);
+    transform:rotate(45deg);border-radius:2px}
+  .stage h3{font-family:var(--font-h);font-weight:700;font-size:20px;letter-spacing:-.01em}
+  .stage p{margin-top:8px;font-size:15px;line-height:1.6;color:var(--text-2);max-width:62ch}
+  .stage .tool{font-family:var(--font-m);font-size:11px;letter-spacing:.08em;color:var(--muted);margin-top:8px}
+
+  /* ---------- package ---------- */
+  .package{border-top:1px solid var(--line)}
+  .pkg-grid{display:grid;grid-template-columns:5fr 6fr;gap:64px;margin-top:52px;align-items:start}
+  .manifest{border:1px solid var(--line-strong);border-radius:14px;background:var(--panel);overflow:hidden}
+  .manifest-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;
+    border-bottom:1px solid var(--line);background:var(--panel-2)}
+  .manifest-bar span{font-family:var(--font-m);font-size:11.5px;letter-spacing:.06em;color:var(--text-2)}
+  .manifest-bar i{width:8px;height:8px;background:var(--gold);border-radius:2px;transform:rotate(45deg)}
+  .manifest pre{padding:20px 22px 24px;font-family:var(--font-m);font-size:13px;line-height:1.9;color:var(--text-2);overflow-x:auto}
+  .manifest pre b{color:var(--text);font-weight:500}
+  .manifest pre .g{color:var(--gold)}
+  .receive{display:flex;flex-direction:column;gap:0}
+  .item{padding:22px 0;border-top:1px solid var(--line)}
+  .item:first-child{border-top:none;padding-top:0}
+  .item h3{font-family:var(--font-h);font-weight:700;font-size:18px}
+  .item h3 span{color:var(--gold);font-family:var(--font-m);font-weight:400;font-size:12px;letter-spacing:.06em;margin-left:10px}
+  .item p{margin-top:6px;font-size:14.5px;line-height:1.6;color:var(--text-2);max-width:56ch}
+
+  /* ---------- proof ---------- */
+  .proof .band{border:1px solid var(--line-strong);border-radius:18px;overflow:hidden;
+    background:linear-gradient(120deg, rgba(201,162,39,.07) 0%, rgba(201,162,39,0) 34%), var(--panel)}
+  .band-grid{display:grid;grid-template-columns:5fr 7fr}
+  .band-left{padding:48px 44px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+  .band-left .verdict{font-family:var(--font-h);font-weight:700;font-size:clamp(26px,2.6vw,34px);letter-spacing:-.015em;line-height:1.15}
+  .band-left .verdict em{font-style:normal;color:var(--gold)}
+  .band-left p{margin-top:14px;font-size:15px;line-height:1.6;color:var(--text-2)}
+  .laws{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .law{padding:26px 30px;border-left:1px solid var(--line);border-top:1px solid var(--line)}
+  .law:nth-child(1),.law:nth-child(2){border-top:none}
+  .law b{display:block;font-family:var(--font-h);font-weight:700;font-size:14.5px;letter-spacing:.01em}
+  .law span{display:block;margin-top:5px;font-size:13px;line-height:1.55;color:var(--muted)}
+  .law:hover{background:rgba(214,226,244,.025)}
+
+  /* ---------- pricing ---------- */
+  .pricing{border-top:1px solid var(--line)}
+  .price-grid{display:grid;grid-template-columns:7fr 5fr;gap:32px;margin-top:52px;align-items:stretch}
+  .price-card{border:1px solid rgba(201,162,39,.4);border-radius:18px;padding:44px 44px 40px;
+    background:linear-gradient(150deg, rgba(201,162,39,.08) 0%, rgba(201,162,39,0) 42%), var(--panel);
+    box-shadow:0 0 70px rgba(201,162,39,.07)}
+  .price-top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .price{font-family:var(--font-h);font-weight:700;font-size:clamp(44px,5vw,62px);letter-spacing:-.03em}
+  .per{font-family:var(--font-m);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-2)}
+  .price-card>p{margin-top:12px;color:var(--text-2);font-size:15px;line-height:1.6;max-width:52ch}
+  .includes{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;list-style:none}
+  .includes li{position:relative;padding-left:24px;font-size:14.5px;line-height:1.5;color:var(--text)}
+  .includes li::before{content:"";position:absolute;left:0;top:6px;width:9px;height:9px;background:var(--gold);
+    transform:rotate(45deg);border-radius:2px}
+  .price-card .btn-gold{margin-top:34px;font-size:15px;padding:15px 30px}
+  .license{border:1px dashed var(--line-strong);border-radius:18px;padding:36px 34px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+  .license .tag{font-family:var(--font-m);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+  .license h3{font-family:var(--font-h);font-weight:700;font-size:22px;letter-spacing:-.01em}
+  .license p{font-size:14.5px;line-height:1.6;color:var(--text-2)}
+
+  /* ---------- intake ---------- */
+  .intake{border-top:1px solid var(--line)}
+  .intake-grid{display:grid;grid-template-columns:5fr 7fr;gap:64px;margin-top:8px;align-items:start}
+  .intake-copy{padding-top:36px}
+  .intake-copy p{margin-top:14px;font-size:15.5px;line-height:1.65;color:var(--text-2);max-width:40ch}
+  .intake-copy .direct{margin-top:26px;font-size:14px;color:var(--muted)}
+  .intake-copy .direct a{color:var(--text-2);text-decoration:underline;text-underline-offset:3px;transition:color .15s var(--ease)}
+  .intake-copy .direct a:hover{color:var(--gold-hot)}
+  .intake-copy .direct a:focus-visible{outline:2px solid var(--text-2);outline-offset:3px}
+  .form-panel{background:linear-gradient(135deg, rgba(214,226,244,.045) 0%, rgba(214,226,244,0) 38%, rgba(0,0,0,.12) 100%), var(--panel);
+    border:1px solid var(--line);border-radius:16px;padding:34px 32px 30px;margin-top:36px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .field{margin-bottom:22px}
+  label{display:block;font-family:var(--font-m);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-2);margin-bottom:9px}
+  input[type=text],input[type=email],textarea{
+    width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;color:var(--text);
+    font-family:var(--font-b);font-size:15px;line-height:1.55;padding:13px 15px;outline:none;
+    transition:border-color .2s var(--ease)}
+  textarea{min-height:150px;resize:vertical}
+  input::placeholder,textarea::placeholder{color:var(--muted)}
+  input:hover,textarea:hover{border-color:var(--line-strong)}
+  input:focus,textarea:focus{border-color:var(--line-strong);outline:2px solid var(--text-2);outline-offset:2px}
+  .form-panel button{width:auto;font-size:15px;padding:15px 32px}
+  .form-status{margin-top:16px;min-height:20px;font-family:var(--font-m);font-size:12px;letter-spacing:.04em;color:var(--text-2)}
+  .form-status.ok{color:var(--gold-hot)}
+  .form-status.err{color:#E86A5E}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:34px 0 44px}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  footer span{color:var(--muted);font-family:var(--font-m);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  footer a{color:var(--muted);font-family:var(--font-m);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    text-decoration:none;transition:color .15s var(--ease)}
+  footer a:hover{color:var(--text-2)}
+  footer a:focus-visible{outline:2px solid var(--text-2);outline-offset:3px}
+
+  /* ---------- mobile ---------- */
+  @media(max-width:960px){
+    .hero-grid{grid-template-columns:1fr;gap:56px}
+    .artifact{min-height:380px;max-width:520px}
+    .pkg-grid,.intake-grid{grid-template-columns:1fr;gap:44px}
+    .band-grid{grid-template-columns:1fr}
+    .band-left{border-right:none;border-bottom:1px solid var(--line)}
+    .price-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:768px){
+    .wrap{padding-left:20px;padding-right:20px}
+    section{padding:72px 0}
+    .hero{padding:56px 0 64px}
+    .nav-links a{display:none}
+    .mark small{display:none}
+    .form-row{grid-template-columns:1fr}
+    .laws{grid-template-columns:1fr}
+    .law{border-left:none}
+    .law:nth-child(2){border-top:1px solid var(--line)}
+    .includes{grid-template-columns:1fr}
+    .band-left{padding:34px 26px}
+    .law{padding:22px 26px}
+    .price-card{padding:32px 26px}
+    .intake-copy{padding-top:0}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="mark" href="#top"><span class="tick"></span>Website Forge <small>Lake Shore Digital</small></a>
+    <div class="nav-links">
+      <a href="#pipeline">Pipeline</a>
+      <a href="#package">Package</a>
+      <a href="#pricing">Pricing</a>
+      <a class="btn btn-gold" href="#intake">Start your brief</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero wrap" id="top">
+  <div class="hero-grid">
+    <div>
+      <p class="kicker">An operated service, not a template</p>
+      <h1>The whole brand, forged. <em>Judged before it ships.</em></h1>
+      <p>One brief in: a complete brand kit, four page site, and original painted imagery out. Operated by Lake Shore Digital.</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="#intake">Start your brief</a>
+        <a class="btn btn-ghost" href="#pipeline">See the pipeline</a>
+      </div>
+    </div>
+    <div class="artifact">
+      <div class="seam" aria-hidden="true"></div>
+      <div class="plate plate-kit">
+        <img src="forge/forge-kit.png" width="1100" height="780"
+          alt="A real brand-kit artifact forged for Lake Shore Digital: dark hero page with palette, type pairing, and WCAG-checked ratios">
+      </div>
+      <div class="plate plate-paint">
+        <img src="forge/forge-hero.png" width="1536" height="1152"
+          alt="Original painted imagery from the Forge art department: gold forge sparks streaking through deep navy darkness">
+      </div>
+      <div class="seal" aria-hidden="true"><b>JUDGED</b><span>score to ship</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="pipeline" id="pipeline">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>Five moves. Same order, every time.</h2>
+      <p class="lede">The Forge is a fixed sequence, not a mood. Every engagement runs the same pipeline, so every delivery holds the same standard.</p>
+    </div>
+    <img class="pipeline-art reveal" src="forge/forge-pipeline.png" width="1920" height="800"
+      alt="Painted pipeline imagery: five gold points of light joined by a single thread, rising across deep navy darkness">
+    <div class="rail">
+      <div class="stage reveal">
+        <h3>Forge the kit</h3>
+        <p>Palette, type pairing, voice, and spacing rules are struck first and sealed into a brand kit. Everything downstream obeys it.</p>
+        <p class="tool">output: brand-kit.html + design tokens</p>
+      </div>
+      <div class="stage reveal">
+        <h3>Paint the imagery</h3>
+        <p>Original imagery is painted for your site by an AI art department, directed by the kit. No stock photos, no gray placeholder boxes.</p>
+        <p class="tool">output: hero + section imagery, yours outright</p>
+      </div>
+      <div class="stage reveal">
+        <h3>Build the pages</h3>
+        <p>Four pages are written against the kit on one shared CSS system, consulting a design memory built from sites we consider proven.</p>
+        <p class="tool">output: home, about, services, contact</p>
+      </div>
+      <div class="stage reveal">
+        <h3>Face the judge</h3>
+        <p>A ruthless design judge scores the build from 1 to 10 against our no slop laws and names every flaw. Under the bar, it goes back to the fire and gets rebuilt.</p>
+        <p class="tool">output: a written scorecard, included in delivery</p>
+      </div>
+      <div class="stage reveal">
+        <h3>Take delivery</h3>
+        <p>Pages, kit, and imagery are packaged into a single zip. Host it anywhere. No lock in, no subscription, no dependency on us.</p>
+        <p class="tool">output: forge-package.zip</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="package" id="package">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>One zip. Everything in it is yours.</h2>
+      <p class="lede">Delivery is a self contained package: open it, host it, hand it to any developer. Nothing phones home.</p>
+    </div>
+    <div class="pkg-grid">
+      <div class="manifest reveal" aria-label="Contents of the delivery zip">
+        <div class="manifest-bar"><span>forge-package.zip</span><i aria-hidden="true"></i></div>
+<pre>
+<b class="g">brand-kit.html</b>
+<b>index.html</b>
+<b>about.html</b>
+<b>services.html</b>
+<b>contact.html</b>
+assets/
+  hero.png
+  section-work.png
+  section-flow.png
+  ...
+</pre>
+      </div>
+      <div class="receive">
+        <div class="item reveal">
+          <h3>The brand kit artifact <span>brand-kit.html</span></h3>
+          <p>A living guidelines page: your palette with exact values, the type pairing in use, voice rules, and component states. Hand it to any future designer and the brand survives.</p>
+        </div>
+        <div class="item reveal">
+          <h3>A four page site on one system</h3>
+          <p>Home, about, services, and contact share a single CSS system extracted from the home page, so the site reads as one build, not four.</p>
+        </div>
+        <div class="item reveal">
+          <h3>Original painted imagery</h3>
+          <p>Every image was painted for this engagement and ships in the assets folder at full resolution. Nobody else has these files.</p>
+        </div>
+        <div class="item reveal">
+          <h3>The judge's scorecard</h3>
+          <p>The written verdict your build passed to earn delivery: the score and the flaws that were found and fixed along the way.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="wrap">
+    <div class="band reveal">
+      <div class="band-grid">
+        <div class="band-left">
+          <p class="verdict">Every build is scored <em>1 to 10</em> before you ever see it.</p>
+          <p>An independent judge model reviews the finished site against six laws and writes up every flaw. A build under the bar is not delivered late. It is not delivered at all until it passes.</p>
+        </div>
+        <div class="laws">
+          <div class="law"><b>One accent color, rationed</b><span>An accent is a highlight, not wallpaper. No purple gradient slop.</span></div>
+          <div class="law"><b>A real font pairing</b><span>Chosen display and body faces. Never system defaults.</span></div>
+          <div class="law"><b>Real imagery only</b><span>Painted per project. Gray placeholder boxes fail the build.</span></div>
+          <div class="law"><b>Varied section layouts</b><span>No repeated layout families, no three identical cards in a row.</span></div>
+          <div class="law"><b>Whitespace and honest states</b><span>Generous spacing, a clear type scale, hover and focus that respond.</span></div>
+          <div class="law"><b>Concrete copy</b><span>No filler verbs, no vague promises, no em-dash tics.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>One engagement. One price.</h2>
+      <p class="lede">No hourly meter, no scope creep negotiations. You bring the brief, we run the Forge end to end.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <div class="price-top"><span class="price">$20,000</span><span class="per">per engagement</span></div>
+        <p>Operated end to end by Lake Shore Digital, from intake call to delivered zip.</p>
+        <ul class="includes">
+          <li>Brand kit artifact with full design tokens</li>
+          <li>Four page site on one shared CSS system</li>
+          <li>Original painted imagery, full ownership</li>
+          <li>Judge pass with a written scorecard</li>
+          <li>Self contained delivery zip, host anywhere</li>
+          <li>Intake and handoff calls with a human</li>
+        </ul>
+        <a class="btn btn-gold" href="#intake">Start your brief</a>
+      </div>
+      <div class="license reveal">
+        <span class="tag">Coming for agencies</span>
+        <h3>White label license</h3>
+        <p>Run the Forge under your own mark and deliver Forge built packages to your own clients. Licensing terms are being finalized now.</p>
+        <p>Interested? Say so in your brief and you will be first in line.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="intake" id="intake">
+  <div class="wrap">
+    <div class="intake-grid">
+      <div class="intake-copy reveal">
+        <h2>Send the brief.</h2>
+        <p>Tell us who the site is for, what it must say, and how it should feel. Two paragraphs is plenty. We reply within one business day.</p>
+        <p class="direct">Prefer plain email? Write to <a href="mailto:sirriondixon@gmail.com">sirriondixon@gmail.com</a>.</p>
+      </div>
+      <form class="form-panel reveal" id="brief-form" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input type="text" id="f-name" name="name" required autocomplete="name" placeholder="Maria Okafor">
+          </div>
+          <div class="field">
+            <label for="f-company">Company</label>
+            <input type="text" id="f-company" name="company" required autocomplete="organization" placeholder="Okafor Legal Group">
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input type="email" id="f-email" name="email" required autocomplete="email" placeholder="maria@okaforlegal.com">
+        </div>
+        <div class="field">
+          <label for="f-brief">Project brief</label>
+          <textarea id="f-brief" name="brief" required
+            placeholder="Who the site is for, what it needs to say, and how it should feel. Include any sites you admire."></textarea>
+        </div>
+        <button class="btn btn-gold" type="submit" id="send-btn">Send the brief</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Website Forge · Operated by Lake Shore Digital, Chicago</span>
+    <a href="mailto:sirriondixon@gmail.com">sirriondixon@gmail.com</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveals, only when motion is welcome
+  var motionOK = window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
+  if (motionOK && "IntersectionObserver" in window) {
+    document.body.classList.add("js-motion");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+  }
+
+  // Intake form: compose the brief, copy it, then open a prefilled mailto
+  var form = document.getElementById("brief-form");
+  var statusEl = document.getElementById("form-status");
+  var TO = "sirriondixon@gmail.com";
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy") ? resolve() : reject(); }
+      catch (err) { reject(err); }
+      document.body.removeChild(ta);
+    });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    statusEl.classList.remove("ok", "err");
+
+    var name = document.getElementById("f-name").value.trim();
+    var company = document.getElementById("f-company").value.trim();
+    var email = document.getElementById("f-email").value.trim();
+    var brief = document.getElementById("f-brief").value.trim();
+
+    if (!name || !company || !email || !brief) {
+      statusEl.classList.add("err");
+      statusEl.textContent = "All four fields are required.";
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      statusEl.classList.add("err");
+      statusEl.textContent = "That email does not look right.";
+      return;
+    }
+
+    var body =
+      "FORGE ENGAGEMENT BRIEF\n\n" +
+      "Name: " + name + "\n" +
+      "Company: " + company + "\n" +
+      "Email: " + email + "\n\n" +
+      "Brief:\n" + brief + "\n";
+
+    var subject = "Forge engagement brief: " + company;
+    var mailto = "mailto:" + TO +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(body);
+
+    function done() {
+      statusEl.classList.add("ok");
+      statusEl.textContent = "Brief copied to your clipboard. Your email app is opening; paste if the body arrives empty.";
+      window.location.href = mailto;
+    }
+    function fallback() {
+      statusEl.classList.add("ok");
+      statusEl.textContent = "Your email app is opening with the brief prefilled.";
+      window.location.href = mailto;
+    }
+    copyText(body).then(done, fallback);
+  });
+</script>
+</body>
+</html>

@@ -5,115 +5,191 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Website Forge · Lake Shore Digital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0B1526; --panel:#101E36; --panel-2:#15263F; --line:rgba(214,226,244,.08); --line-strong:rgba(214,226,244,.16);
-    --text:#EDF2FA; --text-2:#9FAEC7; --muted:#66758F;
-    --gold:#C9A227; --gold-hot:#E0B93B; --gold-soft:rgba(201,162,39,.12); --ink:#100C02;
+    --bg:#0B1526; --panel:#101E36; --panel-2:#15263F; --panel-3:#0D1A30;
+    --line:rgba(214,226,244,.08); --line-strong:rgba(214,226,244,.16);
+    --text:#EDF2FA; --text-2:#9FAEC7; --muted:#8493AD;
+    --gold:#C9A227; --gold-hot:#E0B93B; --gold-soft:rgba(201,162,39,.12); --gold-line:rgba(201,162,39,.38); --ink:#100C02;
+    --red:#E86A5E; --red-soft:rgba(232,106,94,.1);
     --font-h:"Space Grotesk",sans-serif; --font-b:"IBM Plex Sans",sans-serif; --font-m:"IBM Plex Mono",monospace;
-    --ease-settle:cubic-bezier(.2,0,0,1); --ease-out:cubic-bezier(.25,.1,.3,1);
+    --ease:cubic-bezier(.2,0,0,1);
+    --r-panel:16px; --r-ctl:10px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   body{
     background:var(--bg);color:var(--text);font-family:var(--font-b);min-height:100dvh;
-    background-image:radial-gradient(52% 44% at 78% 8%, rgba(201,162,39,.09) 0%, rgba(201,162,39,.025) 45%, transparent 72%);
+    background-image:radial-gradient(48% 40% at 80% 6%, rgba(201,162,39,.08) 0%, rgba(201,162,39,.02) 46%, transparent 72%);
     background-repeat:no-repeat;
   }
-  .wrap{max-width:1280px;margin:0 auto;padding:0 32px 88px}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 32px 80px}
 
   /* ---------- header ---------- */
-  header{display:flex;align-items:center;justify-content:space-between;padding:26px 0 0}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 0 0}
   .mark{display:inline-flex;align-items:center;gap:12px;font-family:var(--font-h);font-weight:700;font-size:17px;letter-spacing:.02em;text-transform:uppercase}
   .mark .tick{width:3px;height:15px;background:var(--gold);flex:0 0 auto}
   .mark small{font-family:var(--font-m);font-weight:500;font-size:10.5px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
-  .live-dot{font-family:var(--font-m);font-size:11px;letter-spacing:.14em;color:var(--text-2);text-transform:uppercase}
+  .chip{
+    display:inline-flex;align-items:center;gap:9px;font-family:var(--font-m);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--text-2);border:1px solid var(--line);border-radius:9999px;padding:8px 16px;
+    transition:border-color .25s var(--ease),color .25s var(--ease);
+  }
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex:0 0 auto;transition:background .25s var(--ease)}
+  .chip.run{border-color:var(--gold-line);color:var(--text)}
+  .chip.run .dot{background:var(--gold);animation:pulse 1.6s var(--ease) infinite}
+  .chip.done{border-color:var(--gold-line);color:var(--gold-hot)}
+  .chip.done .dot{background:var(--gold)}
+  .chip.err{border-color:rgba(232,106,94,.45);color:var(--red)}
+  .chip.err .dot{background:var(--red)}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
   /* ---------- hero ---------- */
-  .hero{padding:76px 0 54px;max-width:760px}
-  h1{font-family:var(--font-h);font-weight:700;font-size:clamp(38px,5.2vw,64px);line-height:1.02;letter-spacing:-.022em}
+  .hero{padding:52px 0 40px;max-width:820px}
+  h1{font-family:var(--font-h);font-weight:700;font-size:clamp(34px,4.6vw,56px);line-height:1.04;letter-spacing:-.022em}
   h1 em{font-style:normal;color:var(--gold)}
-  .hero p{margin-top:18px;font-size:16.5px;line-height:1.6;color:var(--text-2);max-width:52ch}
+  .hero p{margin-top:14px;font-size:16px;line-height:1.6;color:var(--text-2);max-width:54ch}
 
   /* ---------- layout ---------- */
-  .grid{display:grid;grid-template-columns:minmax(340px,5fr) 7fr;gap:56px;align-items:start}
-  @media(max-width:960px){.grid{grid-template-columns:1fr;gap:40px}.hero{padding:56px 0 40px}}
+  .grid{display:grid;grid-template-columns:minmax(340px,5fr) 7fr;gap:40px;align-items:start}
+  .col{display:flex;flex-direction:column;gap:24px;min-width:0}
 
-  /* ---------- form panel ---------- */
+  /* ---------- panels ---------- */
   .panel{
     background:linear-gradient(135deg, rgba(214,226,244,.045) 0%, rgba(214,226,244,0) 38%, rgba(0,0,0,.12) 100%), var(--panel);
-    border:1px solid var(--line);border-radius:16px;padding:30px 28px 26px;
+    border:1px solid var(--line);border-radius:var(--r-panel);padding:28px 26px 24px;
+  }
+  .panel-title{
+    font-family:var(--font-m);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+    display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;
   }
   label{display:block;font-family:var(--font-m);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-2);margin-bottom:10px}
+  label .soft{text-transform:none;letter-spacing:0;color:var(--muted)}
+  .field{margin-bottom:22px}
+
   textarea{
-    width:100%;min-height:138px;resize:vertical;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;
+    width:100%;min-height:132px;resize:vertical;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-ctl);
     color:var(--text);font-family:var(--font-b);font-size:15px;line-height:1.55;padding:14px 16px;outline:none;
-    transition:border-color .2s var(--ease-settle);
+    transition:border-color .2s var(--ease);
   }
   textarea::placeholder{color:var(--muted)}
-  textarea:focus{border-color:var(--line-strong);outline:2px solid var(--text-2);outline-offset:2px}
-  .field{margin-bottom:24px}
+  textarea:hover{border-color:var(--line-strong)}
+  textarea:focus-visible{border-color:var(--gold-line);outline:2px solid var(--gold-line);outline-offset:2px}
 
   input[type="file"]{width:100%;color:var(--text-2);font-size:13px;font-family:var(--font-b);
-    padding:12px;background:var(--panel-2);border:1px dashed var(--line-strong);border-radius:10px;cursor:pointer}
+    padding:12px;background:var(--panel-2);border:1px dashed var(--line-strong);border-radius:var(--r-ctl);cursor:pointer;
+    transition:border-color .2s var(--ease)}
+  input[type="file"]:hover{border-color:var(--gold-line)}
+  input[type="file"]:focus-visible{outline:2px solid var(--gold-line);outline-offset:2px}
   input[type="file"]::file-selector-button{font-family:var(--font-h);font-weight:700;font-size:12.5px;
     background:transparent;color:var(--text);border:1px solid var(--line-strong);border-radius:9999px;
-    padding:7px 14px;margin-right:12px;cursor:pointer}
-  .thumbs{display:flex;gap:8px;margin-top:10px}
+    padding:7px 14px;margin-right:12px;cursor:pointer;transition:border-color .15s var(--ease)}
+  input[type="file"]::file-selector-button:hover{border-color:var(--gold-line)}
+  .thumbs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
   .thumbs img{width:64px;height:48px;object-fit:cover;border-radius:6px;border:1px solid var(--line-strong)}
+  .thumbs .more{font-family:var(--font-m);font-size:11px;color:var(--muted);align-self:center}
 
   .styles{display:flex;gap:8px;flex-wrap:wrap}
   .styles input{position:absolute;opacity:0;pointer-events:none}
   .styles span{
     display:inline-block;padding:9px 16px;border-radius:9999px;border:1px solid var(--line);color:var(--text-2);
-    font-size:13.5px;cursor:pointer;transition:color .12s var(--ease-settle),border-color .12s var(--ease-settle),background .12s var(--ease-settle);
-    user-select:none;
+    font-size:13.5px;cursor:pointer;user-select:none;
+    transition:color .12s var(--ease),border-color .12s var(--ease),background .12s var(--ease);
   }
   .styles span:hover{border-color:var(--line-strong);color:var(--text)}
   .styles input:checked + span{background:var(--gold-soft);border-color:var(--gold);color:var(--text)}
-  .styles input:focus-visible + span{outline:2px solid var(--text-2);outline-offset:2px}
+  .styles input:focus-visible + span{outline:2px solid var(--gold-line);outline-offset:2px}
 
-  .actions{display:flex;align-items:center;gap:12px;margin-top:4px}
-  button{font-family:var(--font-h);font-weight:700;font-size:15px;border:none;border-radius:12px;cursor:pointer}
+  button,.btn{font-family:var(--font-h);font-weight:700;font-size:15px;border:none;border-radius:12px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px}
   .primary{
-    position:relative;background:var(--gold);color:var(--ink);padding:15px 32px;
-    transition:transform .12s var(--ease-settle),background .12s var(--ease-settle);
-    box-shadow:0 0 44px rgba(201,162,39,.22);
+    background:var(--gold);color:var(--ink);padding:15px 30px;
+    transition:transform .12s var(--ease),background .12s var(--ease);
+    box-shadow:0 0 40px rgba(201,162,39,.18);
   }
   .primary:hover{background:var(--gold-hot);transform:translateY(-1px)}
   .primary:active{transform:translateY(0) scale(.985)}
-  .primary:disabled{opacity:.6;cursor:wait;transform:none}
+  .primary:disabled{opacity:.55;cursor:wait;transform:none}
   .primary:focus-visible{outline:2px solid var(--text);outline-offset:2px}
-  .ghost{background:transparent;color:var(--text-2);border:1px solid var(--line);padding:14px 22px;font-weight:500;font-family:var(--font-b);
-    transition:color .12s var(--ease-settle),border-color .12s var(--ease-settle)}
-  .ghost:hover:not(:disabled){color:var(--text);border-color:var(--line-strong)}
+  .ghost{background:transparent;color:var(--text-2);border:1px solid var(--line);padding:14px 22px;font-weight:500;font-family:var(--font-b);font-size:14.5px;
+    transition:color .12s var(--ease),border-color .12s var(--ease)}
+  .ghost:hover{color:var(--text);border-color:var(--gold-line)}
+  .ghost:focus-visible{outline:2px solid var(--gold-line);outline-offset:2px}
   .ghost:disabled{opacity:.35;cursor:not-allowed}
-  .ghost:focus-visible{outline:2px solid var(--text-2);outline-offset:2px}
 
-  .statusbar{margin-top:20px;min-height:34px}
-  .status{font-family:var(--font-m);font-size:12px;letter-spacing:.04em;color:var(--text-2)}
-  .status.err{color:#E86A5E}
-  .progress{height:2px;background:var(--panel-2);border-radius:2px;overflow:hidden;margin-top:10px;opacity:0;transition:opacity .2s var(--ease-settle)}
-  .progress.on{opacity:1}
-  .progress i{display:block;height:100%;width:36%;background:var(--gold);border-radius:2px;animation:sweep 1.4s var(--ease-out) infinite}
+  .error-box{
+    display:none;margin-top:18px;padding:13px 16px;border:1px solid rgba(232,106,94,.4);background:var(--red-soft);
+    border-radius:var(--r-ctl);color:var(--red);font-size:13.5px;line-height:1.5;
+  }
+  .error-box.on{display:block}
+
+  /* ---------- revision panel ---------- */
+  #revise-panel{display:none}
+  #revise-panel.on{display:block}
+  #revise-panel textarea{min-height:88px}
+
+  /* ---------- mission feed ---------- */
+  .feed{background:var(--panel-3);border:1px solid var(--line);border-radius:var(--r-panel);overflow:hidden}
+  .feed-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .feed-head .t{font-family:var(--font-m);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .feed-head .stage{font-family:var(--font-m);font-size:11px;letter-spacing:.06em;color:var(--gold-hot);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .progress{height:2px;background:transparent;overflow:hidden}
+  .progress i{display:none;height:100%;width:36%;background:var(--gold);border-radius:2px}
+  .feed.running .progress i{display:block;animation:sweep 1.5s var(--ease) infinite}
   @keyframes sweep{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
-  @media(prefers-reduced-motion:reduce){.progress i{animation:none;width:100%}}
+  .feed-body{padding:16px 20px;height:216px;overflow-y:auto;font-family:var(--font-m);font-size:12.5px;line-height:1.9;color:var(--text-2)}
+  .feed-body .hint{color:var(--muted)}
+  .feed-line{display:flex;gap:14px;align-items:baseline;animation:linein .35s var(--ease) both}
+  .feed-line .ts{color:var(--muted);font-size:11px;flex:0 0 auto}
+  .feed-line .msg{overflow-wrap:anywhere}
+  @keyframes linein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .caret{display:none;color:var(--gold);animation:pulse 1.1s steps(2) infinite}
+  .feed.running .caret{display:inline}
+
+  /* ---------- result bar ---------- */
+  .result{display:none;align-items:center;gap:14px;flex-wrap:wrap}
+  .result.on{display:flex}
+  .score{
+    display:inline-flex;align-items:baseline;gap:7px;background:var(--gold);color:var(--ink);border-radius:9999px;
+    padding:9px 18px;font-family:var(--font-h);font-weight:700;font-size:16px;
+  }
+  .score small{font-family:var(--font-m);font-weight:500;font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+  .result .primary{padding:12px 24px;font-size:14px}
+  .result .ghost{padding:11px 20px}
 
   /* ---------- preview ---------- */
-  .browser{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}
+  .browser{border:1px solid var(--line);border-radius:var(--r-panel);overflow:hidden;background:var(--panel)}
   .chrome{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel-2)}
   .dots{display:flex;gap:6px}
   .dots i{width:10px;height:10px;border-radius:50%;background:var(--line-strong)}
   .addr{flex:1;text-align:center;font-family:var(--font-m);font-size:11px;letter-spacing:.06em;color:var(--muted);
     background:var(--bg);border:1px solid var(--line);border-radius:9999px;padding:5px 14px;max-width:340px;margin:0 auto}
+  .chrome .spacer{width:46px}
   .viewport{position:relative;aspect-ratio:16/10;background:var(--bg)}
   .empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:0 32px}
   .empty .glyph{width:44px;height:44px;border:1px solid var(--line-strong);border-radius:12px;position:relative}
-  .empty .glyph::after{content:"";position:absolute;inset:9px;border-radius:6px;background:var(--gold-soft);border:1px solid rgba(201,162,39,.35)}
-  .empty p{color:var(--muted);font-size:14px;max-width:34ch;line-height:1.55}
+  .empty .glyph::after{content:"";position:absolute;inset:9px;border-radius:6px;background:var(--gold-soft);border:1px solid var(--gold-line)}
+  .empty p{color:var(--muted);font-size:14px;max-width:36ch;line-height:1.55}
   iframe{width:100%;height:100%;border:none;background:#fff;display:none}
 
   footer{margin-top:64px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-family:var(--font-m);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:960px){
+    .grid{grid-template-columns:1fr}
+    .hero{padding:44px 0 32px}
+  }
+  @media(max-width:768px){
+    .wrap{padding:0 18px 64px}
+    header{flex-wrap:wrap}
+    .panel{padding:22px 18px 20px}
+    .feed-body{height:180px}
+    .result{gap:10px}
+    footer{flex-direction:column;gap:8px;align-items:flex-start}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important}
+    .feed.running .progress i{display:block;width:100%;transform:none}
+  }
 </style>
 </head>
 <body>
@@ -121,66 +197,94 @@
 
   <header>
     <div class="mark"><span class="tick"></span>Website Forge <small>Lake Shore Digital</small></div>
-    <div class="live-dot">Forge v2 · Online</div>
+    <div class="chip" id="chip"><span class="dot"></span><span id="chip-text">Standby</span></div>
   </header>
 
   <section class="hero">
-    <h1>Describe the site.<br>We forge <em>the real thing.</em></h1>
-    <p>One brief in, a complete crafted website out. The Forge consults a design memory built from the best sites on the web, then builds yours to the same laws.</p>
+    <h1>One brief in.<br>A complete <em>web package</em> out.</h1>
+    <p>Brand kit, four-page site, custom art, and a sealed delivery zip. Judged against the house design laws before it ships.</p>
   </section>
 
   <div class="grid">
-    <section class="panel">
-      <form id="forge-form">
-        <div class="field">
-          <label for="brief">The brief</label>
-          <textarea id="brief" name="brief" required
-            placeholder="A portfolio for Maximo Alanis, a paid-media marketer in Chicago. Sections: hero, about, services, results, contact."></textarea>
-        </div>
 
-        <div class="field">
-          <label>Style direction</label>
-          <div class="styles">
-            <label><input type="radio" name="style" value="clean and minimal" checked><span>Clean &amp; minimal</span></label>
-            <label><input type="radio" name="style" value="bold and dark"><span>Bold &amp; dark</span></label>
-            <label><input type="radio" name="style" value="warm and editorial"><span>Warm &amp; editorial</span></label>
+    <!-- left column: order + revision -->
+    <div class="col">
+      <section class="panel">
+        <div class="panel-title"><span>Work order</span></div>
+        <form id="forge-form">
+          <div class="field">
+            <label for="brief">The brief</label>
+            <textarea id="brief" name="brief" required
+              placeholder="A portfolio for Maximo Alanis, a paid-media marketer in Chicago. Sections: hero, about, services, results, contact."></textarea>
           </div>
-        </div>
 
-        <div class="field">
-          <label for="refs">Reference images <span style="text-transform:none;letter-spacing:0">(optional, up to 3 — "make it feel like this")</span></label>
-          <input type="file" id="refs" name="refs" accept="image/*" multiple>
-          <div class="thumbs" id="thumbs"></div>
-        </div>
+          <div class="field">
+            <label>Style direction</label>
+            <div class="styles">
+              <label><input type="radio" name="style" value="clean and minimal" checked><span>Clean &amp; minimal</span></label>
+              <label><input type="radio" name="style" value="bold and dark"><span>Bold &amp; dark</span></label>
+              <label><input type="radio" name="style" value="warm and editorial"><span>Warm &amp; editorial</span></label>
+            </div>
+          </div>
 
-        <div class="actions">
-          <button class="primary" id="summon-btn" type="submit">Forge the site</button>
-          <button class="ghost" id="download-btn" type="button" disabled>Download HTML</button>
-        </div>
+          <div class="field">
+            <label for="refs">Reference images <span class="soft">(optional, up to 3)</span></label>
+            <input type="file" id="refs" name="refs" accept="image/*" multiple>
+            <div class="thumbs" id="thumbs"></div>
+          </div>
 
-        <div class="statusbar">
-          <p class="status" id="status"></p>
-          <div class="progress" id="progress"><i></i></div>
-        </div>
-      </form>
-    </section>
+          <button class="primary" id="forge-btn" type="submit">Forge the package</button>
+          <div class="error-box" id="error-box"></div>
+        </form>
+      </section>
 
-    <section>
-      <div class="browser">
+      <section class="panel" id="revise-panel">
+        <div class="panel-title"><span>Revision desk</span></div>
+        <form id="revise-form">
+          <div class="field">
+            <label for="instruction">What should change on the home page?</label>
+            <textarea id="instruction" name="instruction" required
+              placeholder="Make the hero headline bigger and swap the services order."></textarea>
+          </div>
+          <button class="primary" id="revise-btn" type="submit">Send revision</button>
+        </form>
+      </section>
+    </div>
+
+    <!-- right column: feed + result + preview -->
+    <div class="col">
+      <section class="feed" id="feed">
+        <div class="feed-head">
+          <span class="t">Mission feed</span>
+          <span class="stage" id="stage"></span>
+        </div>
+        <div class="progress"><i></i></div>
+        <div class="feed-body" id="feed-body">
+          <span class="hint">The forge is cold. Submit a work order to light it.</span>
+        </div>
+      </section>
+
+      <div class="result" id="result">
+        <span class="score" id="score"><small>Judge</small><span id="score-num">0/10</span></span>
+        <a class="btn primary" id="pkg-link" href="#" download>Download Package</a>
+        <a class="btn ghost" id="kit-link" href="#" target="_blank" rel="noopener">View Brand Kit</a>
+      </div>
+
+      <section class="browser">
         <div class="chrome">
           <div class="dots"><i></i><i></i><i></i></div>
           <div class="addr" id="addr">your-site.forged</div>
-          <div style="width:46px"></div>
+          <div class="spacer"></div>
         </div>
         <div class="viewport">
           <div class="empty" id="empty-msg">
             <div class="glyph"></div>
-            <p>Your forged site renders here, live, exactly as a visitor would see it.</p>
+            <p>Your forged home page renders here, live, exactly as a visitor would see it.</p>
           </div>
           <iframe id="preview-frame" title="Generated site preview"></iframe>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 
   <footer>
@@ -190,77 +294,204 @@
 </div>
 
 <script>
-  const form = document.getElementById("forge-form");
-  const btn = document.getElementById("summon-btn");
-  const dl = document.getElementById("download-btn");
-  const status = document.getElementById("status");
-  const progress = document.getElementById("progress");
-  const frame = document.getElementById("preview-frame");
-  const empty = document.getElementById("empty-msg");
-  const addr = document.getElementById("addr");
-  let lastHtml = "";
+  var forgeForm = document.getElementById("forge-form");
+  var reviseForm = document.getElementById("revise-form");
+  var forgeBtn = document.getElementById("forge-btn");
+  var reviseBtn = document.getElementById("revise-btn");
+  var errorBox = document.getElementById("error-box");
+  var chip = document.getElementById("chip");
+  var chipText = document.getElementById("chip-text");
+  var feed = document.getElementById("feed");
+  var feedBody = document.getElementById("feed-body");
+  var stageEl = document.getElementById("stage");
+  var result = document.getElementById("result");
+  var scoreNum = document.getElementById("score-num");
+  var pkgLink = document.getElementById("pkg-link");
+  var kitLink = document.getElementById("kit-link");
+  var revisePanel = document.getElementById("revise-panel");
+  var frame = document.getElementById("preview-frame");
+  var emptyMsg = document.getElementById("empty-msg");
+  var addr = document.getElementById("addr");
 
-  // The Eyes: preview thumbnails for reference images
-  const refsInput = document.getElementById("refs");
-  const thumbs = document.getElementById("thumbs");
-  refsInput.addEventListener("change", () => {
+  var pollTimer = null;
+  var renderedLines = 0;
+  var failedPolls = 0;
+
+  // reference image thumbnails (first 3)
+  var refsInput = document.getElementById("refs");
+  var thumbs = document.getElementById("thumbs");
+  refsInput.addEventListener("change", function () {
     thumbs.innerHTML = "";
-    [...refsInput.files].slice(0, 3).forEach((f) => {
-      const img = document.createElement("img");
+    var files = Array.prototype.slice.call(refsInput.files);
+    files.slice(0, 3).forEach(function (f) {
+      var img = document.createElement("img");
+      img.alt = f.name;
       img.src = URL.createObjectURL(f);
       thumbs.appendChild(img);
     });
-  });
-
-  const stages = [
-    "Reading the brief...",
-    "Consulting the design memory...",
-    "Choosing fonts and one accent...",
-    "Forging sections...",
-    "Final pass: hunting slop..."
-  ];
-  let stageTimer = null;
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    btn.disabled = true; dl.disabled = true;
-    btn.textContent = "Forging...";
-    status.classList.remove("err");
-    progress.classList.add("on");
-    let i = 0;
-    status.textContent = stages[0];
-    stageTimer = setInterval(() => {
-      i = Math.min(i + 1, stages.length - 1);
-      status.textContent = stages[i];
-    }, 9000);
-
-    try {
-      const res = await fetch("/build", { method: "POST", body: new FormData(form) });
-      if (!res.ok) throw new Error("server " + res.status);
-      lastHtml = await res.text();
-      frame.srcdoc = lastHtml;
-      frame.style.display = "block";
-      empty.style.display = "none";
-      dl.disabled = false;
-      const score = res.headers.get("X-Judge-Score");
-      status.textContent = score ? `Forged. Judge: ${score}/10.` : "Forged. Rendered at right.";
-      addr.textContent = "forged just now";
-    } catch (err) {
-      status.classList.add("err");
-      status.textContent = "The forge misfired. Try again. (" + err.message + ")";
+    if (files.length > 3) {
+      var more = document.createElement("span");
+      more.className = "more";
+      more.textContent = "first 3 will be used";
+      thumbs.appendChild(more);
     }
-    clearInterval(stageTimer);
-    progress.classList.remove("on");
-    btn.disabled = false;
-    btn.textContent = "Forge the site";
   });
 
-  dl.addEventListener("click", () => {
-    const blob = new Blob([lastHtml], { type: "text/html" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "site.html";
-    a.click();
+  function setChip(state, text) {
+    chip.className = "chip" + (state ? " " + state : "");
+    chipText.textContent = text;
+  }
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.classList.add("on");
+    setChip("err", "Error");
+    feed.classList.remove("running");
+    setButtons(false);
+  }
+
+  function clearError() {
+    errorBox.textContent = "";
+    errorBox.classList.remove("on");
+  }
+
+  function setButtons(busy) {
+    forgeBtn.disabled = busy;
+    reviseBtn.disabled = busy;
+    forgeBtn.textContent = busy ? "Forging..." : "Forge the package";
+    reviseBtn.textContent = busy ? "Revising..." : "Send revision";
+  }
+
+  function timeNow() {
+    var d = new Date();
+    function p(n) { return (n < 10 ? "0" : "") + n; }
+    return p(d.getHours()) + ":" + p(d.getMinutes()) + ":" + p(d.getSeconds());
+  }
+
+  function addLine(text) {
+    var row = document.createElement("div");
+    row.className = "feed-line";
+    var ts = document.createElement("span");
+    ts.className = "ts";
+    ts.textContent = timeNow();
+    var msg = document.createElement("span");
+    msg.className = "msg";
+    msg.textContent = text;
+    row.appendChild(ts);
+    row.appendChild(msg);
+    feedBody.appendChild(row);
+    feedBody.scrollTop = feedBody.scrollHeight;
+  }
+
+  function resetFeed() {
+    feedBody.innerHTML = "";
+    renderedLines = 0;
+    failedPolls = 0;
+    stageEl.textContent = "";
+    var caretRow = document.createElement("div");
+    caretRow.className = "feed-line";
+    caretRow.innerHTML = '<span class="ts">' + timeNow() + '</span><span class="msg">Order received. Lighting the forge <span class="caret">_</span></span>';
+    feedBody.appendChild(caretRow);
+  }
+
+  function stopPolling() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    feed.classList.remove("running");
+  }
+
+  function beginPolling() {
+    stopPolling();
+    resetFeed();
+    result.classList.remove("on");
+    feed.classList.add("running");
+    setChip("run", "Forging");
+    setButtons(true);
+    pollTimer = setInterval(poll, 2000);
+  }
+
+  function poll() {
+    fetch("/status").then(function (res) {
+      if (!res.ok) throw new Error("status " + res.status);
+      return res.json();
+    }).then(function (s) {
+      failedPolls = 0;
+      if (s.stage) stageEl.textContent = s.stage;
+      var log = s.log || [];
+      for (var i = renderedLines; i < log.length; i++) addLine(log[i]);
+      renderedLines = log.length;
+      if (s.error) {
+        stopPolling();
+        showError(s.error);
+        return;
+      }
+      if (s.done) {
+        stopPolling();
+        finalize(s);
+      }
+    }).catch(function () {
+      failedPolls += 1;
+      if (failedPolls >= 5) {
+        stopPolling();
+        showError("Lost contact with the forge. Refresh and try again.");
+      }
+    });
+  }
+
+  function finalize(s) {
+    setChip("done", "Complete");
+    setButtons(false);
+    stageEl.textContent = "Package sealed";
+
+    frame.src = "/site?t=" + Date.now();
+    frame.style.display = "block";
+    emptyMsg.style.display = "none";
+    addr.textContent = "forged just now";
+
+    if (s.score !== null && s.score !== undefined) {
+      scoreNum.textContent = s.score + "/10";
+      document.getElementById("score").style.display = "inline-flex";
+    } else {
+      document.getElementById("score").style.display = "none";
+    }
+    pkgLink.style.display = s.package ? "inline-flex" : "none";
+    if (s.package) pkgLink.href = s.package;
+    kitLink.style.display = s.kit ? "inline-flex" : "none";
+    if (s.kit) kitLink.href = s.kit;
+
+    result.classList.add("on");
+    revisePanel.classList.add("on");
+  }
+
+  function submitTo(url, formData) {
+    clearError();
+    setButtons(true);
+    fetch(url, { method: "POST", body: formData }).then(function (res) {
+      if (res.status === 429) {
+        return res.json().then(function (j) {
+          throw new Error(j.error || "daily build cap reached");
+        });
+      }
+      if (!res.ok) throw new Error("The forge misfired (server " + res.status + "). Try again.");
+      return res.json();
+    }).then(function (j) {
+      if (j && j.started) {
+        beginPolling();
+      } else {
+        throw new Error("The forge did not start. Try again.");
+      }
+    }).catch(function (err) {
+      showError(err.message);
+    });
+  }
+
+  forgeForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    submitTo("/build", new FormData(forgeForm));
+  });
+
+  reviseForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    submitTo("/revise", new FormData(reviseForm));
   });
 </script>
 </body>

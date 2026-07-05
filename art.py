@@ -1,7 +1,10 @@
 """The Art Department: MiniMax paints real brand assets so placeholder images die."""
 import json
+import os
 import re
+import shutil
 import subprocess
+import time
 from pathlib import Path
 
 import anthropic
@@ -35,19 +38,41 @@ Reply ONLY with a JSON array like:
 
 def paint(brief, n=3):
     """Generate n images into static/. Returns their /static/... URL paths."""
+    if shutil.which("mmx") is None:
+        raise RuntimeError("mmx CLI not installed")
     shots = plan_shots(brief, n)
-    paths = []
+    fresh = []                         # (temp file, final file) painted this run
     for shot in shots[:n]:
-        out = STATIC / f"{shot['file']}.png"
+        out = STATIC / f"new-{shot['file']}.png"
         w = max(512, min(2048, int(shot.get("width", 1536)) // 8 * 8))
         h = max(512, min(2048, int(shot.get("height", 1024)) // 8 * 8))
         print(f"🍌 Painting {out.name}: {shot['prompt'][:70]}...")
-        subprocess.run(
-            ["mmx", "image", "generate", "--prompt", shot["prompt"],
-             "--width", str(w), "--height", str(h), "--out", str(out)],
-            check=True, capture_output=True, text=True,
-        )
-        paths.append(f"/static/{out.name}")
+        cmd = ["mmx", "image", "generate", "--prompt", shot["prompt"],
+               "--width", str(w), "--height", str(h), "--out", str(out)]
+        key = os.environ.get("MINIMAX_API_KEY")
+        if key:
+            cmd += ["--api-key", key]
+        for attempt in (1, 2):                 # transient rate limits: one retry per shot
+            try:
+                subprocess.run(cmd, check=True, capture_output=True, text=True)
+                fresh.append((out, STATIC / f"{shot['file']}.png"))
+                break
+            except subprocess.CalledProcessError as e:
+                print(f"🍌 {out.name} attempt {attempt} failed: {(e.stderr or e.stdout or '').strip()[:200]}")
+                if attempt == 2:
+                    print(f"🍌 Skipping {out.name}")
+                else:
+                    time.sleep(5)
+    if not fresh:
+        raise RuntimeError("every mmx paint failed")
+    temps = {temp for temp, final in fresh}
+    for old in STATIC.glob("*.png"):   # clean the easel ONLY after fresh art exists
+        if old not in temps:
+            old.unlink()
+    paths = []
+    for temp, final in fresh:
+        temp.rename(final)
+        paths.append(f"/static/{final.name}")
     return paths
 
 if __name__ == "__main__":

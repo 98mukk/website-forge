@@ -1,18 +1,22 @@
 import base64
 import json
+import threading
 
 import anthropic
 from dotenv import load_dotenv
 load_dotenv()
 
-from fastapi import FastAPI, File, Form, Request, UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi import BackgroundTasks, FastAPI, File, Form, Request, UploadFile
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from memory import recall, rules, ingest
 from eval import judge
 from art import paint
 from brandkit import forge_kit
+from pages import build_pages, package
+import db
+import guards
 
 client = anthropic.Anthropic()
 app = FastAPI()
@@ -22,6 +26,33 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # On a fresh server (like Render) the deck starts empty: seal it on boot.
 if rules.count() == 0:
     ingest()
+
+# Feature flags
+ART_DEPT = True      # flip to False to fall back to picsum placeholders
+BRAND_KIT = True     # the $20k centerpiece: forge the kit, build FROM it
+MULTI_PAGE = True    # the Package: 4 pages + zip delivery
+
+# The Forge's live status board, polled by GET /status
+STATUS = {"stage": "", "log": [], "done": False, "error": None,
+          "score": None, "package": None, "kit": None}
+
+# Last build, remembered for POST /revise
+LAST = {"order": None, "home": None, "pages": None, "kit_html": ""}
+
+# One forge, one fire: held while a pipeline runs, released in its finally block
+BUSY = threading.Lock()
+
+def reset_status():
+    STATUS.update(stage="", log=[], done=False, error=None,
+                  score=None, package=None, kit=None)
+
+def stage(msg):
+    print(msg)
+    STATUS["stage"] = msg
+    STATUS["log"].append(msg)
+
+def sanitize(html):
+    return html.replace(" — ", ", ").replace("—", "-")   # em-dash ban, enforced in code
 
 SYSTEM = """You are an elite web designer with ruthless taste. You build single-file HTML sites that look human-crafted, never AI-generated.
 
@@ -100,36 +131,125 @@ def polish(brief, html):
     )
     return "".join(b.text for b in r.content if b.type == "text")
 
+def run_build(brief, style, image_blocks):
+    """The full pipeline, run as a BackgroundTask while /status is polled."""
+    try:
+        order = f"{brief}. Style direction: {style}"
+        kit_html = ""
+
+        if MULTI_PAGE:
+            order += ("\n\nThe site has 4 pages. This is the HOME page: include a header nav "
+                      "with links index.html (Home), about.html, services.html, contact.html.")
+
+        if BRAND_KIT:
+            stage("📜 Forging the brand kit")
+            kit_html, tokens = forge_kit(order)
+            with open("static/kit.html", "w") as f:
+                f.write(kit_html)
+            STATUS["kit"] = "/static/kit.html"
+            if tokens:
+                order += ("\n\nBUILD THE SITE FROM THIS BRAND KIT. Obey these tokens exactly "
+                          "(colors with their ratios, fonts, radius, voice): "
+                          + json.dumps(tokens))
+
+        if ART_DEPT:
+            try:
+                stage("🍌 Art Department painting the imagery")
+                assets = paint(order, n=3)
+                order += ("\n\nUSE ONLY these locally generated images, they are already on the server: "
+                          + ", ".join(assets)
+                          + ". Reference them exactly by those paths. Do NOT use picsum or any external image URLs.")
+            except Exception as e:
+                stage(f"🍌 Art Department misfire ({e}); falling back to placeholders")
+
+        if image_blocks:
+            stage(f"🔴 Eyes engaged: {len(image_blocks)} reference image(s)")
+
+        stage("🏗️ Summoning the home page")
+        html = summon(order, image_blocks)
+        stage("✨ Polish pass: upgrading motion and spacing")
+        html = polish(order, html)
+        html = sanitize(html)
+        with open("site.html", "w") as f:
+            f.write(html)
+
+        site_pages = {"index": html}
+        if MULTI_PAGE:
+            stage("📄 Forging the sub-pages")
+            site_pages = build_pages(order, html, summon)
+            stage("📦 Sealing the package")
+            zip_path = package(site_pages, kit_html)
+            stage(f"📦 Package sealed: {zip_path}")
+            STATUS["package"] = "/static/forge-package.zip"
+
+        stage("⚖️ The Judge weighs the verdict")
+        score, flaws = judge(html)
+        stage(f"⚖️ Verdict: {score}/10")
+        STATUS["score"] = score
+
+        db.log_build(brief, style, score, "static/forge-package.zip")
+        if score >= 8:
+            try:
+                import taste
+                taste.save_winner(html, score, order)
+                stage("🏆 Winner sealed into the taste vault")
+            except Exception as e:
+                print(f"🏆 Taste vault unavailable ({e})")
+
+        LAST.update(order=order, home=html, pages=site_pages, kit_html=kit_html)
+        stage("✅ Build complete")
+    except Exception as e:
+        print(f"💥 Build failed: {e}")
+        STATUS["error"] = str(e)
+    finally:
+        STATUS["done"] = True
+        BUSY.release()
+
+def run_revise(instruction):
+    """One summon pass on the stored home page, then re-package + re-judge."""
+    try:
+        order = LAST["order"]
+        stage("🔧 Revising the home page")
+        prompt = (f"{order}\n\nHere is the CURRENT home page HTML:\n{LAST['home']}\n\n"
+                  f"Revise it per this instruction, changing nothing else: {instruction}\n"
+                  "Output ONLY the complete revised HTML document.")
+        html = sanitize(summon(prompt))
+        with open("site.html", "w") as f:
+            f.write(html)
+
+        site_pages = dict(LAST["pages"] or {})
+        site_pages["index"] = html
+        stage("📦 Re-sealing the package")
+        zip_path = package(site_pages, LAST["kit_html"])
+        stage(f"📦 Package sealed: {zip_path}")
+        STATUS["package"] = "/static/forge-package.zip"
+        if LAST["kit_html"]:
+            STATUS["kit"] = "/static/kit.html"
+
+        stage("⚖️ The Judge weighs the revision")
+        score, flaws = judge(html)
+        stage(f"⚖️ Verdict: {score}/10")
+        STATUS["score"] = score
+
+        LAST.update(home=html, pages=site_pages)
+        stage("✅ Revision complete")
+    except Exception as e:
+        print(f"💥 Revision failed: {e}")
+        STATUS["error"] = str(e)
+    finally:
+        STATUS["done"] = True
+        BUSY.release()
+
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse(request, "index.html")
 
-@app.post("/build", response_class=HTMLResponse)
-async def build(brief: str = Form(...), style: str = Form("clean and minimal"),
+@app.post("/build")
+async def build(background_tasks: BackgroundTasks,
+                brief: str = Form(...), style: str = Form("clean and minimal"),
                 refs: list[UploadFile] = File(default=[])):
-    JUDGE_GATE = False   # flip to True to re-arm the Proctor
-    ART_DEPT = True      # flip to False to fall back to picsum placeholders
-    BRAND_KIT = True     # the $20k centerpiece: forge the kit, build FROM it
-    order = f"{brief}. Style direction: {style}"
-
-    if BRAND_KIT:
-        print("📜 Forging the brand kit")
-        kit_html, tokens = forge_kit(order)
-        with open("static/kit.html", "w") as f:
-            f.write(kit_html)
-        if tokens:
-            order += ("\n\nBUILD THE SITE FROM THIS BRAND KIT. Obey these tokens exactly "
-                      "(colors with their ratios, fonts, radius, voice): "
-                      + json.dumps(tokens))
-
-    if ART_DEPT:
-        try:
-            assets = paint(order, n=3)
-            order += ("\n\nUSE ONLY these locally generated images, they are already on the server: "
-                      + ", ".join(assets)
-                      + ". Reference them exactly by those paths. Do NOT use picsum or any external image URLs.")
-        except Exception as e:
-            print(f"🍌 Art Department misfire ({e}); falling back to placeholders")
+    if not guards.allowed():
+        return JSONResponse(status_code=429, content={"error": "daily build cap reached"})
 
     image_blocks = []
     for ref in refs[:3]:                                   # the Eyes: max 3 references
@@ -144,27 +264,33 @@ async def build(brief: str = Form(...), style: str = Form("clean and minimal"),
                 "data": base64.standard_b64encode(data).decode(),
             },
         })
-    if image_blocks:
-        print(f"🔴 Eyes engaged: {len(image_blocks)} reference image(s)")
 
-    html = summon(order, image_blocks)
-    print("✨ Polish pass: upgrading motion and spacing")
-    html = polish(order, html)
-    html = html.replace(" — ", ", ").replace("—", "-")   # em-dash ban, enforced in code
-    score = None
+    if not BUSY.acquire(blocking=False):
+        return JSONResponse(status_code=429, content={"error": "build in progress"})
+    reset_status()
+    stage("🔥 Build started")
+    background_tasks.add_task(run_build, brief, style, image_blocks)
+    return {"started": True}
 
-    if JUDGE_GATE:
-        score, flaws = judge(html)
-        print(f"⚖️ Gate 1 verdict: {score}/10")
-        gates = 0
-        while score < 7 and gates < 2:                 # the Judge Gate
-            gates += 1
-            print(f"🔥 Opening gate {gates}: rebuilding with fixes")
-            html = summon(f"{order}\n\nA design judge scored the last attempt {score}/10. FIX THESE FLAWS:\n{flaws}", image_blocks)
-            score, flaws = judge(html)
-            print(f"⚖️ Gate {gates + 1} verdict: {score}/10")
+@app.get("/status")
+def status():
+    return STATUS
 
-    with open("site.html", "w") as f:
-        f.write(html)
-    headers = {"X-Judge-Score": str(score)} if score is not None else {}
-    return HTMLResponse(content=html, headers=headers)
+@app.get("/site", response_class=HTMLResponse)
+def site():
+    try:
+        with open("site.html") as f:
+            return HTMLResponse(f.read())
+    except FileNotFoundError:
+        return HTMLResponse("No site forged yet.", status_code=404)
+
+@app.post("/revise")
+def revise(background_tasks: BackgroundTasks, instruction: str = Form(...)):
+    if not LAST["home"]:
+        return JSONResponse(status_code=400, content={"error": "no build to revise yet"})
+    if not BUSY.acquire(blocking=False):
+        return JSONResponse(status_code=429, content={"error": "build in progress"})
+    reset_status()
+    stage("🔧 Revision started")
+    background_tasks.add_task(run_revise, instruction)
+    return {"started": True}
