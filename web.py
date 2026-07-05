@@ -1,4 +1,5 @@
 import base64
+import json
 
 import anthropic
 from dotenv import load_dotenv
@@ -11,6 +12,7 @@ from fastapi.templating import Jinja2Templates
 from memory import recall, rules, ingest
 from eval import judge
 from art import paint
+from brandkit import forge_kit
 
 client = anthropic.Anthropic()
 app = FastAPI()
@@ -107,7 +109,18 @@ async def build(brief: str = Form(...), style: str = Form("clean and minimal"),
                 refs: list[UploadFile] = File(default=[])):
     JUDGE_GATE = False   # flip to True to re-arm the Proctor
     ART_DEPT = True      # flip to False to fall back to picsum placeholders
+    BRAND_KIT = True     # the $20k centerpiece: forge the kit, build FROM it
     order = f"{brief}. Style direction: {style}"
+
+    if BRAND_KIT:
+        print("📜 Forging the brand kit")
+        kit_html, tokens = forge_kit(order)
+        with open("static/kit.html", "w") as f:
+            f.write(kit_html)
+        if tokens:
+            order += ("\n\nBUILD THE SITE FROM THIS BRAND KIT. Obey these tokens exactly "
+                      "(colors with their ratios, fonts, radius, voice): "
+                      + json.dumps(tokens))
 
     if ART_DEPT:
         try:
@@ -137,6 +150,7 @@ async def build(brief: str = Form(...), style: str = Form("clean and minimal"),
     html = summon(order, image_blocks)
     print("✨ Polish pass: upgrading motion and spacing")
     html = polish(order, html)
+    html = html.replace(" — ", ", ").replace("—", "-")   # em-dash ban, enforced in code
     score = None
 
     if JUDGE_GATE:
