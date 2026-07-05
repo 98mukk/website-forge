@@ -3,491 +3,495 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lake Shore Digital · AI systems for financial teams</title>
+<title>Lake Shore Digital, AI systems for financial teams</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Familjen+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0a0c10;
-    --bg-2:#0e1116;
-    --surface:#12161d;
-    --line:rgba(60,230,196,0.12);
-    --line-soft:rgba(60,230,196,0.07);
-    --text:#e8ebf0;
-    --muted:#8b93a1;
-    --faint:#5b626f;
-    --accent:#3ce6c4;
-    --accent-dim:rgba(60,230,196,0.14);
-    --beam: linear-gradient(115deg, rgba(60,230,196,0.55) 8%, rgba(46,120,190,0.35) 46%, transparent 82%);
-    --display:'Space Grotesk',sans-serif;
-    --body:'Sora',sans-serif;
-    --e-standard:cubic-bezier(.4,0,.2,1);
-    --e-decel:cubic-bezier(0,0,.2,1);
-    --e-spring:cubic-bezier(.34,1.56,.64,1);
+    --bg:#0b0e12;
+    --bg-soft:#11151b;
+    --ink:#eef1f4;
+    --ink-weak:#9aa3ad;
+    --ink-subtle:#5f6872;
+    --line:#3ee0b31f;
+    --line-strong:#3ee0b333;
+    --accent:#3ee0b3;
+    --accent-deep:#0f5f4c;
+    --display:"Fraunces",serif;
+    --sans:"Familjen Grotesk",sans-serif;
+    --ease-standard:cubic-bezier(.4,0,.2,1);
+    --ease-decel:cubic-bezier(0,0,.2,1);
+    --ease-spring:cubic-bezier(.34,1.56,.64,1);
   }
-  *{box-sizing:border-box;margin:0;padding:0}
+  *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
     background:var(--bg);
-    color:var(--text);
-    font-family:var(--body);
-    font-weight:300;
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  ::selection{background:var(--accent);color:#08110d}
+  ::selection{background:var(--accent);color:#04140f}
   ::-webkit-scrollbar{width:5px}
   ::-webkit-scrollbar-track{background:transparent}
   ::-webkit-scrollbar-thumb{background:rgba(115,115,115,.5);border-radius:4px}
   ::-webkit-scrollbar-thumb:hover{background:rgba(115,115,115,.7)}
   ::-webkit-scrollbar-thumb:active{background:rgba(115,115,115,.9)}
-  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
-
-  .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
   a{color:inherit;text-decoration:none}
-  h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.05;letter-spacing:-0.02em;text-wrap:balance}
-  p{text-wrap:pretty}
-
+  img{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
   .eyebrow{
-    font-family:var(--display);
-    font-size:12px;letter-spacing:0.22em;text-transform:uppercase;
-    color:var(--accent);font-weight:500;
+    font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;
   }
+  h1,h2,h3{font-family:var(--display);font-weight:500;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+  h2{font-size:clamp(2rem,4.5vw,3.2rem)}
+  p{text-wrap:pretty}
 
   /* NAV */
   nav{
     position:sticky;top:0;z-index:50;
+    background:rgba(11,14,18,.72);
     backdrop-filter:blur(14px);
-    background:rgba(10,12,16,0.7);
     border-bottom:1px solid var(--line);
   }
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
-  .logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;letter-spacing:-0.01em;font-size:17px}
-  .logo .mark{width:22px;height:22px;border-radius:6px;background:var(--beam);box-shadow:0 0 18px rgba(60,230,196,0.4)}
-  .nav-links{display:flex;gap:34px;font-size:14.5px;color:var(--muted)}
-  .nav-links a{transition:color .02s linear}
-  .nav-links a:hover{color:var(--text)}
-  .nav-cta{
-    font-family:var(--display);font-size:14px;font-weight:500;
-    padding:9px 20px;border-radius:100px;border:1px solid var(--line);
-    color:var(--text);transition:color .02s linear, border-color .2s var(--e-standard);
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .brand{font-family:var(--display);font-size:1.25rem;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+  .brand span{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
+  .nav-links{display:flex;gap:36px;align-items:center;font-size:.92rem;color:var(--ink-weak)}
+  .nav-links a{transition:color .15s var(--ease-standard)}
+  .nav-links a:not(.cta):hover{color:var(--ink)}
+
+  /* per-character wave signature */
+  .wavelink{display:inline-flex}
+  .wavelink span{display:inline-block;transition:color .15s var(--ease-standard)}
+  .wavelink:hover span{animation:wave 2.5s ease-out infinite;color:var(--accent)}
+  @keyframes wave{
+    0%,100%{transform:translateX(0)}
+    50%{transform:translateX(-0.5px)}
   }
-  .nav-cta:hover{border-color:var(--accent);color:var(--accent)}
-  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
-  .burger span{width:22px;height:2px;background:var(--text)}
+
+  .btn{
+    display:inline-block;font-size:.9rem;font-weight:500;
+    padding:11px 22px;border-radius:16px;
+    background:var(--accent);color:#04140f;
+    transition:background .15s var(--ease-standard),transform .3s var(--ease-spring),box-shadow .3s var(--ease-standard);
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -8px rgba(62,224,179,.5);background:#5ce8c1}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--accent);box-shadow:none;background:rgba(62,224,179,.06)}
+  .nav-links .cta{color:#04140f}
 
   /* HERO */
-  .hero{position:relative;padding:130px 0 120px;overflow:hidden}
-  .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;align-items:center}
-  .hero h1{font-size:clamp(40px,6.2vw,78px);max-width:12ch}
-  .hero p{color:var(--muted);font-size:18px;margin:28px 0 38px;max-width:44ch}
-  .hero .actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-  .btn-primary{
-    display:inline-flex;align-items:center;gap:11px;
-    font-family:var(--display);font-weight:600;font-size:15px;
-    background:var(--text);color:#0a0c10;
-    padding:15px 26px;border-radius:100px;
-    transition:transform .3s var(--e-standard), box-shadow .3s var(--e-standard), background .02s linear;
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero-canvas{position:absolute;inset:0;z-index:0}
+  #waves{width:100%;height:100%;display:block;opacity:.55}
+  .hero-glow{
+    position:absolute;z-index:1;top:-30%;right:-10%;width:70%;height:120%;
+    background:radial-gradient(50% 50% at 70% 30%, rgba(62,224,179,.28) 0%, rgba(11,14,18,0) 70%);
+    pointer-events:none;
   }
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(60,230,196,0.25)}
-  .btn-primary .arrow{width:26px;height:26px;border-radius:50%;background:var(--accent);display:grid;place-items:center;color:#0a0c10;font-size:13px}
-  .btn-ghost{font-family:var(--display);font-weight:500;font-size:15px;color:var(--muted);padding:15px 4px;transition:color .02s linear}
-  .btn-ghost:hover{color:var(--text)}
+  .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center;padding:130px 0 120px;min-height:700px}
+  .hero h1{font-size:clamp(2.6rem,6vw,4.6rem);margin:22px 0 26px;max-width:11ch}
+  .hero p{color:var(--ink-weak);font-size:1.12rem;max-width:44ch;margin-bottom:34px}
+  .hero-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .hero-meta{margin-top:44px;display:flex;gap:38px;color:var(--ink-subtle);font-size:.85rem}
+  .hero-meta b{display:block;font-family:var(--display);color:var(--ink);font-size:1.5rem;font-weight:500}
+  .hero-art{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line-strong);box-shadow:0 40px 90px -40px rgba(0,0,0,.8)}
+  .hero-art img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5}
+  .hero-art::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,rgba(11,14,18,0) 40%,rgba(11,14,18,.7) 100%)}
 
-  /* ambient waves */
-  .waves{position:absolute;inset:0;z-index:1;pointer-events:none}
-  .wave{position:absolute;width:180%;left:-40%;height:2px;opacity:.5;filter:blur(0.4px)}
-  .wave::before{content:"";position:absolute;inset:0;background:var(--beam)}
-  .w1{top:38%;animation:drift 22s ease-in-out infinite}
-  .w2{top:52%;opacity:.32;animation:drift 30s ease-in-out infinite reverse}
-  .w3{top:66%;opacity:.22;animation:drift 26s ease-in-out infinite}
-  @keyframes drift{
-    0%,100%{transform:translateY(0) scaleY(1) skewY(-3deg)}
-    50%{transform:translateY(-34px) scaleY(2.4) skewY(2deg)}
-  }
-  .glow-orb{position:absolute;z-index:0;width:640px;height:640px;border-radius:50%;
-    background:radial-gradient(circle, rgba(60,230,196,0.12), transparent 62%);
-    top:-160px;right:-160px;filter:blur(20px)}
-  .hero-card{
-    position:relative;background:var(--surface);border:1px solid var(--line);
-    border-radius:20px;padding:26px;overflow:hidden;
-  }
-  .hero-card::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--beam);opacity:.7}
-  .hc-row{display:flex;justify-content:space-between;align-items:baseline;padding:15px 0;border-bottom:1px solid var(--line-soft)}
-  .hc-row:last-child{border-bottom:none;padding-bottom:0}
-  .hc-row .k{color:var(--muted);font-size:14px}
-  .hc-row .v{font-family:var(--display);font-weight:600;font-size:22px}
-  .hc-tag{font-size:12px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px;display:block}
-  .spark{margin-top:20px;display:flex;align-items:flex-end;gap:5px;height:44px}
-  .spark span{flex:1;background:var(--accent-dim);border-radius:2px 2px 0 0;border-top:2px solid var(--accent)}
+  /* MARQUEE */
+  .marquee{border-bottom:1px solid var(--line);padding:26px 0;overflow:hidden;background:var(--bg-soft)}
+  .track{display:flex;gap:70px;white-space:nowrap;animation:scroll 34s linear infinite;width:max-content}
+  .track span{font-family:var(--display);font-size:1.15rem;color:var(--ink-subtle);display:flex;align-items:center;gap:70px}
+  .track span::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.6}
+  @keyframes scroll{to{transform:translateX(-50%)}}
 
-  /* LOGO STRIP */
-  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:34px 0;overflow:hidden}
-  .strip-inner{display:flex;gap:64px;align-items:center;animation:march 28s linear infinite;width:max-content}
-  .strip-inner span{font-family:var(--display);font-weight:500;font-size:19px;color:var(--faint);white-space:nowrap;letter-spacing:.01em}
-  @keyframes march{to{transform:translateX(-50%)}}
+  /* SECTION SHELL */
+  section{padding:130px 0}
+  .lead{font-size:clamp(1.7rem,3.5vw,2.6rem);font-family:var(--display);line-height:1.2;max-width:20ch}
 
-  section{padding:120px 0}
-  .sec-head{max-width:640px;margin-bottom:60px}
-  .sec-head h2{font-size:clamp(30px,4.4vw,50px);margin-top:16px}
-  .sec-head p{color:var(--muted);margin-top:20px;font-size:17px}
+  /* ROUTES (asymmetric split) */
+  .routes{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:start}
+  .route{padding:32px 0;border-top:1px solid var(--line);transition:padding-left .3s var(--ease-standard),border-color .3s var(--ease-standard)}
+  .route:last-child{border-bottom:1px solid var(--line)}
+  .route h3{font-size:1.5rem;margin-bottom:8px}
+  .route p{color:var(--ink-weak);font-size:.98rem;max-width:48ch}
+  .route .go{color:var(--accent);font-size:.85rem;margin-top:12px;display:inline-block;opacity:0;transition:opacity .3s var(--ease-standard)}
+  .route:hover{padding-left:14px;border-color:var(--line-strong)}
+  .route:hover .go{opacity:1}
 
   /* BENTO */
-  .bento{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-auto-rows:220px;gap:18px}
-  .cell{
-    background:var(--surface);border:1px solid var(--line);border-radius:18px;
-    padding:28px;position:relative;overflow:hidden;
-    transition:transform .3s var(--e-standard), border-color .2s var(--e-standard);
-  }
-  .cell:hover{border-color:rgba(60,230,196,0.35);transform:translateY(-3px)}
-  .cell h3{font-size:21px;margin-bottom:10px}
-  .cell p{color:var(--muted);font-size:14.5px}
-  .cell .num{font-family:var(--display);font-weight:700;font-size:52px;letter-spacing:-0.03em}
-  .cell .num small{font-size:20px;color:var(--accent);font-weight:600}
+  .bento{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:220px;gap:18px;margin-top:56px}
+  .cell{border:1px solid var(--line);border-radius:16px;padding:28px;position:relative;overflow:hidden;background:var(--bg-soft);transition:border-color .3s var(--ease-standard),transform .3s var(--ease-spring)}
+  .cell:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .cell h3{font-size:1.3rem;margin-bottom:10px}
+  .cell p{color:var(--ink-weak);font-size:.92rem}
+  .cell.big{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end}
+  .cell.big .glow{position:absolute;top:-40%;left:-10%;width:80%;height:90%;background:radial-gradient(50% 50% at 40% 40%,rgba(62,224,179,.22),transparent 70%);pointer-events:none}
   .cell.tall{grid-row:span 2}
-  .cell.wide{grid-column:span 1}
-  .cell.feat{grid-column:span 1;grid-row:span 2;display:flex;flex-direction:column;justify-content:space-between}
-  .cell .glowline{position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--beam);opacity:0;transition:opacity .3s var(--e-standard)}
-  .cell:hover .glowline{opacity:1}
+  .cell .num{font-family:var(--display);font-size:2.6rem;font-weight:500;color:var(--accent)}
   .cell.img{padding:0}
-  .cell.img img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(0.85)}
+  .cell.img img{width:100%;height:100%;object-fit:cover}
 
-  /* SPLIT ALTERNATING */
-  .alt{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;margin-bottom:110px}
+  /* FULL WIDTH IMAGE BAND */
+  .band{position:relative;padding:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .band-inner{display:grid;grid-template-columns:1fr 1fr;min-height:520px}
+  .band-copy{padding:100px 60px;display:flex;flex-direction:column;justify-content:center}
+  .band-copy h2{margin:18px 0 20px}
+  .band-copy p{color:var(--ink-weak);max-width:42ch;margin-bottom:26px}
+  .band-img{position:relative;overflow:hidden}
+  .band-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+  .band-img::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,var(--bg) 0%,rgba(11,14,18,0) 30%)}
+
+  /* ALTERNATING */
+  .alt{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;margin-bottom:120px}
   .alt:last-child{margin-bottom:0}
-  .alt.rev .alt-media{order:2}
-  .alt-media{border-radius:20px;overflow:hidden;position:relative;border:1px solid var(--line)}
-  .alt-media img{width:100%;display:block;aspect-ratio:4/3.2;object-fit:cover;transition:transform .3s var(--e-standard)}
-  .alt-media:hover img{transform:scale(1.04)}
-  .alt-media::after{content:"";position:absolute;inset:0;background:linear-gradient(190deg,transparent 55%,rgba(10,12,16,0.55))}
-  .alt h3{font-size:clamp(26px,3.4vw,38px);margin-bottom:20px}
-  .alt p{color:var(--muted);font-size:16px;margin-bottom:26px}
-  .alt ul{list-style:none;display:flex;flex-direction:column;gap:14px}
-  .alt li{display:flex;gap:13px;align-items:flex-start;font-size:15px;color:var(--text)}
-  .alt li b{color:var(--accent);font-family:var(--display)}
-
-  /* METRICS full width */
-  .metrics{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
-  .metrics .glow-orb{width:800px;height:800px;left:50%;top:auto;bottom:-500px;right:auto;transform:translateX(-50%);opacity:.6}
-  .m-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;position:relative;z-index:2}
-  .m-grid .stat .n{font-family:var(--display);font-weight:700;font-size:clamp(34px,4.4vw,56px);letter-spacing:-0.03em}
-  .m-grid .stat .l{color:var(--muted);font-size:14.5px;margin-top:8px}
-  .m-grid .stat{border-left:1px solid var(--line);padding-left:24px}
-
-  /* QUOTE */
-  .quote{max-width:900px;margin:0 auto;text-align:center}
-  .quote blockquote{font-family:var(--display);font-weight:500;font-size:clamp(24px,3.6vw,40px);line-height:1.28;letter-spacing:-0.02em}
-  .quote blockquote span{color:var(--accent)}
-  .quote .who{margin-top:34px;color:var(--muted);font-size:15px}
-  .quote .who b{color:var(--text);font-family:var(--display)}
+  .alt.flip .alt-media{order:2}
+  .alt-media{border-radius:16px;overflow:hidden;border:1px solid var(--line);position:relative;transition:border-color .3s var(--ease-standard)}
+  .alt-media:hover{border-color:var(--line-strong)}
+  .alt-media img{width:100%;aspect-ratio:5/4;object-fit:cover}
+  .alt-media .tag{position:absolute;bottom:16px;left:16px;background:rgba(11,14,18,.85);backdrop-filter:blur(6px);padding:7px 14px;border-radius:100px;font-size:.78rem;border:1px solid var(--line-strong)}
+  .alt h3{font-size:1.9rem;margin-bottom:16px}
+  .alt p{color:var(--ink-weak);margin-bottom:14px}
+  .alt ul{list-style:none;margin-top:20px}
+  .alt li{padding:12px 0;border-top:1px solid var(--line);color:var(--ink-weak);font-size:.95rem;display:flex;gap:12px}
+  .alt li::before{content:"";flex:none;width:6px;height:6px;margin-top:9px;border-radius:50%;background:var(--accent)}
 
   /* CTA */
-  .cta-band{position:relative;text-align:center;padding:130px 0;overflow:hidden}
-  .cta-band .glow-orb{width:900px;height:700px;top:auto;bottom:-400px;right:auto;left:50%;transform:translateX(-50%);opacity:.9}
-  .cta-band h2{font-size:clamp(32px,5vw,60px);position:relative;z-index:2}
-  .cta-band p{color:var(--muted);max-width:40ch;margin:24px auto 40px;position:relative;z-index:2}
-  .cta-band .actions{position:relative;z-index:2;display:flex;gap:16px;justify-content:center}
+  .cta-block{position:relative;text-align:left;border-radius:16px;border:1px solid var(--line-strong);padding:80px 60px;overflow:hidden;background:var(--bg-soft)}
+  .cta-block .glow{position:absolute;bottom:-60%;right:-10%;width:70%;height:150%;background:radial-gradient(50% 50% at 60% 40%,rgba(62,224,179,.24),transparent 70%);pointer-events:none}
+  .cta-block h2{max-width:16ch;position:relative;margin-bottom:24px}
+  .cta-block p{color:var(--ink-weak);max-width:46ch;position:relative;margin-bottom:32px}
 
   /* FOOTER */
-  footer{border-top:1px solid var(--line);padding:70px 0 40px}
+  footer{border-top:1px solid var(--line);padding:70px 0 50px;background:var(--bg-soft)}
   .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
-  .foot-grid h4{font-family:var(--display);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:18px}
-  .foot-grid a{display:block;color:var(--muted);font-size:14.5px;margin-bottom:12px;transition:color .02s linear}
+  .foot-grid h4{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-subtle);margin-bottom:18px;font-family:var(--sans);font-weight:600}
+  .foot-grid a{display:block;color:var(--ink-weak);font-size:.92rem;padding:6px 0;transition:color .15s var(--ease-standard)}
   .foot-grid a:hover{color:var(--accent)}
-  .foot-brand p{color:var(--muted);font-size:14.5px;margin-top:18px;max-width:30ch}
-  .foot-bottom{display:flex;justify-content:space-between;margin-top:60px;padding-top:26px;border-top:1px solid var(--line);color:var(--faint);font-size:13px}
+  .foot-grid p{color:var(--ink-weak);font-size:.92rem;max-width:32ch;margin-top:14px}
+  .foot-bottom{display:flex;justify-content:space-between;margin-top:56px;padding-top:28px;border-top:1px solid var(--line);color:var(--ink-subtle);font-size:.82rem}
 
-  .reveal{opacity:0;transform:translateY(40px);transition:opacity .6s ease-out, transform .6s ease-out}
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .6s ease-out,transform .6s ease-out}
   .reveal.in{opacity:1;transform:none}
 
-  @media(max-width:900px){
+  @media (max-width:900px){
+    .hero-inner,.routes,.band-inner,.alt,.foot-grid{grid-template-columns:1fr}
+    .hero-art{display:none}
     .bento{grid-template-columns:1fr 1fr}
-    .cell.feat{grid-column:span 2}
-    .m-grid{grid-template-columns:1fr 1fr;gap:32px 24px}
-  }
-  @media(max-width:768px){
-    .nav-links,.nav-cta{display:none}
-    .burger{display:flex}
-    .hero{padding:80px 0 70px}
-    .hero-grid{grid-template-columns:1fr;gap:44px}
-    .alt,.alt.rev .alt-media{grid-template-columns:1fr;order:0;gap:32px}
-    .alt.rev .alt-media{order:0}
-    .bento{grid-template-columns:1fr}
-    .cell.feat,.cell.tall,.cell.wide{grid-column:auto;grid-row:auto}
-    .cell{min-height:180px}
-    .m-grid{grid-template-columns:1fr 1fr}
+    .cell.big{grid-column:span 2}
+    .band-copy{padding:70px 32px}
+    .band-img{min-height:340px;position:relative}
+    .band-img img{position:absolute}
+    .band-img::before{background:linear-gradient(0deg,var(--bg),transparent 40%)}
+    .alt.flip .alt-media{order:0}
     .foot-grid{grid-template-columns:1fr 1fr}
-    section{padding:80px 0}
-    .foot-bottom{flex-direction:column;gap:12px}
   }
-  @media(prefers-reduced-motion:reduce){
-    *{animation:none!important;transition:none!important}
-    .reveal{opacity:1;transform:none}
+  @media (max-width:600px){
+    .wrap{padding:0 22px}
+    .nav-links a:not(.cta){display:none}
+    .bento{grid-template-columns:1fr}
+    .cell.big,.cell.tall{grid-column:auto;grid-row:auto}
+    .hero-meta{gap:24px}
+    .foot-bottom{flex-direction:column;gap:10px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .track{animation:none}
+    .reveal{opacity:1;transform:none;transition:none}
+    .wavelink:hover span{animation:none}
+    *{animation:none!important}
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="wrap nav-in">
-    <a href="#" class="logo"><span class="mark"></span>Lake Shore Digital</a>
+  <div class="wrap nav-inner">
+    <div class="brand"><span></span>Lake Shore Digital</div>
     <div class="nav-links">
       <a href="#work">Work</a>
-      <a href="#capabilities">Capabilities</a>
-      <a href="#results">Results</a>
-      <a href="#process">Process</a>
+      <a href="#platform">Platform</a>
+      <a href="#proof">Proof</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact" class="btn cta">Book a call</a>
     </div>
-    <a href="#contact" class="nav-cta">Book a call</a>
-    <div class="burger" aria-label="Menu"><span></span><span></span><span></span></div>
   </div>
 </nav>
 
-<!-- HERO -->
 <header class="hero">
-  <div class="glow-orb"></div>
-  <div class="waves">
-    <div class="wave w1"></div>
-    <div class="wave w2"></div>
-    <div class="wave w3"></div>
-  </div>
-  <div class="wrap hero-grid">
+  <div class="hero-canvas"><canvas id="waves"></canvas></div>
+  <div class="hero-glow"></div>
+  <div class="wrap hero-inner">
     <div>
-      <h1>AI systems that pay their own way.</h1>
-      <p>Lake Shore Digital builds and ships production AI for banks, lenders, and fintech teams. From first prototype to live in eleven weeks.</p>
-      <div class="actions">
-        <a href="#contact" class="btn-primary">Start a project <span class="arrow">→</span></a>
-        <a href="#work" class="btn-ghost">See the work</a>
+      <span class="eyebrow">AI systems for finance teams</span>
+      <h1>We ship AI that survives an audit.</h1>
+      <p>Lake Shore Digital builds production models, agents, and data pipelines for banks and fintechs that cannot afford a hallucination.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn">Start a build</a>
+        <a href="#work" class="btn btn-ghost">See the work</a>
+      </div>
+      <div class="hero-meta">
+        <div><b>$4.1B</b>assets under models</div>
+        <div><b>0.3%</b>false-positive rate</div>
+        <div><b>11 wks</b>median to production</div>
       </div>
     </div>
-    <div class="hero-card reveal">
-      <span class="hc-tag">Live model · fraud triage</span>
-      <div class="hc-row"><span class="k">Decisions / minute</span><span class="v">4,180</span></div>
-      <div class="hc-row"><span class="k">False positives</span><span class="v">2.7%</span></div>
-      <div class="hc-row"><span class="k">Analyst hours saved</span><span class="v">312 / wk</span></div>
-      <div class="spark">
-        <span style="height:40%"></span><span style="height:55%"></span><span style="height:48%"></span>
-        <span style="height:70%"></span><span style="height:62%"></span><span style="height:85%"></span>
-        <span style="height:78%"></span><span style="height:100%"></span>
-      </div>
+    <div class="hero-art">
+      <img src="/static/hero.png" alt="Ambient data visualization">
     </div>
   </div>
 </header>
 
-<!-- LOGO STRIP -->
-<div class="strip">
-  <div class="strip-inner">
-    <span>Northbridge Bank</span><span>Cardinal Pay</span><span>Meridian Capital</span>
-    <span>Halcyon Lending</span><span>Voss &amp; Reyes</span><span>Fielder Trust</span>
-    <span>Northbridge Bank</span><span>Cardinal Pay</span><span>Meridian Capital</span>
-    <span>Halcyon Lending</span><span>Voss &amp; Reyes</span><span>Fielder Trust</span>
+<div class="marquee">
+  <div class="track">
+    <span>Fraud detection<span>Underwriting agents<span>Document intelligence<span>KYC automation<span>Treasury forecasting<span>Model governance<span></span></span></span></span></span></span></span></span>
+    <span>Fraud detection<span>Underwriting agents<span>Document intelligence<span>KYC automation<span>Treasury forecasting<span>Model governance<span></span></span></span></span></span></span></span></span>
   </div>
 </div>
 
-<!-- CAPABILITIES BENTO -->
-<section id="capabilities">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">What we build</span>
-      <h2>Fewer decks. More things running in production.</h2>
+<!-- ROUTES: asymmetric split -->
+<section id="platform">
+  <div class="wrap routes">
+    <div class="reveal">
+      <span class="eyebrow">Where you fit</span>
+      <p class="lead" style="margin-top:20px">Three ways teams put us to work.</p>
     </div>
+    <div>
+      <div class="route reveal">
+        <h3>For risk &amp; compliance leads</h3>
+        <p>Explainable models with full lineage, versioned decisions, and export-ready audit trails. Every prediction traces back to its inputs.</p>
+        <a href="#" class="go wavelink" data-wave>Governance stack</a>
+      </div>
+      <div class="route reveal">
+        <h3>For heads of engineering</h3>
+        <p>We embed with your team, ship into your cloud, and hand over readable code. No black boxes, no lock-in, no rented dashboards.</p>
+        <a href="#" class="go wavelink" data-wave>How we integrate</a>
+      </div>
+      <div class="route reveal">
+        <h3>For founders scaling fintech</h3>
+        <p>From a first fraud model to an agent that reads statements, we build the system that lets 6 people do the work of 40.</p>
+        <a href="#" class="go wavelink" data-wave>Growth playbook</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENTO -->
+<section id="proof" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="reveal">Measured in outcomes,<br>not slide decks.</h2>
     <div class="bento">
-      <div class="cell feat reveal">
-        <div>
-          <h3>Agentic operations</h3>
-          <p>Autonomous workflows that reconcile ledgers, chase exceptions, and escalate only what a human needs to see.</p>
-        </div>
-        <div class="num">68<small>%</small></div>
-        <div class="glowline"></div>
+      <div class="cell big reveal">
+        <div class="glow"></div>
+        <div class="num">47.2%</div>
+        <h3>fewer false alerts</h3>
+        <p>Recovered analyst time at a mid-market lender after we retrained their transaction monitoring pipeline.</p>
       </div>
       <div class="cell reveal">
-        <h3>Document intelligence</h3>
-        <p>Pull structured data from contracts, statements, and KYC files at scale.</p>
-        <div class="glowline"></div>
+        <div class="num">$2.6M</div>
+        <p>fraud caught in the first quarter after go-live.</p>
       </div>
-      <div class="cell img reveal"><img src="https://picsum.photos/seed/circuitry/600/400" alt="Signal processing dashboard"></div>
-      <div class="cell tall reveal">
-        <h3>Risk &amp; fraud models</h3>
-        <p>Real-time scoring built on your own transaction history, tuned against drift and audited for bias.</p>
-        <div class="num" style="margin-top:24px">2.7<small>% FP</small></div>
-        <div class="glowline"></div>
+      <div class="cell tall img reveal">
+        <img src="/static/section-flow.png" alt="Signal flow">
       </div>
       <div class="cell reveal">
-        <h3>Support copilots</h3>
-        <p>Grounded assistants that answer from your knowledge base, not the open web.</p>
-        <div class="glowline"></div>
+        <div class="num">9.4 hrs</div>
+        <p>saved per underwriter, every week.</p>
       </div>
       <div class="cell reveal">
-        <h3>Forecasting</h3>
-        <p>Cash flow and demand models your finance team will actually trust.</p>
-        <div class="glowline"></div>
+        <h3>SOC 2 Type II</h3>
+        <p>Deployed inside your VPC. Your data never leaves your account.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ALTERNATING WORK -->
-<section id="work" style="padding-top:20px">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Recent work</h2>
-      <p>A sample of systems we took from a whiteboard to live traffic.</p>
+<!-- FULL WIDTH BAND -->
+<section class="band" style="padding:0" id="work">
+  <div class="band-inner">
+    <div class="band-copy reveal">
+      <span class="eyebrow">Case file 04</span>
+      <h2>A document agent that reads 900 pages a minute.</h2>
+      <p>Meridian Trust needed to pull covenants out of loan agreements without a human touching every PDF. We built the extraction layer, the review queue, and the fallback logic in nine weeks.</p>
+      <a href="#contact" class="btn btn-ghost">Read the write-up</a>
     </div>
+    <div class="band-img">
+      <img src="/static/section-depth.png" alt="Depth of data">
+    </div>
+  </div>
+</section>
 
-    <div class="alt reveal">
-      <div class="alt-media"><img src="https://picsum.photos/seed/ledgervault/800/640" alt="Reconciliation engine"></div>
-      <div>
-        <span class="eyebrow">Meridian Capital</span>
-        <h3 style="margin-top:14px">A reconciliation engine that closes the books by 9am.</h3>
-        <p>We replaced a nightly batch of spreadsheets with an agent that matches 1.4M transactions across seven ledgers and flags only the 40 that need a person.</p>
+<!-- ALTERNATING -->
+<section id="how">
+  <div class="wrap">
+    <div class="alt">
+      <div class="alt-media reveal">
+        <img src="/static/section-flow.png" alt="Modeling process">
+        <span class="tag">Phase 1 · Discovery</span>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">How the build runs</span>
+        <h3 style="margin-top:16px">We start with your worst dataset.</h3>
+        <p>Most AI projects die on messy data. We spend week one in the ugliest table you have, mapping what is real and what is noise before a single model gets trained.</p>
         <ul>
-          <li><b>93.1%</b><span>of exceptions cleared automatically</span></li>
-          <li><b>11 wks</b><span>from kickoff to production rollout</span></li>
-          <li><b>$2.1M</b><span>annual back-office cost removed</span></li>
+          <li>Data audit with a written risk memo, not a verbal maybe</li>
+          <li>A working prototype you can break in week three</li>
+          <li>Weekly demos against real production traffic</li>
         </ul>
       </div>
     </div>
-
-    <div class="alt rev reveal">
-      <div class="alt-media"><img src="https://picsum.photos/seed/fraudsignal/800/640" alt="Fraud detection interface"></div>
-      <div>
-        <span class="eyebrow">Cardinal Pay</span>
-        <h3 style="margin-top:14px">Fraud triage that stopped burning out the analysts.</h3>
-        <p>Cardinal's queue was drowning in false alerts. We shipped a scoring model plus a triage copilot that ranks the queue and drafts the case notes.</p>
+    <div class="alt flip">
+      <div class="alt-media reveal">
+        <img src="/static/section-depth.png" alt="Deployment">
+        <span class="tag">Phase 2 · Ship &amp; hand over</span>
+      </div>
+      <div class="reveal">
+        <h3>Then we make ourselves optional.</h3>
+        <p>The goal is a system your team owns. We document every decision boundary, write the runbook, and train your engineers until they stop calling us.</p>
         <ul>
-          <li><b>4,180</b><span>decisions processed per minute</span></li>
-          <li><b>312 hrs</b><span>of analyst time returned weekly</span></li>
-          <li><b>19.4%</b><span>lift in caught fraud in quarter one</span></li>
+          <li>Monitoring that flags model drift before your customers do</li>
+          <li>Retraining pipelines your team can trigger without us</li>
+          <li>A 90-day support window, then a clean exit</li>
         </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- METRICS FULL WIDTH -->
-<section id="results" class="metrics">
-  <div class="glow-orb"></div>
-  <div class="wrap">
-    <div class="sec-head reveal" style="max-width:520px">
-      <span class="eyebrow">The record so far</span>
-      <h2>Small team. Serious numbers.</h2>
-    </div>
-    <div class="m-grid">
-      <div class="stat reveal"><div class="n">47.2%</div><div class="l">Average cost cut per shipped system</div></div>
-      <div class="stat reveal"><div class="n">11 wks</div><div class="l">Median time to first production deploy</div></div>
-      <div class="stat reveal"><div class="n">31</div><div class="l">Models live across client stacks</div></div>
-      <div class="stat reveal"><div class="n">$18.6M</div><div class="l">Documented annual savings to date</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- QUOTE -->
-<section>
-  <div class="wrap quote reveal">
-    <blockquote>They shipped a working model before most vendors finished the <span>scoping call.</span> Six weeks in it was already catching fraud we used to miss.</blockquote>
-    <div class="who"><b>Dana Whitmore</b> · Head of Risk, Cardinal Pay</div>
-  </div>
-</section>
-
-<!-- PROCESS SPLIT -->
-<section id="process" style="background:var(--bg-2);border-top:1px solid var(--line)">
-  <div class="wrap alt" style="margin-bottom:0;align-items:start">
-    <div>
-      <span class="eyebrow">How we work</span>
-      <h3 style="margin-top:14px">Four phases, no lost quarters.</h3>
-      <p>We keep engagements short and evidence-based. You see something running early, then we harden it.</p>
-      <a href="#contact" class="btn-primary" style="margin-top:8px">Talk through your problem <span class="arrow">→</span></a>
-    </div>
-    <div>
-      <div class="cell reveal" style="margin-bottom:16px">
-        <h3><span style="color:var(--accent)">01</span> &nbsp;Diagnose</h3>
-        <p style="margin-top:8px">Two weeks inside your data and workflows. We find where AI actually earns its keep, and where it does not.</p>
-        <div class="glowline"></div>
-      </div>
-      <div class="cell reveal" style="margin-bottom:16px">
-        <h3><span style="color:var(--accent)">02</span> &nbsp;Prototype</h3>
-        <p style="margin-top:8px">A working model on your real data, measured against a baseline you already trust.</p>
-        <div class="glowline"></div>
-      </div>
-      <div class="cell reveal" style="margin-bottom:16px">
-        <h3><span style="color:var(--accent)">03</span> &nbsp;Ship</h3>
-        <p style="margin-top:8px">Deployed into your stack with monitoring, guardrails, and a runbook your team owns.</p>
-        <div class="glowline"></div>
-      </div>
-      <div class="cell reveal">
-        <h3><span style="color:var(--accent)">04</span> &nbsp;Tune</h3>
-        <p style="margin-top:8px">We stay on retainer to watch for drift and keep the numbers where they should be.</p>
-        <div class="glowline"></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section id="contact" class="cta-band">
-  <div class="glow-orb"></div>
+<section id="contact" style="padding-top:0">
   <div class="wrap">
-    <h2 class="reveal">Have a problem worth solving?</h2>
-    <p class="reveal">Send us the messy version. We reply within a day with an honest read on whether AI is the right tool.</p>
-    <div class="actions reveal">
-      <a href="mailto:hello@lakeshoredigital.co" class="btn-primary">hello@lakeshoredigital.co <span class="arrow">→</span></a>
-      <a href="#work" class="btn-ghost">Read a case study first</a>
+    <div class="cta-block reveal">
+      <div class="glow"></div>
+      <span class="eyebrow">Let's talk</span>
+      <h2 style="margin-top:18px">Bring us the problem your last vendor gave up on.</h2>
+      <p>Book a 30-minute call with Dana Whitfield, our lead engineer. No sales deck. We will tell you honestly whether AI is even the right tool.</p>
+      <a href="#" class="btn">Book the call</a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="wrap">
     <div class="foot-grid">
-      <div class="foot-brand">
-        <a href="#" class="logo"><span class="mark"></span>Lake Shore Digital</a>
-        <p>Applied AI for financial teams. Chicago and remote.</p>
+      <div>
+        <div class="brand"><span></span>Lake Shore Digital</div>
+        <p>Applied AI for financial teams who get audited. Chicago and remote.</p>
+      </div>
+      <div>
+        <h4>Work</h4>
+        <a href="#">Fraud detection</a>
+        <a href="#">Document AI</a>
+        <a href="#">Underwriting</a>
+        <a href="#">Forecasting</a>
       </div>
       <div>
         <h4>Company</h4>
-        <a href="#work">Work</a><a href="#process">Process</a><a href="#">About</a><a href="#">Careers</a>
+        <a href="#">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Writing</a>
+        <a href="#">Contact</a>
       </div>
       <div>
-        <h4>Services</h4>
-        <a href="#capabilities">Agentic ops</a><a href="#capabilities">Risk models</a><a href="#capabilities">Copilots</a><a href="#capabilities">Forecasting</a>
-      </div>
-      <div>
-        <h4>Contact</h4>
-        <a href="mailto:hello@lakeshoredigital.co">Email us</a><a href="#">LinkedIn</a><a href="#">Book a call</a>
+        <h4>Trust</h4>
+        <a href="#">Security</a>
+        <a href="#">SOC 2 report</a>
+        <a href="#">Privacy</a>
+        <a href="#">Status</a>
       </div>
     </div>
     <div class="foot-bottom">
       <span>© 2026 Lake Shore Digital LLC</span>
-      <span>Privacy · Terms · Security</span>
+      <span>216 N Clinton St, Chicago IL</span>
     </div>
   </div>
 </footer>
 
 <script>
-  const io=new IntersectionObserver((es)=>{
-    es.forEach(e=>{
-      if(e.isIntersecting){
-        const sibs=[...e.target.parentElement.children].filter(c=>c.classList.contains('reveal'));
-        const idx=sibs.indexOf(e.target);
-        e.target.style.transitionDelay=(Math.max(idx,0)*100)+'ms';
-        e.target.classList.add('in');
-        io.unobserve(e.target);
-      }
-    })
-  },{threshold:0.2});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-  const burger=document.querySelector('.burger');
-  const links=document.querySelector('.nav-links');
-  burger.addEventListener('click',()=>{
-    const open=links.style.display==='flex';
-    links.style.display=open?'none':'flex';
-    if(!open){links.style.position='absolute';links.style.top='70px';links.style.left='0';links.style.right='0';
-      links.style.flexDirection='column';links.style.background='var(--bg-2)';links.style.padding='24px 28px';
-      links.style.borderBottom='1px solid var(--line)';links.style.gap='20px';}
+// Per-character wave: wrap each letter in a span with staggered delay
+(function(){
+  document.querySelectorAll('[data-wave]').forEach(function(el){
+    var text = el.textContent;
+    el.textContent = '';
+    text.split('').forEach(function(ch,i){
+      var s = document.createElement('span');
+      s.textContent = ch === ' ' ? '\u00a0' : ch;
+      s.style.animationDelay = (i*0.1)+'s';
+      el.appendChild(s);
+    });
   });
+})();
+
+// Ambient wave motion, slow layered sine waves fading to the dark base
+(function(){
+  var canvas = document.getElementById('waves');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var w,h,dpr;
+  function size(){
+    dpr = Math.min(window.devicePixelRatio||1,2);
+    w = canvas.offsetWidth; h = canvas.offsetHeight;
+    canvas.width = w*dpr; canvas.height = h*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  size(); window.addEventListener('resize', size);
+
+  var layers = [
+    {amp:34, len:0.006, speed:0.00012, y:0.62, alpha:0.30},
+    {amp:26, len:0.009, speed:-0.00016, y:0.70, alpha:0.22},
+    {amp:44, len:0.004, speed:0.00009, y:0.80, alpha:0.16}
+  ];
+
+  function drawWave(l,t){
+    ctx.beginPath();
+    for(var x=0;x<=w;x+=6){
+      var y = h*l.y
+        + Math.sin(x*l.len + t*l.speed*1000)*l.amp
+        + Math.sin(x*l.len*0.5 + t*l.speed*600)*l.amp*0.5;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    var grad = ctx.createLinearGradient(0,0,w,0);
+    grad.addColorStop(0,'rgba(62,224,179,0)');
+    grad.addColorStop(0.5,'rgba(62,224,179,'+l.alpha+')');
+    grad.addColorStop(1,'rgba(62,224,179,0)');
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+  }
+
+  function frame(t){
+    ctx.clearRect(0,0,w,h);
+    for(var i=0;i<layers.length;i++) drawWave(layers[i],t);
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  if(reduce){ frame(0); } else { requestAnimationFrame(frame); }
+})();
+
+// Scroll reveal with staggered siblings
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in')}); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        var siblings = Array.prototype.slice.call(en.target.parentNode.children).filter(function(c){return c.classList.contains('reveal')});
+        var idx = siblings.indexOf(en.target);
+        en.target.style.transitionDelay = (Math.max(0,idx)*0.1)+'s';
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  },{threshold:0.2});
+  els.forEach(function(e){io.observe(e)});
+})();
 </script>
 </body>
 </html>

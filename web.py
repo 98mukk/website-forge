@@ -6,13 +6,16 @@ load_dotenv()
 
 from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from memory import recall, rules, ingest
 from eval import judge
+from art import paint
 
 client = anthropic.Anthropic()
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # On a fresh server (like Render) the deck starts empty: seal it on boot.
 if rules.count() == 0:
@@ -103,7 +106,17 @@ def home(request: Request):
 async def build(brief: str = Form(...), style: str = Form("clean and minimal"),
                 refs: list[UploadFile] = File(default=[])):
     JUDGE_GATE = False   # flip to True to re-arm the Proctor
+    ART_DEPT = True      # flip to False to fall back to picsum placeholders
     order = f"{brief}. Style direction: {style}"
+
+    if ART_DEPT:
+        try:
+            assets = paint(order, n=3)
+            order += ("\n\nUSE ONLY these locally generated images, they are already on the server: "
+                      + ", ".join(assets)
+                      + ". Reference them exactly by those paths. Do NOT use picsum or any external image URLs.")
+        except Exception as e:
+            print(f"🍌 Art Department misfire ({e}); falling back to placeholders")
 
     image_blocks = []
     for ref in refs[:3]:                                   # the Eyes: max 3 references
