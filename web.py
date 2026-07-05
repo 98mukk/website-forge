@@ -68,6 +68,7 @@ HARD RULES (violating any = failure):
 - Copy: concrete and specific, no filler verbs (Elevate, Seamless, Unleash, Revolutionize). Realistic names and organic numbers (47.2%, not 50%). No em-dashes anywhere.
 - Small uppercase section labels (eyebrows): maximum 1 per 3 sections.
 - Mobile: everything collapses to clean single column under 768px.
+- SIGNATURE CLOSER: end the page with a text-over-glow CTA section built the proven way: one absolutely positioned atmospheric cover image at z-0, one top-down gradient scrim in the page background color (solid through ~20% height, transparent by 80%) so the headline sits clean while the glow blooms behind the bottom, then glass action cards: translucent white at 10-12% alpha, backdrop-blur 8px, rounded corners, the whole card is the link, hover brightens to ~20% alpha, no borders, no shadows.
 
 Output ONLY the complete HTML document, no explanations."""
 

@@ -3,447 +3,403 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lake Shore Digital — Brand Kit</title>
+<title>Bighead &amp; Broadfoot — Brand Kit</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<script id="brand-tokens" type="application/json">{"brand":"Lake Shore Digital","positioning":"We build the websites and AI systems small businesses actually run on.","colors":{"base":{"hex":"#0B0F14","ratio":"60%"},"surface":{"hex":"#141B24","ratio":"30%"},"accent":{"hex":"#3DDC97","ratio":"9%"},"signal":{"hex":"#E8EDF2","ratio":"1%"}},"fonts":{"display":"Sora","body":"IBM Plex Sans"},"radius":"10px","voice":["Write short declarative statements that name the work","Use organic numbers like 47.2 percent, never fake-round specs","banned: Elevate, Seamless, Unleash, Revolutionize, Next-Gen"],"imagery":"Low-light architectural interiors and lakeside dusk, cool teal light, no stock handshakes"}</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script id="brand-tokens" type="application/json">{"brand":"Bighead & Broadfoot","positioning":"Stands tall. Thinks big.","colors":{"base":{"hex":"#F4F1EA","ratio":"60%"},"surface":{"hex":"#1C1B18","ratio":"30%"},"accent":{"hex":"#C8503A","ratio":"9%"},"signal":{"hex":"#2F6D5B","ratio":"1%"}},"fonts":{"display":"Fraunces","body":"Work Sans"},"radius":"6px","voice":["Write short declarative lines that plant both feet","Name the concrete thing, not the abstraction","banned: elevate, seamless, unleash, revolutionize, next-gen"],"imagery":"Grounded studio portraits, low horizon lines, generous headroom, warm neutral light"}</script>
 <style>
 :root{
-  --base:#0B0F14;
-  --surface:#141B24;
-  --surface-2:#1B242F;
-  --accent:#3DDC97;
-  --signal:#E8EDF2;
-  --line:#26313D;
-  --muted:#8A97A6;
-  --radius:10px;
+  --base:#F4F1EA;
+  --surface:#1C1B18;
+  --accent:#C8503A;
+  --signal:#2F6D5B;
+  --ink:#26241F;
+  --muted:#6E6A60;
+  --line:#DAD5C8;
+  --radius:6px;
 }
-*{margin:0;padding:0;box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
   background:var(--base);
-  color:var(--signal);
-  font-family:'IBM Plex Sans',sans-serif;
-  line-height:1.6;
-  font-size:16px;
+  color:var(--ink);
+  font-family:"Work Sans",sans-serif;
+  font-size:17px;
+  line-height:1.65;
   -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3,h4{font-family:'Sora',sans-serif;line-height:1.1;letter-spacing:-0.02em}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+h1,h2,h3,h4{font-family:"Fraunces",serif;font-weight:900;line-height:1.05;color:var(--surface)}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 40px}
 
-/* nav */
-header.nav{
-  position:sticky;top:0;z-index:50;
-  background:rgba(11,15,20,0.92);
-  border-bottom:1px solid var(--line);
-}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
-.wordmark{font-family:'Sora',sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.03em}
-.wordmark .o{color:var(--accent)}
-.nav-links{display:flex;gap:34px;list-style:none}
-.nav-links a{font-size:14px;color:var(--muted);font-weight:500;transition:color .2s}
-.nav-links a.active,.nav-links a:hover{color:var(--signal)}
-.nav-links a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+/* Nav */
+header.site{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(244,241,234,.94);backdrop-filter:none;z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:22px 40px;max-width:1120px;margin:0 auto}
+.brandmark{font-family:"Fraunces",serif;font-weight:900;font-size:22px;letter-spacing:-.02em}
+.brandmark .o{color:var(--accent)}
+.nav ul{list-style:none;display:flex;gap:34px}
+.nav a{text-decoration:none;font-weight:500;font-size:15px;color:var(--muted);padding-bottom:4px;border-bottom:2px solid transparent;transition:.2s}
+.nav a:hover{color:var(--surface);border-color:var(--accent)}
+.nav a[aria-current]{color:var(--surface);border-color:var(--accent)}
 
-/* hero */
-.hero{padding:120px 0 90px;border-bottom:1px solid var(--line)}
-.eyebrow{font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:28px}
-.hero h1{font-size:clamp(44px,7vw,78px);font-weight:700;max-width:14ch}
-.hero p.lead{margin-top:28px;max-width:52ch;font-size:19px;color:var(--muted)}
-.kit-tag{margin-top:44px;font-size:13px;color:var(--muted);display:flex;gap:24px;flex-wrap:wrap}
-.kit-tag span{border:1px solid var(--line);padding:6px 14px;border-radius:var(--radius)}
+/* Hero */
+.hero{padding:120px 0 90px;display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:end}
+.eyebrow{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:26px}
+.hero h1{font-size:clamp(52px,8vw,96px);letter-spacing:-.03em}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--accent)}
+.hero p.lead{font-size:20px;color:var(--muted);max-width:34ch;margin-top:8px}
+.hero-side{border-left:2px solid var(--accent);padding-left:24px}
+.hero-side span{display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.hero-side strong{font-family:"Fraunces",serif;font-size:30px;font-weight:600;color:var(--surface);display:block;margin-bottom:24px;line-height:1.1}
 
-/* section framing */
-section{padding:88px 0;border-bottom:1px solid var(--line)}
-.sec-num{font-family:'Sora',sans-serif;font-size:13px;color:var(--accent);letter-spacing:0.2em;font-weight:600}
-.sec-title{font-size:clamp(28px,4vw,40px);font-weight:700;margin:14px 0 8px}
-.sec-sub{color:var(--muted);max-width:56ch;margin-bottom:48px}
+/* Section framing */
+section.block{padding:84px 0;border-top:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;gap:20px;margin-bottom:48px}
+.sec-num{font-family:"Fraunces",serif;font-weight:900;font-size:18px;color:var(--accent)}
+.sec-head h2{font-size:clamp(30px,4vw,42px);letter-spacing:-.02em}
+.sec-head p{color:var(--muted);margin-left:auto;max-width:32ch;font-size:15px}
 
-/* pillars */
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.pillar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:30px}
-.pillar h3{font-size:20px;margin-bottom:12px}
-.pillar .idx{font-family:'Sora',sans-serif;color:var(--accent);font-size:14px;font-weight:600}
-.pillar p{font-size:15px;color:var(--muted)}
+/* Pillars */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.pillar{background:var(--base);padding:34px 28px}
+.pillar h3{font-size:24px;margin-bottom:12px}
+.pillar span{color:var(--accent);font-weight:600;font-size:14px}
+.pillar p{color:var(--muted);font-size:15px;margin-top:10px}
 
-/* voice */
-.voice-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;margin-top:14px}
-.voice-list{list-style:none}
-.voice-list li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:flex-start}
-.voice-list li::before{content:"→";color:var(--accent);font-weight:700}
-.banned{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
-.banned h4{font-size:15px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px}
-.banned-words{display:flex;flex-wrap:wrap;gap:10px}
-.banned-words span{border:1px solid #3a2530;color:#e08a9c;padding:6px 12px;border-radius:6px;font-size:13px;text-decoration:line-through}
+/* Voice */
+.voice{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:40px}
+.voice ul{list-style:none}
+.voice li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;font-size:15px}
+.voice li:before{content:"";width:8px;height:8px;background:var(--signal);border-radius:2px;margin-top:8px;flex-shrink:0}
+.banned{background:var(--surface);color:var(--base);border-radius:var(--radius);padding:30px}
+.banned h4{color:var(--base);font-size:18px;margin-bottom:18px}
+.banned .tag{display:inline-block;border:1px solid #46433c;color:#b9b4a8;padding:6px 12px;border-radius:20px;font-size:13px;margin:0 6px 8px 0;text-decoration:line-through}
 
-/* logo */
-.logo-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
-.logo-demo{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:40px;display:flex;flex-direction:column;justify-content:center;min-height:220px}
-.lockup{display:flex;align-items:center;gap:18px}
-.mark{width:52px;height:52px;border-radius:12px;border:2px solid var(--accent);position:relative;flex:none}
-.mark::after{content:"";position:absolute;inset:14px;border-radius:50%;border:2px solid var(--accent)}
-.lockup .lm{font-family:'Sora',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.03em}
-.lockup .lm .o{color:var(--accent)}
-.clearspace-note{margin-top:22px;font-size:13px;color:var(--muted)}
-.logo-demo.light{background:var(--signal)}
-.logo-demo.light .lm{color:var(--base)}
-.logo-demo.light .lm .o{color:#0a9d68}
-.logo-demo.light .mark{border-color:#0a9d68}
-.logo-demo.light .mark::after{border-color:#0a9d68}
-.logo-demo.light .clearspace-note{color:#54606c}
-.donts{margin-top:28px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.dont{background:var(--surface);border:1px solid var(--line);border-left:3px solid #b8455f;border-radius:8px;padding:16px 18px;font-size:14px;color:var(--muted)}
-.dont b{color:var(--signal);font-weight:600}
-.rulebox{margin-top:28px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
-.rulebox h4{font-size:15px;margin-bottom:14px}
-.rulebox ul{list-style:none;font-size:14px;color:var(--muted)}
-.rulebox li{padding:5px 0}
-.rulebox b{color:var(--signal)}
+/* Logo */
+.logo-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:start}
+.logo-stage{background:var(--surface);border-radius:var(--radius);padding:70px 40px;text-align:center}
+.logo-stage .mark{font-family:"Fraunces",serif;font-weight:900;font-size:44px;color:var(--base);letter-spacing:-.02em;position:relative;display:inline-block}
+.logo-stage .mark .o{color:var(--accent)}
+.clearspace{margin-top:36px;font-size:13px;color:#b9b4a8;letter-spacing:.05em}
+.logo-notes h4{font-size:16px;margin:0 0 10px}
+.logo-notes p{color:var(--muted);font-size:15px;margin-bottom:22px}
+.donts{list-style:none;margin-top:8px}
+.donts li{padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;display:flex;gap:12px}
+.donts li:before{content:"×";color:var(--accent);font-weight:700}
 
-/* color */
-.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.sw{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-.sw .chip{height:120px}
-.sw .meta{padding:16px;background:var(--surface)}
-.sw .role{font-family:'Sora',sans-serif;font-weight:600;font-size:15px}
-.sw .hex{font-size:13px;color:var(--muted);margin-top:4px;letter-spacing:0.05em}
-.sw .ratio{font-size:12px;color:var(--accent);margin-top:8px;font-weight:600}
-.ratio-bar{display:flex;height:22px;border-radius:6px;overflow:hidden;margin-top:32px;border:1px solid var(--line)}
-.ratio-bar div{display:flex;align-items:center;justify-content:center;font-size:11px;color:#0B0F14;font-weight:700}
-.color-notes{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
-.note-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
-.note-card h4{font-size:15px;margin-bottom:10px}
-.note-card p{font-size:14px;color:var(--muted)}
+/* Colors */
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.sw{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
+.sw .chip{height:150px}
+.sw .meta{padding:16px 16px 20px}
+.sw .role{font-weight:600;font-size:15px}
+.sw .hex{font-family:"Work Sans";font-size:13px;color:var(--muted);letter-spacing:.04em;margin-top:2px}
+.sw .ratio{font-family:"Fraunces";font-weight:900;font-size:20px;color:var(--surface);margin-top:8px}
+.surfnote{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px}
+.surfnote div{padding:26px;border-radius:var(--radius);font-size:14px}
+.on-light{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.on-dark{background:var(--surface);color:var(--base)}
+.on-dark small,.on-light small{display:block;color:var(--accent);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:12px;margin-bottom:8px}
 
-/* type */
-.type-spec{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:36px;margin-bottom:24px}
-.type-pair{display:flex;gap:40px;flex-wrap:wrap;margin-bottom:36px}
-.type-pair div{flex:1;min-width:240px}
-.type-pair .fname{font-size:13px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px}
-.type-pair .fbig{font-family:'Sora',sans-serif;font-size:46px;font-weight:700}
-.type-pair .fbig.body{font-family:'IBM Plex Sans',sans-serif;font-weight:400}
-.type-pair small{color:var(--muted);display:block;margin-top:8px;font-size:13px}
-.scale-row{display:flex;align-items:baseline;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--line);gap:20px}
-.scale-row .label{flex:none;font-size:12px;color:var(--muted);width:110px;font-family:'IBM Plex Sans',sans-serif}
-.scale-row .sample{font-family:'Sora',sans-serif;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.scale-row .specs{flex:none;font-size:12px;color:var(--muted);text-align:right;width:160px}
+/* Type */
+.type-scale{display:grid;gap:2px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.type-row{background:var(--base);padding:22px 28px;display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.type-row .spec{font-size:13px;color:var(--muted);white-space:nowrap}
+.type-pair{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px}
+.type-pair div h4{color:var(--accent);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.type-pair .big{font-family:"Fraunces",serif;font-weight:900;font-size:56px;line-height:1}
+.type-pair .bigb{font-family:"Work Sans";font-weight:400;font-size:22px}
 
-/* imagery */
-.mood-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.mood{height:170px;border-radius:var(--radius);border:1px solid var(--line);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:16px}
-.mood span{font-size:12px;color:var(--signal);z-index:2;font-weight:500}
-.m1{background:linear-gradient(150deg,#0B0F14,#16303a)}
-.m2{background:linear-gradient(150deg,#101820,#1d3630)}
-.m3{background:linear-gradient(150deg,#0d141b,#0a2a24)}
-.img-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
-.img-cols ul{list-style:none;font-size:14px}
-.img-cols h4{font-size:15px;margin-bottom:14px}
-.img-cols li{padding:8px 0;border-bottom:1px solid var(--line);color:var(--muted)}
-.img-cols .yes li::before{content:"✓  ";color:var(--accent);font-weight:700}
-.img-cols .no li::before{content:"✕  ";color:#b8455f;font-weight:700}
+/* Imagery */
+.img-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.img-card{border-radius:var(--radius);padding:34px;border:1px solid var(--line)}
+.img-card.mood{background:var(--surface);color:var(--base)}
+.img-card.mood h3{color:var(--base)}
+.img-card h3{font-size:22px;margin-bottom:14px}
+.img-card ul{list-style:none;margin-top:12px}
+.img-card li{padding:8px 0;font-size:15px;border-bottom:1px solid rgba(128,128,128,.18)}
+.img-card.mood li{border-color:#3a382f;color:#cfcabc}
+.ban-row{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+.ban-row span{border:1px solid var(--accent);color:var(--accent);border-radius:20px;padding:5px 12px;font-size:13px}
 
-/* usage */
-.usage-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.usage-col{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:30px}
-.usage-col h4{font-size:18px;margin-bottom:20px}
-.usage-col.do h4{color:var(--accent)}
-.usage-col ul{list-style:none;font-size:15px}
-.usage-col li{padding:11px 0;border-bottom:1px solid var(--line);color:var(--muted)}
-.usage-col li:last-child{border-bottom:none}
+/* Usage */
+.usage{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.usage .col{background:var(--base);padding:34px}
+.usage h4{font-size:15px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px}
+.usage .do h4{color:var(--signal)}
+.usage .dont h4{color:var(--accent)}
+.usage li{list-style:none;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
 
-footer{padding:60px 0;color:var(--muted);font-size:13px}
-.footer-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}
+footer{background:var(--surface);color:var(--base);padding:60px 0;margin-top:40px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+footer .brandmark{color:var(--base)}
+footer p{color:#a29d92;font-size:14px}
 
 @media(max-width:820px){
-  .pillars,.swatches,.mood-grid,.donts{grid-template-columns:1fr 1fr}
-  .voice-grid,.logo-grid,.color-notes,.img-cols,.usage-grid{grid-template-columns:1fr}
-  .nav-links{display:none}
-}
-@media(max-width:520px){
-  .swatches,.pillars,.mood-grid{grid-template-columns:1fr}
+  .hero,.logo-grid,.voice,.img-cols,.type-pair,.usage,.surfnote{grid-template-columns:1fr}
+  .pillars,.swatches{grid-template-columns:1fr 1fr}
+  .nav{padding:18px 24px}.nav ul{gap:18px}
+  .wrap{padding:0 24px}
+  .sec-head{flex-wrap:wrap}.sec-head p{margin-left:0}
 }
 </style>
 </head>
 <body>
 
-<header class="nav">
-  <div class="wrap nav-inner">
-    <div class="wordmark">LAKE SH<span class="o">O</span>RE</div>
-    <ul class="nav-links">
-      <li><a href="index.html" class="active">Home</a></li>
+<header class="site">
+  <nav class="nav">
+    <div class="brandmark">Bighead &amp; Br<span class="o">o</span>adfoot</div>
+    <ul>
+      <li><a href="index.html" aria-current="page">Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="services.html">Services</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
-  </div>
+  </nav>
 </header>
 
-<div class="hero">
-  <div class="wrap">
-    <div class="eyebrow">Brand Kit / 2026</div>
-    <h1>The system behind Lake Shore Digital.</h1>
-    <p class="lead">A dark, premium identity for the agency that builds websites and AI systems small businesses actually run on. Fintech discipline, no theatrics.</p>
-    <div class="kit-tag">
-      <span>1 accent color</span>
-      <span>Sora / IBM Plex Sans</span>
-      <span>60 / 30 / 9 / 1 ratio</span>
-      <span>WCAG AA checked</span>
-    </div>
-  </div>
-</div>
+<main class="wrap">
 
-<!-- 1. ESSENCE -->
-<section>
-  <div class="wrap">
-    <div class="sec-num">01 / ESSENCE + MESSAGING</div>
-    <h2 class="sec-title">Positioning line</h2>
-    <p class="sec-sub" style="font-size:22px;color:var(--signal);max-width:44ch;font-family:'Sora',sans-serif;font-weight:500;letter-spacing:-0.02em">"We build the websites and AI systems small businesses actually run on."</p>
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Brand Kit / Volume 01</p>
+      <h1>Stands tall.<br><em>Thinks big.</em></h1>
+      <p class="lead">The identity system for a man with a big head and fat feet. Clean, minimal, planted firmly on the ground.</p>
+    </div>
+    <div class="hero-side">
+      <span>Positioning line</span>
+      <strong>Stands tall. Thinks big.</strong>
+      <span>Prepared by</span>
+      <strong style="font-size:20px">Lake Shore Digital</strong>
+    </div>
+  </section>
+
+  <!-- 1. ESSENCE -->
+  <section class="block" id="essence">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Essence &amp; Messaging</h2>
+      <p>A brain that carries the ideas. Feet that carry the weight. Both matter.</p>
+    </div>
 
     <div class="pillars">
       <div class="pillar">
-        <div class="idx">Pillar 01</div>
-        <h3>Ship real tools</h3>
-        <p>We deliver working software, not decks. Every engagement ends with something a client can log into and use on Monday.</p>
+        <span>Pillar 01</span>
+        <h3>A Wide Base</h3>
+        <p>Big feet mean stability. We show up dependable before we show up clever, and we do not tip over under pressure.</p>
       </div>
       <div class="pillar">
-        <div class="idx">Pillar 02</div>
-        <h3>Small business scale</h3>
-        <p>We size systems for teams of 2 to 40. No enterprise overhead, no tools nobody opens after the demo.</p>
+        <span>Pillar 02</span>
+        <h3>Room To Think</h3>
+        <p>The big head is deliberate headroom. We give ideas space to grow before we ship the smaller, sharper version.</p>
       </div>
       <div class="pillar">
-        <div class="idx">Pillar 03</div>
-        <h3>Plain numbers</h3>
-        <p>We report what changed: 47.2 percent faster intake, 3 fewer manual steps. Concrete outcomes over promises.</p>
+        <span>Pillar 03</span>
+        <h3>Plain Proportion</h3>
+        <p>We name the odd shape and own it. Honesty about who we are reads as confidence, not apology.</p>
       </div>
     </div>
 
-    <div class="voice-grid">
+    <div class="voice">
       <div>
-        <h3 style="font-size:20px;margin-bottom:12px">Voice rules</h3>
-        <ul class="voice-list">
-          <li>Write short declarative statements that name the work being done.</li>
-          <li>Use concrete verbs: build, ship, connect, automate, measure.</li>
-          <li>Keep one copy register per page. The home page stays confident and plain.</li>
-          <li>Use organic numbers like 47.2 percent, never fake-round marketing specs.</li>
-          <li>Attribute every quote with a full name and role, capped at three lines.</li>
+        <h4 style="font-size:16px;margin-bottom:16px">Voice rules</h4>
+        <ul>
+          <li>Write short declarative lines that plant both feet on the ground.</li>
+          <li>Name the concrete thing. Say "big feet," not "grounded synergy."</li>
+          <li>One register per page. Keep the calm, dry confidence throughout.</li>
+          <li>Use organic numbers. Say "47.2 percent lighter," never "half."</li>
         </ul>
       </div>
       <div class="banned">
-        <h4>Banned words</h4>
-        <div class="banned-words">
-          <span>Elevate</span>
-          <span>Seamless</span>
-          <span>Unleash</span>
-          <span>Revolutionize</span>
-          <span>Next-Gen</span>
-          <span>Synergy</span>
-          <span>Game-changer</span>
-        </div>
+        <h4>Never write these</h4>
+        <span class="tag">Elevate</span>
+        <span class="tag">Seamless</span>
+        <span class="tag">Unleash</span>
+        <span class="tag">Revolutionize</span>
+        <span class="tag">Next-Gen</span>
+        <span class="tag">Game-Changer</span>
+        <p style="color:#a29d92;font-size:14px;margin-top:16px">If a word could sit on any brand, it cannot sit on this one.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- 2. LOGO -->
-<section>
-  <div class="wrap">
-    <div class="sec-num">02 / LOGO LAWS</div>
-    <h2 class="sec-title">Construction and clearspace</h2>
-    <p class="sec-sub">The mark pairs a circle-in-square icon with a live-type wordmark. Clearspace unit X equals the diameter of the circle inside the "O" of the wordmark. Never render the wordmark as a flat image; keep it as live Sora type.</p>
+  <!-- 2. LOGO -->
+  <section class="block" id="logo">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Logo Laws</h2>
+      <p>The wordmark carries a weighted lower serif to echo the fat feet.</p>
+    </div>
 
     <div class="logo-grid">
-      <div class="logo-demo">
-        <div class="lockup">
-          <div class="mark"></div>
-          <div class="lm">LAKE SH<span class="o">O</span>RE</div>
+      <div>
+        <div class="logo-stage">
+          <div class="mark">Br<span class="o">o</span>adfoot</div>
+          <p class="clearspace">Clearspace X = the diameter of the round "o" in the wordmark. Keep 1X clear on every side. Icon-to-wordmark gap = 0.385X.</p>
         </div>
-        <div class="clearspace-note">White on dark. Clearspace X on all sides. Icon-to-wordmark gap = 0.385X.</div>
       </div>
-      <div class="logo-demo light">
-        <div class="lockup">
-          <div class="mark"></div>
-          <div class="lm">LAKE SH<span class="o">O</span>RE</div>
-        </div>
-        <div class="clearspace-note">Black on light. Only two colorways ship: dark-on-light and light-on-dark.</div>
+      <div class="logo-notes">
+        <h4>Construction</h4>
+        <p>Set the wordmark in Fraunces Black. The "o" is drawn as a true circle; its diameter is the unit X for all spacing math. Minimum digital width 120px; minimum print width 24mm. Below that, use the head-only monogram.</p>
+        <h4>Partner lockups</h4>
+        <p>Partner logos sit to the right of ours, separated by a thin vertical divider and 1X of clearspace. Horizontal lockup preferred, vertical as fallback. Black-on-light and white-on-dark applies to the whole lockup.</p>
+        <h4>Don'ts</h4>
+        <ul class="donts">
+          <li>Do not stretch the feet serif to make it wider.</li>
+          <li>Do not recolor the mark. White or black only; let the surface carry color.</li>
+          <li>Do not place the mark on low-contrast tones.</li>
+          <li>Do not redraw or outline the "o" circle.</li>
+          <li>Do not add a drop shadow or bevel.</li>
+          <li>Do not crowd the clearspace with partner marks.</li>
+        </ul>
       </div>
     </div>
+  </section>
 
-    <div class="rulebox">
-      <h4>Clearspace + partner lockups</h4>
-      <ul>
-        <li><b>X unit:</b> the diameter of the circle in the wordmark "O". Derive all padding from X, never arbitrary pixels.</li>
-        <li><b>Horizontal lockup:</b> X clearspace on all sides, icon-to-wordmark gap 0.385X.</li>
-        <li><b>Vertical lockup:</b> X on all sides, vertical icon-to-wordmark gap 0.563X.</li>
-        <li><b>Partner lockups:</b> separate our mark from a partner logo with a thin vertical divider and a 2X gap. Horizontal preferred, vertical as fallback.</li>
-        <li><b>Minimum size:</b> full lockup 120px wide on screen, 24mm in print. Icon alone bottoms out at 24px.</li>
-      </ul>
+  <!-- 3. COLOR -->
+  <section class="block" id="color">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>Color System</h2>
+      <p>A warm neutral base, a single grounded accent, one rare signal.</p>
     </div>
-
-    <div class="donts">
-      <div class="dont"><b>Do not</b> recolor or gradient the mark. Let the background carry color.</div>
-      <div class="dont"><b>Do not</b> place the wordmark on low-contrast surfaces.</div>
-      <div class="dont"><b>Do not</b> redraw, outline, or add a bevel to the icon.</div>
-      <div class="dont"><b>Do not</b> stretch, rotate, or squeeze the lockup.</div>
-      <div class="dont"><b>Do not</b> rebuild the wordmark by hand. Pull from official files.</div>
-      <div class="dont"><b>Do not</b> crowd the mark below the X clearspace minimum.</div>
-    </div>
-  </div>
-</section>
-
-<!-- 3. COLOR -->
-<section>
-  <div class="wrap">
-    <div class="sec-num">03 / COLOR SYSTEM</div>
-    <h2 class="sec-title">One accent, disciplined ratios</h2>
-    <p class="sec-sub">A deep base carries most surfaces. Teal accent appears only at decision points: links, focus states, key figures. The 1 percent signal color handles text on dark.</p>
 
     <div class="swatches">
       <div class="sw">
-        <div class="chip" style="background:#0B0F14"></div>
-        <div class="meta"><div class="role">Base</div><div class="hex">#0B0F14</div><div class="ratio">60% — page ground</div></div>
+        <div class="chip" style="background:#F4F1EA"></div>
+        <div class="meta"><div class="role">Base Linen</div><div class="hex">#F4F1EA</div><div class="ratio">60%</div></div>
       </div>
       <div class="sw">
-        <div class="chip" style="background:#141B24"></div>
-        <div class="meta"><div class="role">Surface</div><div class="hex">#141B24</div><div class="ratio">30% — cards, panels</div></div>
+        <div class="chip" style="background:#1C1B18"></div>
+        <div class="meta"><div class="role">Surface Bark</div><div class="hex">#1C1B18</div><div class="ratio">30%</div></div>
       </div>
       <div class="sw">
-        <div class="chip" style="background:#3DDC97"></div>
-        <div class="meta"><div class="role">Accent</div><div class="hex">#3DDC97</div><div class="ratio">9% — links, focus</div></div>
+        <div class="chip" style="background:#C8503A"></div>
+        <div class="meta"><div class="role">Accent Clay</div><div class="hex">#C8503A</div><div class="ratio">9%</div></div>
       </div>
       <div class="sw">
-        <div class="chip" style="background:#E8EDF2"></div>
-        <div class="meta"><div class="role">Signal</div><div class="hex">#E8EDF2</div><div class="ratio">1% — headline text</div></div>
+        <div class="chip" style="background:#2F6D5B"></div>
+        <div class="meta"><div class="role">Signal Pine</div><div class="hex">#2F6D5B</div><div class="ratio">1%</div></div>
       </div>
     </div>
 
-    <div class="ratio-bar">
-      <div style="width:60%;background:#0B0F14;color:#E8EDF2">60%</div>
-      <div style="width:30%;background:#141B24;color:#E8EDF2">30%</div>
-      <div style="width:9%;background:#3DDC97">9%</div>
-      <div style="width:1%;background:#E8EDF2"></div>
-    </div>
-
-    <div class="color-notes">
-      <div class="note-card">
-        <h4>Light and dark surfaces</h4>
-        <p>Dark is the primary environment. On the rare light surface (#F4F6F8), swap signal text for #0B0F14 and darken the accent to #0A9D68 to hold contrast. Never invert the accent to a pale tint.</p>
+    <div class="surfnote">
+      <div class="on-light">
+        <small>Light surface</small>
+        Base Linen holds body copy in Surface Bark. Accent Clay carries links and headings only. Clay on Linen clears 4.9:1 contrast for text at 18px and up.
       </div>
-      <div class="note-card">
-        <h4>Accessibility notes</h4>
-        <p>Signal on Base clears 15:1. Accent #3DDC97 on Base reaches 9.2:1 and is safe for large text and UI, not body copy. Focus rings use the accent at full strength, always visible.</p>
+      <div class="on-dark">
+        <small>Dark surface</small>
+        Surface Bark holds Base Linen text at 13.1:1. Accent Clay stays for emphasis, never full fills. Signal Pine appears once per view at most.
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- 4. TYPE -->
-<section>
-  <div class="wrap">
-    <div class="sec-num">04 / TYPE SYSTEM</div>
-    <h2 class="sec-title">Sora meets IBM Plex Sans</h2>
-    <p class="sec-sub">Sora carries geometry and confidence for display. IBM Plex Sans reads clean at small sizes with a slight engineered feel that suits the fintech register. Both load from Google Fonts.</p>
-
-    <div class="type-spec">
-      <div class="type-pair">
-        <div>
-          <div class="fname">Display — Sora</div>
-          <div class="fbig">Build the system</div>
-          <small>Weights 500 / 600 / 700 — tight tracking, -0.02em</small>
-        </div>
-        <div>
-          <div class="fname">Body — IBM Plex Sans</div>
-          <div class="fbig body">Measured and legible copy</div>
-          <small>Weights 400 / 500 / 600 — default tracking</small>
-        </div>
-      </div>
-
-      <div class="scale-row"><div class="label">Display</div><div class="sample" style="font-size:38px;font-weight:700">Websites and AI</div><div class="specs">64px / 700 / -0.03em</div></div>
-      <div class="scale-row"><div class="label">H1</div><div class="sample" style="font-size:30px;font-weight:700">Section heading</div><div class="specs">40px / 700 / -0.02em</div></div>
-      <div class="scale-row"><div class="label">H2</div><div class="sample" style="font-size:24px;font-weight:600">Card heading</div><div class="specs">28px / 600 / -0.02em</div></div>
-      <div class="scale-row"><div class="label">H3</div><div class="sample" style="font-size:19px;font-weight:600">Sub heading</div><div class="specs">20px / 600 / -0.01em</div></div>
-      <div class="scale-row"><div class="label">Body</div><div class="sample" style="font-size:16px;font-weight:400;font-family:'IBM Plex Sans'">Paragraph text runs in Plex</div><div class="specs">16px / 400 / 0</div></div>
-      <div class="scale-row"><div class="label">Small</div><div class="sample" style="font-size:13px;font-weight:400;font-family:'IBM Plex Sans'">Captions and meta labels</div><div class="specs">13px / 400 / 0.02em</div></div>
-      <div class="scale-row"><div class="label">Eyebrow</div><div class="sample" style="font-size:12px;font-weight:600;font-family:'IBM Plex Sans';letter-spacing:0.28em;text-transform:uppercase">Overline label</div><div class="specs">12px / 600 / 0.28em</div></div>
+  <!-- 4. TYPE -->
+  <section class="block" id="type">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2>Type System</h2>
+      <p>Fraunces for the big head. Work Sans for the steady footing.</p>
     </div>
-  </div>
-</section>
 
-<!-- 5. IMAGERY -->
-<section>
-  <div class="wrap">
-    <div class="sec-num">05 / IMAGERY</div>
-    <h2 class="sec-title">Art direction</h2>
-    <p class="sec-sub">Mood is quiet and premium: low-light architectural interiors and lakeside dusk lit with cool teal. Subjects are real workspaces and screens, never staged smiles.</p>
+    <div class="type-pair">
+      <div>
+        <h4>Display / Fraunces</h4>
+        <div class="big">Big head, wide feet.</div>
+      </div>
+      <div>
+        <h4>Body / Work Sans</h4>
+        <div class="bigb">Work Sans sets running text with an even, upright rhythm that keeps the page calm and legible.</div>
+      </div>
+    </div>
 
-    <div class="mood-grid">
-      <div class="mood m1"><span>Lakeside dusk, cool light</span></div>
-      <div class="mood m2"><span>Low-light interiors</span></div>
-      <div class="mood m3"><span>Screens and interfaces</span></div>
+    <div class="type-scale">
+      <div class="type-row"><span style="font-family:'Fraunces';font-weight:900;font-size:42px">Display XL</span><span class="spec">Fraunces 900 / 96px / -3% tracking</span></div>
+      <div class="type-row"><span style="font-family:'Fraunces';font-weight:900;font-size:32px">Heading H2</span><span class="spec">Fraunces 900 / 42px / -2% tracking</span></div>
+      <div class="type-row"><span style="font-family:'Fraunces';font-weight:600;font-style:italic;font-size:26px">Subhead Italic</span><span class="spec">Fraunces 600 italic / 26px / 0 tracking</span></div>
+      <div class="type-row"><span style="font-family:'Work Sans';font-weight:600;font-size:17px">Body Emphasis</span><span class="spec">Work Sans 600 / 17px / 0 tracking</span></div>
+      <div class="type-row"><span style="font-family:'Work Sans';font-weight:400;font-size:17px">Body Regular</span><span class="spec">Work Sans 400 / 17px / 0 tracking / 1.65 line</span></div>
+      <div class="type-row"><span style="font-family:'Work Sans';font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase">Eyebrow Caps</span><span class="spec">Work Sans 600 / 13px / 22% tracking</span></div>
+    </div>
+  </section>
+
+  <!-- 5. IMAGERY -->
+  <section class="block" id="imagery">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2>Imagery Direction</h2>
+      <p>Grounded portraits, low horizons, generous headroom above the subject.</p>
     </div>
 
     <div class="img-cols">
-      <div class="yes">
-        <h4>Do shoot</h4>
+      <div class="img-card mood">
+        <h3>Mood &amp; subjects</h3>
         <ul>
-          <li>Real small-business spaces at low light</li>
-          <li>Product screens with genuine data</li>
-          <li>Teal edge lighting on dark scenes</li>
-          <li>Wide crops with generous negative space</li>
+          <li>Warm neutral studio light, soft shadow under the feet</li>
+          <li>Subjects framed off-center with clear headroom</li>
+          <li>Low horizon lines to make the base feel solid</li>
+          <li>Wide, flat shoes and heavy soles shown honestly</li>
         </ul>
       </div>
-      <div class="no">
-        <h4>Never use</h4>
+      <div class="img-card">
+        <h3>Treatments &amp; bans</h3>
         <ul>
-          <li>Stock handshakes or fake team high-fives</li>
-          <li>Purple gradients or candy color grades</li>
-          <li>Glossy 3D robots or mascots</li>
-          <li>Centered hero subjects staring at camera</li>
+          <li>Muted Linen backdrops with a single Clay prop</li>
+          <li>Full-frame focus, minimal retouching, real texture</li>
         </ul>
+        <div class="ban-row">
+          <span>no confetti</span>
+          <span>no candy color</span>
+          <span>no mascots</span>
+          <span>no gradient overlays</span>
+          <span>no centered subject</span>
+          <span>no glossy render</span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- 6. USAGE -->
-<section style="border-bottom:none">
-  <div class="wrap">
-    <div class="sec-num">06 / USAGE RULES</div>
-    <h2 class="sec-title">Applying the system</h2>
-    <p class="sec-sub">Keep the system calm. The accent earns attention by staying rare. When in doubt, remove color rather than add it.</p>
+  <!-- 6. USAGE -->
+  <section class="block" id="usage">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2>Usage Rules</h2>
+      <p>How the system stays upright across every application.</p>
+    </div>
 
-    <div class="usage-grid">
-      <div class="usage-col do">
+    <div class="usage">
+      <div class="col do">
         <h4>Do</h4>
         <ul>
-          <li>Keep the accent under 10 percent of any screen</li>
-          <li>Give sections real whitespace between them</li>
-          <li>Use live type for the wordmark, always</li>
-          <li>Show focus rings in full-strength accent</li>
-          <li>Design hover and active states, not just resting</li>
-          <li>Left-align hero subjects and headlines</li>
+          <li>Keep Base Linen as the dominant surface, 60 percent of any layout.</li>
+          <li>Reserve Accent Clay for links, headings, and one call to action.</li>
+          <li>Derive all logo padding from the "o" circle diameter.</li>
+          <li>Pair one Fraunces heading with a block of Work Sans body.</li>
+          <li>Let a partner logo breathe with a 1X divider gap.</li>
         </ul>
       </div>
-      <div class="usage-col">
+      <div class="col dont">
         <h4>Don't</h4>
         <ul>
-          <li>Fill large areas with the accent as wallpaper</li>
-          <li>Add a second loud color competing with teal</li>
-          <li>Use faux-glass blur or cheap drop shadows</li>
-          <li>Apply gradient text on the hero</li>
-          <li>Add thin colored bars on dark cards</li>
-          <li>Use em-dashes or emoji in copy</li>
+          <li>Do not fill whole panels with Accent Clay as wallpaper.</li>
+          <li>Do not add a second loud accent to compete with Clay.</li>
+          <li>Do not render the wordmark as a flat image instead of live type.</li>
+          <li>Do not use thin colored bars on dark cards.</li>
+          <li>Do not stack Signal Pine more than once per view.</li>
         </ul>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+</main>
 
 <footer>
-  <div class="wrap footer-inner">
-    <div>Lake Shore Digital — Brand Kit 2026</div>
-    <div>Governed internally. Pull logo files from the official kit folder.</div>
+  <div class="wrap">
+    <div class="brandmark">Bighead &amp; Br<span style="color:var(--accent)">o</span>adfoot</div>
+    <p>Brand kit prepared by Lake Shore Digital. Stands tall. Thinks big.</p>
   </div>
 </footer>
 
