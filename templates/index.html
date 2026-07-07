@@ -484,10 +484,18 @@
     setPhase("done");
   }
 
+  // The gate key: read once from ?key=... in the URL, remember it in localStorage
+  var urlKey = new URLSearchParams(location.search).get("key");
+  if (urlKey) localStorage.setItem("forgeKey", urlKey);
+
   function submitTo(url, formData) {
     clearError();
     setButtons(true);
+    formData.append("key", localStorage.getItem("forgeKey") || "");
     fetch(url, { method: "POST", body: formData }).then(function (res) {
+      if (res.status === 401) {
+        throw new Error("The forge is sealed. Open the site once with ?key=YOURKEY in the address bar.");
+      }
       if (res.status === 429) {
         return res.json().then(function (j) {
           throw new Error(j.error || "daily build cap reached");

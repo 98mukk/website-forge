@@ -6,6 +6,7 @@ db = pytest.importorskip("db", reason="db.py not written yet (contract module)")
 def _use_tmp_db(tmp_path, monkeypatch):
     """Point db at a throwaway sqlite file, whatever name the path constant has."""
     monkeypatch.chdir(tmp_path)                       # covers relative-path designs
+    monkeypatch.setattr(db, "USE_SUPABASE", False, raising=False)   # NEVER touch prod
     for attr in ("DB_PATH", "DB_FILE", "PATH", "DB"):
         if isinstance(getattr(db, attr, None), str):
             monkeypatch.setattr(db, attr, str(tmp_path / "builds.db"))

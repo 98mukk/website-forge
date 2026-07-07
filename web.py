@@ -1,5 +1,6 @@
 import base64
 import json
+import os
 import threading
 
 import anthropic
@@ -26,6 +27,13 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # On a fresh server (like Render) the deck starts empty: seal it on boot.
 if rules.count() == 0:
     ingest()
+
+# The gate seal: when FORGE_KEY is set, /build and /revise demand it.
+# Unset (local dev) = gate stays open.
+FORGE_KEY = os.environ.get("FORGE_KEY", "")
+
+def gate_open(key):
+    return not FORGE_KEY or key == FORGE_KEY
 
 # Feature flags
 ART_DEPT = True      # flip to False to fall back to picsum placeholders
@@ -202,6 +210,10 @@ def run_build(brief, style, image_blocks):
     except Exception as e:
         print(f"💥 Build failed: {e}")
         STATUS["error"] = str(e)
+        try:  # failed builds still spent credits: they count against the cap
+            db.log_build(brief, style, None, "FAILED")
+        except Exception as log_err:
+            print(f"📕 Ledger write failed: {log_err}")
     finally:
         STATUS["done"] = True
         BUSY.release()
@@ -233,10 +245,15 @@ def run_revise(instruction):
         STATUS["score"] = score
 
         LAST.update(home=html, pages=site_pages)
+        db.log_build(f"REVISION: {instruction}", "revision", score, "static/forge-package.zip")
         stage("✅ Revision complete")
     except Exception as e:
         print(f"💥 Revision failed: {e}")
         STATUS["error"] = str(e)
+        try:  # failed revisions count too
+            db.log_build(f"REVISION: {instruction}", "revision", None, "FAILED")
+        except Exception as log_err:
+            print(f"📕 Ledger write failed: {log_err}")
     finally:
         STATUS["done"] = True
         BUSY.release()
@@ -248,7 +265,9 @@ def home(request: Request):
 @app.post("/build")
 async def build(background_tasks: BackgroundTasks,
                 brief: str = Form(...), style: str = Form("clean and minimal"),
-                refs: list[UploadFile] = File(default=[])):
+                refs: list[UploadFile] = File(default=[]), key: str = Form("")):
+    if not gate_open(key):
+        return JSONResponse(status_code=401, content={"error": "the forge is sealed: missing or wrong key"})
     if not guards.allowed():
         return JSONResponse(status_code=429, content={"error": "daily build cap reached"})
 
@@ -286,7 +305,11 @@ def site():
         return HTMLResponse("No site forged yet.", status_code=404)
 
 @app.post("/revise")
-def revise(background_tasks: BackgroundTasks, instruction: str = Form(...)):
+def revise(background_tasks: BackgroundTasks, instruction: str = Form(...), key: str = Form("")):
+    if not gate_open(key):
+        return JSONResponse(status_code=401, content={"error": "the forge is sealed: missing or wrong key"})
+    if not guards.allowed():
+        return JSONResponse(status_code=429, content={"error": "daily build cap reached"})
     if not LAST["home"]:
         return JSONResponse(status_code=400, content={"error": "no build to revise yet"})
     if not BUSY.acquire(blocking=False):
