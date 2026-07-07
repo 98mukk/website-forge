@@ -1,13 +1,13 @@
 """The Art Department: MiniMax paints real brand assets so placeholder images die."""
+import base64
 import json
 import os
 import re
-import shutil
-import subprocess
 import time
 from pathlib import Path
 
 import anthropic
+import httpx
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -36,10 +36,32 @@ Reply ONLY with a JSON array like:
     match = re.search(r"\[.*\]", r.content[0].text, re.S)
     return json.loads(match.group(0))
 
+API_HOST = os.environ.get("MINIMAX_API_HOST", "https://api.minimax.io")
+
+def _generate(prompt, w, h, key):
+    """One MiniMax image over plain HTTP. Returns raw PNG bytes."""
+    r = httpx.post(
+        f"{API_HOST}/v1/image_generation",
+        headers={"Authorization": f"Bearer {key}"},
+        json={"model": "image-01", "prompt": prompt, "width": w, "height": h,
+              "response_format": "base64", "n": 1, "prompt_optimizer": True},
+        timeout=120,
+    )
+    r.raise_for_status()
+    data = r.json()
+    status = data.get("base_resp", {})
+    if status.get("status_code", 0) != 0:
+        raise RuntimeError(f"MiniMax error {status.get('status_code')}: {status.get('status_msg')}")
+    images = data.get("data", {}).get("image_base64") or []
+    if not images:
+        raise RuntimeError(f"MiniMax returned no image: {str(data)[:200]}")
+    return base64.b64decode(images[0])
+
 def paint(brief, n=3):
     """Generate n images into static/. Returns their /static/... URL paths."""
-    if shutil.which("mmx") is None:
-        raise RuntimeError("mmx CLI not installed")
+    key = os.environ.get("MINIMAX_API_KEY")
+    if not key:
+        raise RuntimeError("MINIMAX_API_KEY not set")
     shots = plan_shots(brief, n)
     fresh = []                         # (temp file, final file) painted this run
     for shot in shots[:n]:
@@ -47,24 +69,19 @@ def paint(brief, n=3):
         w = max(512, min(2048, int(shot.get("width", 1536)) // 8 * 8))
         h = max(512, min(2048, int(shot.get("height", 1024)) // 8 * 8))
         print(f"🍌 Painting {out.name}: {shot['prompt'][:70]}...")
-        cmd = ["mmx", "image", "generate", "--prompt", shot["prompt"],
-               "--width", str(w), "--height", str(h), "--out", str(out)]
-        key = os.environ.get("MINIMAX_API_KEY")
-        if key:
-            cmd += ["--api-key", key]
         for attempt in (1, 2):                 # transient rate limits: one retry per shot
             try:
-                subprocess.run(cmd, check=True, capture_output=True, text=True)
+                out.write_bytes(_generate(shot["prompt"], w, h, key))
                 fresh.append((out, STATIC / f"{shot['file']}.png"))
                 break
-            except subprocess.CalledProcessError as e:
-                print(f"🍌 {out.name} attempt {attempt} failed: {(e.stderr or e.stdout or '').strip()[:200]}")
+            except Exception as e:
+                print(f"🍌 {out.name} attempt {attempt} failed: {str(e)[:200]}")
                 if attempt == 2:
                     print(f"🍌 Skipping {out.name}")
                 else:
                     time.sleep(5)
     if not fresh:
-        raise RuntimeError("every mmx paint failed")
+        raise RuntimeError("every MiniMax paint failed")
     temps = {temp for temp, final in fresh}
     for old in STATIC.glob("*.png"):   # clean the easel ONLY after fresh art exists
         if old not in temps:
