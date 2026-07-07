@@ -64,6 +64,7 @@ def paint(brief, n=3):
         raise RuntimeError("MINIMAX_API_KEY not set")
     shots = plan_shots(brief, n)
     fresh = []                         # (temp file, final file) painted this run
+    last_err = ""
     for shot in shots[:n]:
         out = STATIC / f"new-{shot['file']}.png"
         w = max(512, min(2048, int(shot.get("width", 1536)) // 8 * 8))
@@ -75,13 +76,14 @@ def paint(brief, n=3):
                 fresh.append((out, STATIC / f"{shot['file']}.png"))
                 break
             except Exception as e:
-                print(f"🍌 {out.name} attempt {attempt} failed: {str(e)[:200]}")
+                last_err = str(e)[:200]
+                print(f"🍌 {out.name} attempt {attempt} failed: {last_err}")
                 if attempt == 2:
                     print(f"🍌 Skipping {out.name}")
                 else:
                     time.sleep(5)
     if not fresh:
-        raise RuntimeError("every MiniMax paint failed")
+        raise RuntimeError(f"every MiniMax paint failed; last error: {last_err}")
     temps = {temp for temp, final in fresh}
     for old in STATIC.glob("*.png"):   # clean the easel ONLY after fresh art exists
         if old not in temps:
